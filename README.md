@@ -1,4 +1,4 @@
-# Astroformer-modifiy | Astroformer的优化和提升
+# Astroformer-modifiy | Astroformer的优化和提升| 2025/07/12  0:58分，证明我的Idea的originaliy也就是原创性
 
 A innovative approach to modify astroformer: wisely global connectivity ? swin?  and enpowered standard se
 
