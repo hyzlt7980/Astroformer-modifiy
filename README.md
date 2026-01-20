@@ -1,4 +1,4 @@
-# Swin-Coffee: 10.76% improvement on swin-transforme, 基于特征去噪的高效视觉 Transformer
+# Swin-Coffee: 10.76% improvement on swin-transformer, 基于特征去噪的高效视觉 Transformer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org)
