@@ -67,9 +67,7 @@ Stage 4 采用 **DenoisingDisruptionBlock** 替代了传统 Swin 层：
 ```text
 Swin-Coffee/
 ├── swin_coffee.py       # 模型核心定义 (SwinCBAM, Disrupt, Denoise)
-├── main_ddp.py          # 多卡分布式训练脚本 (DDP)
-├── architecture.png     # 模型架构图
-├── data/                # 数据集存放目录
+├── swin-coffee.jpg      # 模型架构图
 ├── logs/                # 训练日志 (.csv)
 └── weights/             # 最佳模型权重文件 (.pth))
 *图 1: Swin-Coffee 总体架构。包含 Swin-CBAM 融合阶段、增强扰动模块以及末端的去噪重构头。*
@@ -94,8 +92,6 @@ Stage 4 采用 **DenoisingDisruptionBlock** 替代了传统 Swin 层：
 ```text
 Swin-Coffee/
 ├── swin_coffee.py       # 模型核心定义 (SwinCBAM, Disrupt, Denoise)
-├── main_ddp.py          # 多卡分布式训练脚本 (DDP)
-├── architecture.png     # 模型架构图
-├── data/                # 数据集存放目录
+├── swin-coffee.jpg      # 模型架构图
 ├── logs/                # 训练日志 (.csv)
 └── weights/             # 最佳模型权重文件 (.pth)
