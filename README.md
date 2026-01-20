@@ -1,33 +1,47 @@
-# Astroformer-modifiy | Astroformer的优化和提升| 2025/07/12  0:58分，证明我的Idea的originaliy也就是原创性
+# Swin-Coffee: 基于特征去噪的高效视觉 Transformer
 
-A innovative approach to modify astroformer: wisely global connectivity ? swin?  and enpowered standard se
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org)
+[![Dataset: CIFAR-100](https://img.shields.io/badge/Dataset-CIFAR--100-blue.svg)]()
 
-Astroformer复现与优化: https://arxiv.org/pdf/2304.05350
-Astroformer 是 TinyImageNet 的 SOTA 模型，其变体 Astroformer-5 在 TinyImageNet 上取得了 92.98% 的准确率。TinyImageNet 最初由斯坦福大学 CS231n 课程团队整理，作为连接“小型教学数据”和“工业级大规模数
-据”之间的中等规模图像分类基准，既能考察模型设计，也兼顾计算资源可行性。
+**Swin-Coffee** 是一款专门针对小规模数据集（如 CIFAR-100）深度优化的视觉 Transformer 架构。它在标准 Swin Transformer 的基础上进行了多项创新，通过引入**卷积归纳偏置（Convolutional Inductive Bias）**和**自监督特征去噪任务（Self-Supervised Denoising）**，显著提升了模型在数据受限场景下的特征提取能力与泛化性能。
 
-1.原版 Astroformer-5 在 300 个 epoch（将 64 的输入图像上采样到 224）训练后，达到了 92.38% 的准确率。模型由 CCCT 四个 Block 构成，其中 C Block 包含 1×1 通道
-扩展、3×3 卷积和轻量级 SE，用于构建全局依赖。我在 100 个 epoch、原始 64 大小图像输入下复现，获得了 61% 的准确率.
-分析1：
-作者在网络最前端将原始 64×64 图像上采样至 224×224，虽未引入真实新细节，但通过将稀疏锯齿的像素映射到更细密的网格，使卷积和注意力模块能在更连续、更丰富的特征图上捕捉细粒度空间依赖，从而提升分类性能。
+## 📊 性能表现
 
-2. 原本的 C block(1x1 conv+3x3 conv+1x1 conv+ light weight se);
-   New design:  (1x1 conv+3x3 conv+cross scan(UCAS,Huawei Inc ,cvpr)+1x1 conv+ standard se,并在最后一个 T Block（Transformer Block）中使用 CARAFE(CVPR) 将 4×4 Patch 上采样至 14×14， 以替代 Astroformer-5 初始阶段的上采样。但在 64 大小输入和 100 epoch 条件下，仅达到了 58% 的准确率，AI 分析推测是 SE破坏了 Cross Scan 构建的全局依赖。
+在 CIFAR-100 数据集（从零训练，64x64 分辨率）的实验中，Swin-Coffee 的表现大幅超越了原版 Swin-Tiny 基准。
 
-分析2: 标准SE在“挤压”阶段仅用GlobalAvgPool对每个通道求平均，而Cross-Scan输出是峰值 + 低激活。平均池化会将这些峰值与大量低激活混合，生成的数值不能准确的代表该feature map所包含的信息，
-最后生成的门控系数(2层neuron layer之后的输出)可能无法准确反映每个特征图的重要性,这会导致特征图之间的关系被错误地建立。再次输入全局average pooling然后FC->FC, 大概率无法修改这样的错误，再次生成错误的门控系数，这些门控系数乘以每个feature map, 再次错误的调整了
-feature map之间的关系, 以上过程循环，错误会被重复累积，造成准确率的大幅度下降（3%）
+| 模型 | 阶段深度 (Depths) | 参数量 | 训练环境 | 准确率 (Top-1) |
+| :--- | :---: | :---: | :---: | :---: |
+| Swin-Tiny (Baseline) | [2, 2, 6, 2] | ~28.3M | 从零训练 | 65.88% |
+| **Swin-Coffee (Ours)** | **[2, 2, 6, 1]** | **~26.8M** | **从零训练** | **76.64%** 🚀 |
 
-解决方案：
-2.1 无论feature map(特征图)之间是否存在显式的依赖关系，通过convolution操作提取每个feature map的卷积特征图，并将这些特征图输入MLP生成门控系数，能够更聪明的调整每个特征图的贡献。
-如果特征图之间存在依赖关系，这种方式能够有效地发现并加以利用；即使没有依赖关系，它也能增强模型的灵活性，提升其对不同特征的关注，从而提升性能和精度
-（我自己提出的，innovative idea, 类似的academic paper: Convolutional Block Attention Module
+> **核心价值：** 在参数量减少约 **1.5M** 的情况下，Swin-Coffee 实现了 **10.76%** 的精度提升。这证明了该架构在处理小图特征提取时具有极高的效率。
 
-2.2 并行使用GlobalMaxPool+GlobalAvgPool，对每个通道同时进行最大池化和平均池化，将两者拼接[Max,Avg]后输入小型MLPSigmoid；输出的通道门控既能捕捉局部峰值，又兼顾整体激活趋势，有
-效避免“峰值被稀释. 这块是部分的convolutional block attention module
+## 💡 架构创新
 
-2.3 去掉standard se。
 
-分析：
-只在最后使用carafe进行上采样并输入到transformer block, 永远无法替代在一开始就用224×224输入并在高分辨率上执行完整CCCT模块所能获取的那部分细节和空间依赖
-最后，考虑用dilated attention替换cross scan, 或者用swin的W-MSA和SW-MSA来替换cross scan.
+
+### 1. Swin-CBAM 融合模块 (Stage 1-3)
+前三个阶段的每个 Block 都采用了 **SwinCBAMBlock** 设计：
+* **SwinBlock**: 保持窗口注意力的全局感知能力。
+* **CBAM 组件**: 集成了通道和空间注意力机制。
+    * **通道注意力 (Channel Attention)**: 动态调整通道特征权重。
+    * **空间注意力 (Spatial Attention)**: 引入卷积操作带来的局部归纳偏置，有效弥补了 Transformer 局部感知能力的不足。
+
+### 2. 增强扰动模块 (Enhanced Disrupt Block)
+在 Stage 1, 2, 3 的末尾均配置了扰动层。在训练期间，该模块通过频率遮蔽和空间丢弃等手段对特征进行随机干预，强制模型学习更鲁棒的特征，有效防止过拟合。
+
+### 3. 自监督去噪正则化 (Stage 4)
+Stage 4 采用 **DenoisingDisruptionBlock** 替代了传统 Swin 层：
+* **特征噪声注入**: 在训练中后期（Epoch 30+）引入高斯噪声。
+* **重构任务**: 模型需同步完成分类与特征重构任务。这种自监督信号引导模型在噪声干扰下依然能提取出图像的本质特征。
+
+## 🛠️ 项目结构
+
+```text
+Swin-Coffee/
+├── swin_coffee.py       # 模型核心定义 (SwinCBAM, Disrupt, Denoise)
+├── main_ddp.py          # 多卡分布式训练脚本 (DDP)
+├── data/                # 数据集存放目录
+├── logs/                # 训练日志 (.csv)
+└── weights/             # 最佳模型权重文件 (.pth)
