@@ -44,7 +44,7 @@ Swin-Coffee 通过在标准层次化 Transformer 中嵌入注意力修正和特�
 
 Swin-Coffee 通过在标准层次化 Transformer 中嵌入注意力修正和特征扰动机制，构建了更为鲁棒的特征表示。
 
-![Swin-Coffee 架构图](architecture.png)
+![Swin-Coffee 架构图](swin-coffee.jpg)
 *图 1: Swin-Coffee 总体架构。包含 Swin-CBAM 融合阶段、增强扰动模块以及末端的去噪重构头。*
 
 ### 1. Swin-CBAM 融合模块 (Stage 1-3)
