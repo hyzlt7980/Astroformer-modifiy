@@ -1,5 +1,5 @@
-# Swin-transformer-coffee: 10.76 improvement on swin transformer on cifar-100,  
-# swin-咖啡基于特征去噪的高效视觉 Transformer
+# Swin-transformer-coffee: 10.76 improvement on swin-transformer on cifar-100,  
+# swin-咖啡, 基于特征去噪的高效视觉Transformer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org)
