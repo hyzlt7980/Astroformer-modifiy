@@ -1,0 +1,1006 @@
+nohup: ignoring input
+==> DDP Initialized. World Size: 4
+[rank2]:[W120 17:45:25.658688369 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 2]  using GPU 2 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+[rank3]:[W120 17:45:25.701840401 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 3]  using GPU 3 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+Files already downloaded and verified
+[rank1]:[W120 17:45:25.717804906 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+Files already downloaded and verified
+[rank0]:[W120 17:45:26.275769898 ProcessGroupNCCL.cpp:4115] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device,or call init_process_group() with a device_id.
+==> Building Swin-Tiny (img_size=64, window_size=4)...
+==> Learning Rate Fixed to: 0.0005 (Safe for training from scratch)
+[Epoch 1] Step 0/98 | Loss: 4.7004 | LR: 5.00e-04
+[Epoch 1] Step 50/98 | Loss: 4.3042 | LR: 5.00e-04
+==> Epoch 1 Finished | Avg Loss: 4.3476 | Validation Acc: 7.93%
+==> 🏆 New Best Model Saved!
+[Epoch 2] Step 0/98 | Loss: 4.3126 | LR: 5.00e-04
+[Epoch 2] Step 50/98 | Loss: 4.0118 | LR: 5.00e-04
+==> Epoch 2 Finished | Avg Loss: 4.0407 | Validation Acc: 13.70%
+==> 🏆 New Best Model Saved!
+[Epoch 3] Step 0/98 | Loss: 3.9532 | LR: 5.00e-04
+[Epoch 3] Step 50/98 | Loss: 3.8054 | LR: 5.00e-04
+==> Epoch 3 Finished | Avg Loss: 3.8337 | Validation Acc: 16.47%
+==> 🏆 New Best Model Saved!
+[Epoch 4] Step 0/98 | Loss: 3.7074 | LR: 5.00e-04
+[Epoch 4] Step 50/98 | Loss: 3.6479 | LR: 5.00e-04
+==> Epoch 4 Finished | Avg Loss: 3.6696 | Validation Acc: 20.42%
+==> 🏆 New Best Model Saved!
+[Epoch 5] Step 0/98 | Loss: 3.5678 | LR: 5.00e-04
+[Epoch 5] Step 50/98 | Loss: 3.5098 | LR: 5.00e-04
+==> Epoch 5 Finished | Avg Loss: 3.4916 | Validation Acc: 24.05%
+==> 🏆 New Best Model Saved!
+[Epoch 6] Step 0/98 | Loss: 3.4780 | LR: 5.00e-04
+[Epoch 6] Step 50/98 | Loss: 3.3799 | LR: 5.00e-04
+==> Epoch 6 Finished | Avg Loss: 3.3398 | Validation Acc: 27.79%
+==> 🏆 New Best Model Saved!
+[Epoch 7] Step 0/98 | Loss: 3.2773 | LR: 5.00e-04
+[Epoch 7] Step 50/98 | Loss: 3.1144 | LR: 5.00e-04
+==> Epoch 7 Finished | Avg Loss: 3.2145 | Validation Acc: 30.86%
+==> 🏆 New Best Model Saved!
+[Epoch 8] Step 0/98 | Loss: 3.2009 | LR: 4.99e-04
+[Epoch 8] Step 50/98 | Loss: 3.1982 | LR: 4.99e-04
+==> Epoch 8 Finished | Avg Loss: 3.1065 | Validation Acc: 31.30%
+==> 🏆 New Best Model Saved!
+[Epoch 9] Step 0/98 | Loss: 3.0630 | LR: 4.99e-04
+[Epoch 9] Step 50/98 | Loss: 3.0935 | LR: 4.99e-04
+==> Epoch 9 Finished | Avg Loss: 2.9973 | Validation Acc: 34.04%
+==> 🏆 New Best Model Saved!
+[Epoch 10] Step 0/98 | Loss: 2.8979 | LR: 4.99e-04
+[Epoch 10] Step 50/98 | Loss: 2.8850 | LR: 4.99e-04
+==> Epoch 10 Finished | Avg Loss: 2.9111 | Validation Acc: 34.66%
+==> 🏆 New Best Model Saved!
+[Epoch 11] Step 0/98 | Loss: 3.0405 | LR: 4.99e-04
+[Epoch 11] Step 50/98 | Loss: 2.7948 | LR: 4.99e-04
+==> Epoch 11 Finished | Avg Loss: 2.8147 | Validation Acc: 37.23%
+==> 🏆 New Best Model Saved!
+[Epoch 12] Step 0/98 | Loss: 2.8595 | LR: 4.98e-04
+[Epoch 12] Step 50/98 | Loss: 2.8152 | LR: 4.98e-04
+==> Epoch 12 Finished | Avg Loss: 2.7412 | Validation Acc: 37.72%
+==> 🏆 New Best Model Saved!
+[Epoch 13] Step 0/98 | Loss: 2.6707 | LR: 4.98e-04
+[Epoch 13] Step 50/98 | Loss: 2.7504 | LR: 4.98e-04
+==> Epoch 13 Finished | Avg Loss: 2.6894 | Validation Acc: 39.33%
+==> 🏆 New Best Model Saved!
+[Epoch 14] Step 0/98 | Loss: 2.5875 | LR: 4.98e-04
+[Epoch 14] Step 50/98 | Loss: 2.5789 | LR: 4.98e-04
+==> Epoch 14 Finished | Avg Loss: 2.6079 | Validation Acc: 40.44%
+==> 🏆 New Best Model Saved!
+[Epoch 15] Step 0/98 | Loss: 2.4881 | LR: 4.97e-04
+[Epoch 15] Step 50/98 | Loss: 2.4616 | LR: 4.97e-04
+==> Epoch 15 Finished | Avg Loss: 2.5462 | Validation Acc: 40.78%
+==> 🏆 New Best Model Saved!
+[Epoch 16] Step 0/98 | Loss: 2.4528 | LR: 4.97e-04
+[Epoch 16] Step 50/98 | Loss: 2.4684 | LR: 4.97e-04
+==> Epoch 16 Finished | Avg Loss: 2.4816 | Validation Acc: 42.69%
+==> 🏆 New Best Model Saved!
+[Epoch 17] Step 0/98 | Loss: 2.5042 | LR: 4.96e-04
+[Epoch 17] Step 50/98 | Loss: 2.4401 | LR: 4.96e-04
+==> Epoch 17 Finished | Avg Loss: 2.4271 | Validation Acc: 43.80%
+==> 🏆 New Best Model Saved!
+[Epoch 18] Step 0/98 | Loss: 2.2626 | LR: 4.96e-04
+[Epoch 18] Step 50/98 | Loss: 2.4725 | LR: 4.96e-04
+==> Epoch 18 Finished | Avg Loss: 2.3721 | Validation Acc: 44.01%
+==> 🏆 New Best Model Saved!
+[Epoch 19] Step 0/98 | Loss: 2.2852 | LR: 4.96e-04
+[Epoch 19] Step 50/98 | Loss: 2.2008 | LR: 4.96e-04
+==> Epoch 19 Finished | Avg Loss: 2.3182 | Validation Acc: 45.28%
+==> 🏆 New Best Model Saved!
+[Epoch 20] Step 0/98 | Loss: 2.1352 | LR: 4.95e-04
+[Epoch 20] Step 50/98 | Loss: 2.2540 | LR: 4.95e-04
+==> Epoch 20 Finished | Avg Loss: 2.2596 | Validation Acc: 46.61%
+==> 🏆 New Best Model Saved!
+[Epoch 21] Step 0/98 | Loss: 2.0593 | LR: 4.95e-04
+[Epoch 21] Step 50/98 | Loss: 2.1189 | LR: 4.95e-04
+==> Epoch 21 Finished | Avg Loss: 2.2072 | Validation Acc: 47.62%
+==> 🏆 New Best Model Saved!
+[Epoch 22] Step 0/98 | Loss: 2.1325 | LR: 4.94e-04
+[Epoch 22] Step 50/98 | Loss: 2.1278 | LR: 4.94e-04
+==> Epoch 22 Finished | Avg Loss: 2.1401 | Validation Acc: 48.14%
+==> 🏆 New Best Model Saved!
+[Epoch 23] Step 0/98 | Loss: 2.0572 | LR: 4.93e-04
+[Epoch 23] Step 50/98 | Loss: 2.1826 | LR: 4.93e-04
+==> Epoch 23 Finished | Avg Loss: 2.1026 | Validation Acc: 49.33%
+==> 🏆 New Best Model Saved!
+[Epoch 24] Step 0/98 | Loss: 2.1502 | LR: 4.93e-04
+[Epoch 24] Step 50/98 | Loss: 2.0634 | LR: 4.93e-04
+==> Epoch 24 Finished | Avg Loss: 2.0399 | Validation Acc: 49.32%
+[Epoch 25] Step 0/98 | Loss: 1.9634 | LR: 4.92e-04
+[Epoch 25] Step 50/98 | Loss: 2.0218 | LR: 4.92e-04
+==> Epoch 25 Finished | Avg Loss: 1.9973 | Validation Acc: 49.63%
+==> 🏆 New Best Model Saved!
+[Epoch 26] Step 0/98 | Loss: 1.9174 | LR: 4.91e-04
+[Epoch 26] Step 50/98 | Loss: 2.1213 | LR: 4.91e-04
+==> Epoch 26 Finished | Avg Loss: 1.9570 | Validation Acc: 51.11%
+==> 🏆 New Best Model Saved!
+[Epoch 27] Step 0/98 | Loss: 1.8417 | LR: 4.91e-04
+[Epoch 27] Step 50/98 | Loss: 1.9476 | LR: 4.91e-04
+==> Epoch 27 Finished | Avg Loss: 1.9075 | Validation Acc: 50.39%
+[Epoch 28] Step 0/98 | Loss: 1.8982 | LR: 4.90e-04
+[Epoch 28] Step 50/98 | Loss: 1.7657 | LR: 4.90e-04
+==> Epoch 28 Finished | Avg Loss: 1.8644 | Validation Acc: 51.35%
+==> 🏆 New Best Model Saved!
+[Epoch 29] Step 0/98 | Loss: 1.8887 | LR: 4.89e-04
+[Epoch 29] Step 50/98 | Loss: 1.8852 | LR: 4.89e-04
+==> Epoch 29 Finished | Avg Loss: 1.8272 | Validation Acc: 52.34%
+==> 🏆 New Best Model Saved!
+[Epoch 30] Step 0/98 | Loss: 1.5858 | LR: 4.89e-04
+[Epoch 30] Step 50/98 | Loss: 1.8349 | LR: 4.89e-04
+==> Epoch 30 Finished | Avg Loss: 1.7671 | Validation Acc: 53.22%
+==> 🏆 New Best Model Saved!
+[Epoch 31] Step 0/98 | Loss: 1.5816 | LR: 4.88e-04
+[Epoch 31] Step 50/98 | Loss: 1.7564 | LR: 4.88e-04
+==> Epoch 31 Finished | Avg Loss: 1.7319 | Validation Acc: 53.57%
+==> 🏆 New Best Model Saved!
+[Epoch 32] Step 0/98 | Loss: 1.6166 | LR: 4.87e-04
+[Epoch 32] Step 50/98 | Loss: 1.7524 | LR: 4.87e-04
+==> Epoch 32 Finished | Avg Loss: 1.6842 | Validation Acc: 53.75%
+==> 🏆 New Best Model Saved!
+[Epoch 33] Step 0/98 | Loss: 1.5749 | LR: 4.86e-04
+[Epoch 33] Step 50/98 | Loss: 1.5698 | LR: 4.86e-04
+==> Epoch 33 Finished | Avg Loss: 1.6407 | Validation Acc: 54.15%
+==> 🏆 New Best Model Saved!
+[Epoch 34] Step 0/98 | Loss: 1.6704 | LR: 4.85e-04
+[Epoch 34] Step 50/98 | Loss: 1.6339 | LR: 4.85e-04
+==> Epoch 34 Finished | Avg Loss: 1.5978 | Validation Acc: 54.19%
+==> 🏆 New Best Model Saved!
+[Epoch 35] Step 0/98 | Loss: 1.4807 | LR: 4.84e-04
+[Epoch 35] Step 50/98 | Loss: 1.3755 | LR: 4.84e-04
+==> Epoch 35 Finished | Avg Loss: 1.5613 | Validation Acc: 54.75%
+==> 🏆 New Best Model Saved!
+[Epoch 36] Step 0/98 | Loss: 1.4406 | LR: 4.83e-04
+[Epoch 36] Step 50/98 | Loss: 1.6673 | LR: 4.83e-04
+==> Epoch 36 Finished | Avg Loss: 1.5240 | Validation Acc: 55.34%
+==> 🏆 New Best Model Saved!
+[Epoch 37] Step 0/98 | Loss: 1.4421 | LR: 4.82e-04
+[Epoch 37] Step 50/98 | Loss: 1.4810 | LR: 4.82e-04
+==> Epoch 37 Finished | Avg Loss: 1.4888 | Validation Acc: 54.77%
+[Epoch 38] Step 0/98 | Loss: 1.5165 | LR: 4.81e-04
+[Epoch 38] Step 50/98 | Loss: 1.3353 | LR: 4.81e-04
+==> Epoch 38 Finished | Avg Loss: 1.4263 | Validation Acc: 55.35%
+==> 🏆 New Best Model Saved!
+[Epoch 39] Step 0/98 | Loss: 1.4082 | LR: 4.80e-04
+[Epoch 39] Step 50/98 | Loss: 1.4745 | LR: 4.80e-04
+==> Epoch 39 Finished | Avg Loss: 1.4035 | Validation Acc: 56.09%
+==> 🏆 New Best Model Saved!
+[Epoch 40] Step 0/98 | Loss: 1.2548 | LR: 4.79e-04
+[Epoch 40] Step 50/98 | Loss: 1.4112 | LR: 4.79e-04
+==> Epoch 40 Finished | Avg Loss: 1.3742 | Validation Acc: 56.62%
+==> 🏆 New Best Model Saved!
+[Epoch 41] Step 0/98 | Loss: 1.2818 | LR: 4.78e-04
+[Epoch 41] Step 50/98 | Loss: 1.3995 | LR: 4.78e-04
+==> Epoch 41 Finished | Avg Loss: 1.3233 | Validation Acc: 56.25%
+[Epoch 42] Step 0/98 | Loss: 1.2136 | LR: 4.77e-04
+[Epoch 42] Step 50/98 | Loss: 1.2797 | LR: 4.77e-04
+==> Epoch 42 Finished | Avg Loss: 1.3047 | Validation Acc: 56.41%
+[Epoch 43] Step 0/98 | Loss: 1.1861 | LR: 4.76e-04
+[Epoch 43] Step 50/98 | Loss: 1.2792 | LR: 4.76e-04
+==> Epoch 43 Finished | Avg Loss: 1.2653 | Validation Acc: 57.10%
+==> 🏆 New Best Model Saved!
+[Epoch 44] Step 0/98 | Loss: 1.2167 | LR: 4.75e-04
+[Epoch 44] Step 50/98 | Loss: 1.1053 | LR: 4.75e-04
+==> Epoch 44 Finished | Avg Loss: 1.2397 | Validation Acc: 56.86%
+[Epoch 45] Step 0/98 | Loss: 1.1032 | LR: 4.74e-04
+[Epoch 45] Step 50/98 | Loss: 1.2485 | LR: 4.74e-04
+==> Epoch 45 Finished | Avg Loss: 1.1982 | Validation Acc: 57.48%
+==> 🏆 New Best Model Saved!
+[Epoch 46] Step 0/98 | Loss: 1.1169 | LR: 4.73e-04
+[Epoch 46] Step 50/98 | Loss: 1.2782 | LR: 4.73e-04
+==> Epoch 46 Finished | Avg Loss: 1.1813 | Validation Acc: 57.24%
+[Epoch 47] Step 0/98 | Loss: 1.0313 | LR: 4.72e-04
+[Epoch 47] Step 50/98 | Loss: 1.1012 | LR: 4.72e-04
+==> Epoch 47 Finished | Avg Loss: 1.1409 | Validation Acc: 57.54%
+==> 🏆 New Best Model Saved!
+[Epoch 48] Step 0/98 | Loss: 1.1027 | LR: 4.70e-04
+[Epoch 48] Step 50/98 | Loss: 1.2104 | LR: 4.70e-04
+==> Epoch 48 Finished | Avg Loss: 1.1174 | Validation Acc: 57.75%
+==> 🏆 New Best Model Saved!
+[Epoch 49] Step 0/98 | Loss: 1.0761 | LR: 4.69e-04
+[Epoch 49] Step 50/98 | Loss: 1.1962 | LR: 4.69e-04
+==> Epoch 49 Finished | Avg Loss: 1.0842 | Validation Acc: 58.30%
+==> 🏆 New Best Model Saved!
+[Epoch 50] Step 0/98 | Loss: 1.0102 | LR: 4.68e-04
+[Epoch 50] Step 50/98 | Loss: 1.1984 | LR: 4.68e-04
+==> Epoch 50 Finished | Avg Loss: 1.0776 | Validation Acc: 57.79%
+[Epoch 51] Step 0/98 | Loss: 1.0817 | LR: 4.67e-04
+[Epoch 51] Step 50/98 | Loss: 1.0820 | LR: 4.67e-04
+==> Epoch 51 Finished | Avg Loss: 1.0448 | Validation Acc: 58.77%
+==> 🏆 New Best Model Saved!
+[Epoch 52] Step 0/98 | Loss: 0.9163 | LR: 4.65e-04
+[Epoch 52] Step 50/98 | Loss: 1.0442 | LR: 4.65e-04
+==> Epoch 52 Finished | Avg Loss: 1.0184 | Validation Acc: 58.29%
+[Epoch 53] Step 0/98 | Loss: 0.8758 | LR: 4.64e-04
+[Epoch 53] Step 50/98 | Loss: 1.0582 | LR: 4.64e-04
+==> Epoch 53 Finished | Avg Loss: 0.9902 | Validation Acc: 58.02%
+[Epoch 54] Step 0/98 | Loss: 0.8850 | LR: 4.62e-04
+[Epoch 54] Step 50/98 | Loss: 0.8990 | LR: 4.62e-04
+==> Epoch 54 Finished | Avg Loss: 0.9711 | Validation Acc: 58.68%
+[Epoch 55] Step 0/98 | Loss: 0.8768 | LR: 4.61e-04
+[Epoch 55] Step 50/98 | Loss: 0.9831 | LR: 4.61e-04
+==> Epoch 55 Finished | Avg Loss: 0.9412 | Validation Acc: 58.94%
+==> 🏆 New Best Model Saved!
+[Epoch 56] Step 0/98 | Loss: 0.9553 | LR: 4.60e-04
+[Epoch 56] Step 50/98 | Loss: 0.9427 | LR: 4.60e-04
+==> Epoch 56 Finished | Avg Loss: 0.9233 | Validation Acc: 59.61%
+==> 🏆 New Best Model Saved!
+[Epoch 57] Step 0/98 | Loss: 0.8135 | LR: 4.58e-04
+[Epoch 57] Step 50/98 | Loss: 0.9462 | LR: 4.58e-04
+==> Epoch 57 Finished | Avg Loss: 0.8995 | Validation Acc: 58.21%
+[Epoch 58] Step 0/98 | Loss: 0.8240 | LR: 4.57e-04
+[Epoch 58] Step 50/98 | Loss: 0.9322 | LR: 4.57e-04
+==> Epoch 58 Finished | Avg Loss: 0.8932 | Validation Acc: 58.69%
+[Epoch 59] Step 0/98 | Loss: 0.8686 | LR: 4.55e-04
+[Epoch 59] Step 50/98 | Loss: 0.8336 | LR: 4.55e-04
+==> Epoch 59 Finished | Avg Loss: 0.8675 | Validation Acc: 59.64%
+==> 🏆 New Best Model Saved!
+[Epoch 60] Step 0/98 | Loss: 0.7936 | LR: 4.54e-04
+[Epoch 60] Step 50/98 | Loss: 0.9593 | LR: 4.54e-04
+==> Epoch 60 Finished | Avg Loss: 0.8503 | Validation Acc: 59.82%
+==> 🏆 New Best Model Saved!
+[Epoch 61] Step 0/98 | Loss: 0.8289 | LR: 4.52e-04
+[Epoch 61] Step 50/98 | Loss: 0.7181 | LR: 4.52e-04
+==> Epoch 61 Finished | Avg Loss: 0.8360 | Validation Acc: 59.68%
+[Epoch 62] Step 0/98 | Loss: 0.7582 | LR: 4.51e-04
+[Epoch 62] Step 50/98 | Loss: 0.8611 | LR: 4.51e-04
+==> Epoch 62 Finished | Avg Loss: 0.8140 | Validation Acc: 59.80%
+[Epoch 63] Step 0/98 | Loss: 0.7776 | LR: 4.49e-04
+[Epoch 63] Step 50/98 | Loss: 0.7908 | LR: 4.49e-04
+==> Epoch 63 Finished | Avg Loss: 0.8123 | Validation Acc: 59.16%
+[Epoch 64] Step 0/98 | Loss: 0.6393 | LR: 4.48e-04
+[Epoch 64] Step 50/98 | Loss: 0.8160 | LR: 4.48e-04
+==> Epoch 64 Finished | Avg Loss: 0.7923 | Validation Acc: 59.90%
+==> 🏆 New Best Model Saved!
+[Epoch 65] Step 0/98 | Loss: 0.7271 | LR: 4.46e-04
+[Epoch 65] Step 50/98 | Loss: 0.8773 | LR: 4.46e-04
+==> Epoch 65 Finished | Avg Loss: 0.7791 | Validation Acc: 59.99%
+==> 🏆 New Best Model Saved!
+[Epoch 66] Step 0/98 | Loss: 0.6324 | LR: 4.44e-04
+[Epoch 66] Step 50/98 | Loss: 0.7734 | LR: 4.44e-04
+==> Epoch 66 Finished | Avg Loss: 0.7635 | Validation Acc: 59.61%
+[Epoch 67] Step 0/98 | Loss: 0.6991 | LR: 4.43e-04
+[Epoch 67] Step 50/98 | Loss: 0.6458 | LR: 4.43e-04
+==> Epoch 67 Finished | Avg Loss: 0.7539 | Validation Acc: 60.08%
+==> 🏆 New Best Model Saved!
+[Epoch 68] Step 0/98 | Loss: 0.7350 | LR: 4.41e-04
+[Epoch 68] Step 50/98 | Loss: 0.7645 | LR: 4.41e-04
+==> Epoch 68 Finished | Avg Loss: 0.7384 | Validation Acc: 60.24%
+==> 🏆 New Best Model Saved!
+[Epoch 69] Step 0/98 | Loss: 0.6003 | LR: 4.39e-04
+[Epoch 69] Step 50/98 | Loss: 0.6542 | LR: 4.39e-04
+==> Epoch 69 Finished | Avg Loss: 0.7413 | Validation Acc: 60.08%
+[Epoch 70] Step 0/98 | Loss: 0.7399 | LR: 4.38e-04
+[Epoch 70] Step 50/98 | Loss: 0.7285 | LR: 4.38e-04
+==> Epoch 70 Finished | Avg Loss: 0.7122 | Validation Acc: 60.07%
+[Epoch 71] Step 0/98 | Loss: 0.5467 | LR: 4.36e-04
+[Epoch 71] Step 50/98 | Loss: 0.6529 | LR: 4.36e-04
+==> Epoch 71 Finished | Avg Loss: 0.7162 | Validation Acc: 59.82%
+[Epoch 72] Step 0/98 | Loss: 0.7497 | LR: 4.34e-04
+[Epoch 72] Step 50/98 | Loss: 0.6908 | LR: 4.34e-04
+==> Epoch 72 Finished | Avg Loss: 0.7111 | Validation Acc: 59.97%
+[Epoch 73] Step 0/98 | Loss: 0.5799 | LR: 4.32e-04
+[Epoch 73] Step 50/98 | Loss: 0.7000 | LR: 4.32e-04
+==> Epoch 73 Finished | Avg Loss: 0.6891 | Validation Acc: 59.82%
+[Epoch 74] Step 0/98 | Loss: 0.5679 | LR: 4.30e-04
+[Epoch 74] Step 50/98 | Loss: 0.7041 | LR: 4.30e-04
+==> Epoch 74 Finished | Avg Loss: 0.6754 | Validation Acc: 60.00%
+[Epoch 75] Step 0/98 | Loss: 0.6771 | LR: 4.29e-04
+[Epoch 75] Step 50/98 | Loss: 0.7553 | LR: 4.29e-04
+==> Epoch 75 Finished | Avg Loss: 0.6814 | Validation Acc: 60.60%
+==> 🏆 New Best Model Saved!
+[Epoch 76] Step 0/98 | Loss: 0.7236 | LR: 4.27e-04
+[Epoch 76] Step 50/98 | Loss: 0.7967 | LR: 4.27e-04
+==> Epoch 76 Finished | Avg Loss: 0.6522 | Validation Acc: 60.41%
+[Epoch 77] Step 0/98 | Loss: 0.5818 | LR: 4.25e-04
+[Epoch 77] Step 50/98 | Loss: 0.7089 | LR: 4.25e-04
+==> Epoch 77 Finished | Avg Loss: 0.6492 | Validation Acc: 60.81%
+==> 🏆 New Best Model Saved!
+[Epoch 78] Step 0/98 | Loss: 0.6694 | LR: 4.23e-04
+[Epoch 78] Step 50/98 | Loss: 0.6402 | LR: 4.23e-04
+==> Epoch 78 Finished | Avg Loss: 0.6412 | Validation Acc: 60.34%
+[Epoch 79] Step 0/98 | Loss: 0.6341 | LR: 4.21e-04
+[Epoch 79] Step 50/98 | Loss: 0.6558 | LR: 4.21e-04
+==> Epoch 79 Finished | Avg Loss: 0.6372 | Validation Acc: 60.12%
+[Epoch 80] Step 0/98 | Loss: 0.5620 | LR: 4.19e-04
+[Epoch 80] Step 50/98 | Loss: 0.5702 | LR: 4.19e-04
+==> Epoch 80 Finished | Avg Loss: 0.6303 | Validation Acc: 61.10%
+==> 🏆 New Best Model Saved!
+[Epoch 81] Step 0/98 | Loss: 0.5604 | LR: 4.17e-04
+[Epoch 81] Step 50/98 | Loss: 0.6334 | LR: 4.17e-04
+==> Epoch 81 Finished | Avg Loss: 0.6075 | Validation Acc: 60.83%
+[Epoch 82] Step 0/98 | Loss: 0.6036 | LR: 4.15e-04
+[Epoch 82] Step 50/98 | Loss: 0.5927 | LR: 4.15e-04
+==> Epoch 82 Finished | Avg Loss: 0.6023 | Validation Acc: 60.77%
+[Epoch 83] Step 0/98 | Loss: 0.5574 | LR: 4.13e-04
+[Epoch 83] Step 50/98 | Loss: 0.5916 | LR: 4.13e-04
+==> Epoch 83 Finished | Avg Loss: 0.6012 | Validation Acc: 60.86%
+[Epoch 84] Step 0/98 | Loss: 0.6479 | LR: 4.11e-04
+[Epoch 84] Step 50/98 | Loss: 0.6795 | LR: 4.11e-04
+==> Epoch 84 Finished | Avg Loss: 0.5967 | Validation Acc: 61.28%
+==> 🏆 New Best Model Saved!
+[Epoch 85] Step 0/98 | Loss: 0.6261 | LR: 4.09e-04
+[Epoch 85] Step 50/98 | Loss: 0.5918 | LR: 4.09e-04
+==> Epoch 85 Finished | Avg Loss: 0.5890 | Validation Acc: 61.19%
+[Epoch 86] Step 0/98 | Loss: 0.5561 | LR: 4.07e-04
+[Epoch 86] Step 50/98 | Loss: 0.5784 | LR: 4.07e-04
+==> Epoch 86 Finished | Avg Loss: 0.5818 | Validation Acc: 61.04%
+[Epoch 87] Step 0/98 | Loss: 0.5770 | LR: 4.05e-04
+[Epoch 87] Step 50/98 | Loss: 0.6780 | LR: 4.05e-04
+==> Epoch 87 Finished | Avg Loss: 0.5737 | Validation Acc: 61.53%
+==> 🏆 New Best Model Saved!
+[Epoch 88] Step 0/98 | Loss: 0.6309 | LR: 4.03e-04
+[Epoch 88] Step 50/98 | Loss: 0.5709 | LR: 4.03e-04
+==> Epoch 88 Finished | Avg Loss: 0.5722 | Validation Acc: 61.18%
+[Epoch 89] Step 0/98 | Loss: 0.5528 | LR: 4.01e-04
+[Epoch 89] Step 50/98 | Loss: 0.6043 | LR: 4.01e-04
+==> Epoch 89 Finished | Avg Loss: 0.5504 | Validation Acc: 61.47%
+[Epoch 90] Step 0/98 | Loss: 0.5342 | LR: 3.99e-04
+[Epoch 90] Step 50/98 | Loss: 0.5366 | LR: 3.99e-04
+==> Epoch 90 Finished | Avg Loss: 0.5349 | Validation Acc: 62.18%
+==> 🏆 New Best Model Saved!
+[Epoch 91] Step 0/98 | Loss: 0.5261 | LR: 3.97e-04
+[Epoch 91] Step 50/98 | Loss: 0.6097 | LR: 3.97e-04
+==> Epoch 91 Finished | Avg Loss: 0.5441 | Validation Acc: 61.59%
+[Epoch 92] Step 0/98 | Loss: 0.5779 | LR: 3.95e-04
+[Epoch 92] Step 50/98 | Loss: 0.6363 | LR: 3.95e-04
+==> Epoch 92 Finished | Avg Loss: 0.5422 | Validation Acc: 61.45%
+[Epoch 93] Step 0/98 | Loss: 0.5279 | LR: 3.93e-04
+[Epoch 93] Step 50/98 | Loss: 0.5618 | LR: 3.93e-04
+==> Epoch 93 Finished | Avg Loss: 0.5271 | Validation Acc: 61.08%
+[Epoch 94] Step 0/98 | Loss: 0.4903 | LR: 3.91e-04
+[Epoch 94] Step 50/98 | Loss: 0.6139 | LR: 3.91e-04
+==> Epoch 94 Finished | Avg Loss: 0.5237 | Validation Acc: 61.61%
+[Epoch 95] Step 0/98 | Loss: 0.5475 | LR: 3.88e-04
+[Epoch 95] Step 50/98 | Loss: 0.5378 | LR: 3.88e-04
+==> Epoch 95 Finished | Avg Loss: 0.5235 | Validation Acc: 62.20%
+==> 🏆 New Best Model Saved!
+[Epoch 96] Step 0/98 | Loss: 0.5032 | LR: 3.86e-04
+[Epoch 96] Step 50/98 | Loss: 0.5167 | LR: 3.86e-04
+==> Epoch 96 Finished | Avg Loss: 0.5005 | Validation Acc: 62.31%
+==> 🏆 New Best Model Saved!
+[Epoch 97] Step 0/98 | Loss: 0.4634 | LR: 3.84e-04
+[Epoch 97] Step 50/98 | Loss: 0.5600 | LR: 3.84e-04
+==> Epoch 97 Finished | Avg Loss: 0.5033 | Validation Acc: 61.86%
+[Epoch 98] Step 0/98 | Loss: 0.5083 | LR: 3.82e-04
+[Epoch 98] Step 50/98 | Loss: 0.5617 | LR: 3.82e-04
+==> Epoch 98 Finished | Avg Loss: 0.5057 | Validation Acc: 61.62%
+[Epoch 99] Step 0/98 | Loss: 0.5195 | LR: 3.80e-04
+[Epoch 99] Step 50/98 | Loss: 0.4739 | LR: 3.80e-04
+==> Epoch 99 Finished | Avg Loss: 0.4996 | Validation Acc: 61.55%
+[Epoch 100] Step 0/98 | Loss: 0.4034 | LR: 3.77e-04
+[Epoch 100] Step 50/98 | Loss: 0.4919 | LR: 3.77e-04
+==> Epoch 100 Finished | Avg Loss: 0.4909 | Validation Acc: 62.27%
+[Epoch 101] Step 0/98 | Loss: 0.4840 | LR: 3.75e-04
+[Epoch 101] Step 50/98 | Loss: 0.4733 | LR: 3.75e-04
+==> Epoch 101 Finished | Avg Loss: 0.4760 | Validation Acc: 62.02%
+[Epoch 102] Step 0/98 | Loss: 0.4943 | LR: 3.73e-04
+[Epoch 102] Step 50/98 | Loss: 0.4192 | LR: 3.73e-04
+==> Epoch 102 Finished | Avg Loss: 0.4805 | Validation Acc: 62.23%
+[Epoch 103] Step 0/98 | Loss: 0.4926 | LR: 3.70e-04
+[Epoch 103] Step 50/98 | Loss: 0.4554 | LR: 3.70e-04
+==> Epoch 103 Finished | Avg Loss: 0.4733 | Validation Acc: 62.36%
+==> 🏆 New Best Model Saved!
+[Epoch 104] Step 0/98 | Loss: 0.3913 | LR: 3.68e-04
+[Epoch 104] Step 50/98 | Loss: 0.3564 | LR: 3.68e-04
+==> Epoch 104 Finished | Avg Loss: 0.4651 | Validation Acc: 62.14%
+[Epoch 105] Step 0/98 | Loss: 0.5353 | LR: 3.66e-04
+[Epoch 105] Step 50/98 | Loss: 0.4986 | LR: 3.66e-04
+==> Epoch 105 Finished | Avg Loss: 0.4623 | Validation Acc: 61.80%
+[Epoch 106] Step 0/98 | Loss: 0.4357 | LR: 3.63e-04
+[Epoch 106] Step 50/98 | Loss: 0.4846 | LR: 3.63e-04
+==> Epoch 106 Finished | Avg Loss: 0.4575 | Validation Acc: 61.80%
+[Epoch 107] Step 0/98 | Loss: 0.3924 | LR: 3.61e-04
+[Epoch 107] Step 50/98 | Loss: 0.4740 | LR: 3.61e-04
+==> Epoch 107 Finished | Avg Loss: 0.4509 | Validation Acc: 62.50%
+==> 🏆 New Best Model Saved!
+[Epoch 108] Step 0/98 | Loss: 0.4084 | LR: 3.59e-04
+[Epoch 108] Step 50/98 | Loss: 0.5879 | LR: 3.59e-04
+==> Epoch 108 Finished | Avg Loss: 0.4533 | Validation Acc: 61.83%
+[Epoch 109] Step 0/98 | Loss: 0.3990 | LR: 3.56e-04
+[Epoch 109] Step 50/98 | Loss: 0.4252 | LR: 3.56e-04
+==> Epoch 109 Finished | Avg Loss: 0.4403 | Validation Acc: 62.25%
+[Epoch 110] Step 0/98 | Loss: 0.4071 | LR: 3.54e-04
+[Epoch 110] Step 50/98 | Loss: 0.4625 | LR: 3.54e-04
+==> Epoch 110 Finished | Avg Loss: 0.4382 | Validation Acc: 62.06%
+[Epoch 111] Step 0/98 | Loss: 0.4208 | LR: 3.52e-04
+[Epoch 111] Step 50/98 | Loss: 0.4732 | LR: 3.52e-04
+==> Epoch 111 Finished | Avg Loss: 0.4287 | Validation Acc: 62.30%
+[Epoch 112] Step 0/98 | Loss: 0.4311 | LR: 3.49e-04
+[Epoch 112] Step 50/98 | Loss: 0.4574 | LR: 3.49e-04
+==> Epoch 112 Finished | Avg Loss: 0.4244 | Validation Acc: 61.88%
+[Epoch 113] Step 0/98 | Loss: 0.4364 | LR: 3.47e-04
+[Epoch 113] Step 50/98 | Loss: 0.4062 | LR: 3.47e-04
+==> Epoch 113 Finished | Avg Loss: 0.4279 | Validation Acc: 62.41%
+[Epoch 114] Step 0/98 | Loss: 0.3327 | LR: 3.44e-04
+[Epoch 114] Step 50/98 | Loss: 0.4610 | LR: 3.44e-04
+==> Epoch 114 Finished | Avg Loss: 0.4139 | Validation Acc: 62.38%
+[Epoch 115] Step 0/98 | Loss: 0.4186 | LR: 3.42e-04
+[Epoch 115] Step 50/98 | Loss: 0.3962 | LR: 3.42e-04
+==> Epoch 115 Finished | Avg Loss: 0.4256 | Validation Acc: 62.59%
+==> 🏆 New Best Model Saved!
+[Epoch 116] Step 0/98 | Loss: 0.3747 | LR: 3.40e-04
+[Epoch 116] Step 50/98 | Loss: 0.3526 | LR: 3.40e-04
+==> Epoch 116 Finished | Avg Loss: 0.4056 | Validation Acc: 61.96%
+[Epoch 117] Step 0/98 | Loss: 0.4175 | LR: 3.37e-04
+[Epoch 117] Step 50/98 | Loss: 0.3263 | LR: 3.37e-04
+==> Epoch 117 Finished | Avg Loss: 0.4066 | Validation Acc: 62.07%
+[Epoch 118] Step 0/98 | Loss: 0.3492 | LR: 3.35e-04
+[Epoch 118] Step 50/98 | Loss: 0.3483 | LR: 3.35e-04
+==> Epoch 118 Finished | Avg Loss: 0.3885 | Validation Acc: 62.22%
+[Epoch 119] Step 0/98 | Loss: 0.4484 | LR: 3.32e-04
+[Epoch 119] Step 50/98 | Loss: 0.4293 | LR: 3.32e-04
+==> Epoch 119 Finished | Avg Loss: 0.3988 | Validation Acc: 62.53%
+[Epoch 120] Step 0/98 | Loss: 0.3566 | LR: 3.30e-04
+[Epoch 120] Step 50/98 | Loss: 0.3842 | LR: 3.30e-04
+==> Epoch 120 Finished | Avg Loss: 0.4030 | Validation Acc: 62.29%
+[Epoch 121] Step 0/98 | Loss: 0.3552 | LR: 3.27e-04
+[Epoch 121] Step 50/98 | Loss: 0.3372 | LR: 3.27e-04
+==> Epoch 121 Finished | Avg Loss: 0.3934 | Validation Acc: 62.76%
+==> 🏆 New Best Model Saved!
+[Epoch 122] Step 0/98 | Loss: 0.3567 | LR: 3.25e-04
+[Epoch 122] Step 50/98 | Loss: 0.3880 | LR: 3.25e-04
+==> Epoch 122 Finished | Avg Loss: 0.3807 | Validation Acc: 62.43%
+[Epoch 123] Step 0/98 | Loss: 0.5498 | LR: 3.22e-04
+[Epoch 123] Step 50/98 | Loss: 0.3756 | LR: 3.22e-04
+==> Epoch 123 Finished | Avg Loss: 0.3813 | Validation Acc: 62.61%
+[Epoch 124] Step 0/98 | Loss: 0.3970 | LR: 3.20e-04
+[Epoch 124] Step 50/98 | Loss: 0.5096 | LR: 3.20e-04
+==> Epoch 124 Finished | Avg Loss: 0.3715 | Validation Acc: 62.45%
+[Epoch 125] Step 0/98 | Loss: 0.3155 | LR: 3.17e-04
+[Epoch 125] Step 50/98 | Loss: 0.3090 | LR: 3.17e-04
+==> Epoch 125 Finished | Avg Loss: 0.3624 | Validation Acc: 62.87%
+==> 🏆 New Best Model Saved!
+[Epoch 126] Step 0/98 | Loss: 0.3774 | LR: 3.15e-04
+[Epoch 126] Step 50/98 | Loss: 0.3203 | LR: 3.15e-04
+==> Epoch 126 Finished | Avg Loss: 0.3682 | Validation Acc: 61.98%
+[Epoch 127] Step 0/98 | Loss: 0.4027 | LR: 3.12e-04
+[Epoch 127] Step 50/98 | Loss: 0.3793 | LR: 3.12e-04
+==> Epoch 127 Finished | Avg Loss: 0.3651 | Validation Acc: 63.06%
+==> 🏆 New Best Model Saved!
+[Epoch 128] Step 0/98 | Loss: 0.3163 | LR: 3.10e-04
+[Epoch 128] Step 50/98 | Loss: 0.3362 | LR: 3.10e-04
+==> Epoch 128 Finished | Avg Loss: 0.3574 | Validation Acc: 62.32%
+[Epoch 129] Step 0/98 | Loss: 0.3345 | LR: 3.07e-04
+[Epoch 129] Step 50/98 | Loss: 0.3593 | LR: 3.07e-04
+==> Epoch 129 Finished | Avg Loss: 0.3506 | Validation Acc: 62.20%
+[Epoch 130] Step 0/98 | Loss: 0.3628 | LR: 3.05e-04
+[Epoch 130] Step 50/98 | Loss: 0.4039 | LR: 3.05e-04
+==> Epoch 130 Finished | Avg Loss: 0.3505 | Validation Acc: 62.57%
+[Epoch 131] Step 0/98 | Loss: 0.3203 | LR: 3.02e-04
+[Epoch 131] Step 50/98 | Loss: 0.3754 | LR: 3.02e-04
+==> Epoch 131 Finished | Avg Loss: 0.3451 | Validation Acc: 62.71%
+[Epoch 132] Step 0/98 | Loss: 0.3503 | LR: 2.99e-04
+[Epoch 132] Step 50/98 | Loss: 0.3249 | LR: 2.99e-04
+==> Epoch 132 Finished | Avg Loss: 0.3415 | Validation Acc: 63.23%
+==> 🏆 New Best Model Saved!
+[Epoch 133] Step 0/98 | Loss: 0.3361 | LR: 2.97e-04
+[Epoch 133] Step 50/98 | Loss: 0.2983 | LR: 2.97e-04
+==> Epoch 133 Finished | Avg Loss: 0.3420 | Validation Acc: 62.55%
+[Epoch 134] Step 0/98 | Loss: 0.3467 | LR: 2.94e-04
+[Epoch 134] Step 50/98 | Loss: 0.2872 | LR: 2.94e-04
+==> Epoch 134 Finished | Avg Loss: 0.3346 | Validation Acc: 62.52%
+[Epoch 135] Step 0/98 | Loss: 0.3443 | LR: 2.92e-04
+[Epoch 135] Step 50/98 | Loss: 0.3411 | LR: 2.92e-04
+==> Epoch 135 Finished | Avg Loss: 0.3326 | Validation Acc: 62.93%
+[Epoch 136] Step 0/98 | Loss: 0.3494 | LR: 2.89e-04
+[Epoch 136] Step 50/98 | Loss: 0.2589 | LR: 2.89e-04
+==> Epoch 136 Finished | Avg Loss: 0.3339 | Validation Acc: 62.84%
+[Epoch 137] Step 0/98 | Loss: 0.3044 | LR: 2.87e-04
+[Epoch 137] Step 50/98 | Loss: 0.3670 | LR: 2.87e-04
+==> Epoch 137 Finished | Avg Loss: 0.3268 | Validation Acc: 63.01%
+[Epoch 138] Step 0/98 | Loss: 0.2836 | LR: 2.84e-04
+[Epoch 138] Step 50/98 | Loss: 0.3191 | LR: 2.84e-04
+==> Epoch 138 Finished | Avg Loss: 0.3281 | Validation Acc: 62.84%
+[Epoch 139] Step 0/98 | Loss: 0.2559 | LR: 2.81e-04
+[Epoch 139] Step 50/98 | Loss: 0.2670 | LR: 2.81e-04
+==> Epoch 139 Finished | Avg Loss: 0.3148 | Validation Acc: 63.31%
+==> 🏆 New Best Model Saved!
+[Epoch 140] Step 0/98 | Loss: 0.3583 | LR: 2.79e-04
+[Epoch 140] Step 50/98 | Loss: 0.3781 | LR: 2.79e-04
+==> Epoch 140 Finished | Avg Loss: 0.3172 | Validation Acc: 62.89%
+[Epoch 141] Step 0/98 | Loss: 0.2078 | LR: 2.76e-04
+[Epoch 141] Step 50/98 | Loss: 0.3241 | LR: 2.76e-04
+==> Epoch 141 Finished | Avg Loss: 0.3160 | Validation Acc: 63.23%
+[Epoch 142] Step 0/98 | Loss: 0.2681 | LR: 2.74e-04
+[Epoch 142] Step 50/98 | Loss: 0.3646 | LR: 2.74e-04
+==> Epoch 142 Finished | Avg Loss: 0.3165 | Validation Acc: 62.67%
+[Epoch 143] Step 0/98 | Loss: 0.3454 | LR: 2.71e-04
+[Epoch 143] Step 50/98 | Loss: 0.3278 | LR: 2.71e-04
+==> Epoch 143 Finished | Avg Loss: 0.3018 | Validation Acc: 63.39%
+==> 🏆 New Best Model Saved!
+[Epoch 144] Step 0/98 | Loss: 0.4121 | LR: 2.68e-04
+[Epoch 144] Step 50/98 | Loss: 0.3202 | LR: 2.68e-04
+==> Epoch 144 Finished | Avg Loss: 0.3037 | Validation Acc: 62.97%
+[Epoch 145] Step 0/98 | Loss: 0.2853 | LR: 2.66e-04
+[Epoch 145] Step 50/98 | Loss: 0.2331 | LR: 2.66e-04
+==> Epoch 145 Finished | Avg Loss: 0.2971 | Validation Acc: 63.07%
+[Epoch 146] Step 0/98 | Loss: 0.2018 | LR: 2.63e-04
+[Epoch 146] Step 50/98 | Loss: 0.2676 | LR: 2.63e-04
+==> Epoch 146 Finished | Avg Loss: 0.2872 | Validation Acc: 62.60%
+[Epoch 147] Step 0/98 | Loss: 0.2256 | LR: 2.60e-04
+[Epoch 147] Step 50/98 | Loss: 0.3182 | LR: 2.60e-04
+==> Epoch 147 Finished | Avg Loss: 0.2915 | Validation Acc: 63.31%
+[Epoch 148] Step 0/98 | Loss: 0.2930 | LR: 2.58e-04
+[Epoch 148] Step 50/98 | Loss: 0.2794 | LR: 2.58e-04
+==> Epoch 148 Finished | Avg Loss: 0.2924 | Validation Acc: 63.12%
+[Epoch 149] Step 0/98 | Loss: 0.2538 | LR: 2.55e-04
+[Epoch 149] Step 50/98 | Loss: 0.3876 | LR: 2.55e-04
+==> Epoch 149 Finished | Avg Loss: 0.2839 | Validation Acc: 63.14%
+[Epoch 150] Step 0/98 | Loss: 0.2658 | LR: 2.53e-04
+[Epoch 150] Step 50/98 | Loss: 0.3108 | LR: 2.53e-04
+==> Epoch 150 Finished | Avg Loss: 0.2774 | Validation Acc: 63.05%
+[Epoch 151] Step 0/98 | Loss: 0.2723 | LR: 2.50e-04
+[Epoch 151] Step 50/98 | Loss: 0.2832 | LR: 2.50e-04
+==> Epoch 151 Finished | Avg Loss: 0.2780 | Validation Acc: 62.85%
+[Epoch 152] Step 0/98 | Loss: 0.2598 | LR: 2.47e-04
+[Epoch 152] Step 50/98 | Loss: 0.2462 | LR: 2.47e-04
+==> Epoch 152 Finished | Avg Loss: 0.2800 | Validation Acc: 63.23%
+[Epoch 153] Step 0/98 | Loss: 0.2153 | LR: 2.45e-04
+[Epoch 153] Step 50/98 | Loss: 0.3095 | LR: 2.45e-04
+==> Epoch 153 Finished | Avg Loss: 0.2726 | Validation Acc: 63.40%
+==> 🏆 New Best Model Saved!
+[Epoch 154] Step 0/98 | Loss: 0.2565 | LR: 2.42e-04
+[Epoch 154] Step 50/98 | Loss: 0.2630 | LR: 2.42e-04
+==> Epoch 154 Finished | Avg Loss: 0.2799 | Validation Acc: 63.49%
+==> 🏆 New Best Model Saved!
+[Epoch 155] Step 0/98 | Loss: 0.2520 | LR: 2.40e-04
+[Epoch 155] Step 50/98 | Loss: 0.2817 | LR: 2.40e-04
+==> Epoch 155 Finished | Avg Loss: 0.2603 | Validation Acc: 62.98%
+[Epoch 156] Step 0/98 | Loss: 0.3111 | LR: 2.37e-04
+[Epoch 156] Step 50/98 | Loss: 0.2587 | LR: 2.37e-04
+==> Epoch 156 Finished | Avg Loss: 0.2706 | Validation Acc: 63.38%
+[Epoch 157] Step 0/98 | Loss: 0.2721 | LR: 2.34e-04
+[Epoch 157] Step 50/98 | Loss: 0.3041 | LR: 2.34e-04
+==> Epoch 157 Finished | Avg Loss: 0.2601 | Validation Acc: 63.03%
+[Epoch 158] Step 0/98 | Loss: 0.2148 | LR: 2.32e-04
+[Epoch 158] Step 50/98 | Loss: 0.2314 | LR: 2.32e-04
+==> Epoch 158 Finished | Avg Loss: 0.2527 | Validation Acc: 63.27%
+[Epoch 159] Step 0/98 | Loss: 0.2330 | LR: 2.29e-04
+[Epoch 159] Step 50/98 | Loss: 0.2319 | LR: 2.29e-04
+==> Epoch 159 Finished | Avg Loss: 0.2529 | Validation Acc: 63.70%
+==> 🏆 New Best Model Saved!
+[Epoch 160] Step 0/98 | Loss: 0.1992 | LR: 2.26e-04
+[Epoch 160] Step 50/98 | Loss: 0.2187 | LR: 2.26e-04
+==> Epoch 160 Finished | Avg Loss: 0.2508 | Validation Acc: 63.05%
+[Epoch 161] Step 0/98 | Loss: 0.2097 | LR: 2.24e-04
+[Epoch 161] Step 50/98 | Loss: 0.2238 | LR: 2.24e-04
+==> Epoch 161 Finished | Avg Loss: 0.2508 | Validation Acc: 63.64%
+[Epoch 162] Step 0/98 | Loss: 0.2551 | LR: 2.21e-04
+[Epoch 162] Step 50/98 | Loss: 0.1985 | LR: 2.21e-04
+==> Epoch 162 Finished | Avg Loss: 0.2436 | Validation Acc: 63.75%
+==> 🏆 New Best Model Saved!
+[Epoch 163] Step 0/98 | Loss: 0.2265 | LR: 2.19e-04
+[Epoch 163] Step 50/98 | Loss: 0.2661 | LR: 2.19e-04
+==> Epoch 163 Finished | Avg Loss: 0.2437 | Validation Acc: 64.05%
+==> 🏆 New Best Model Saved!
+[Epoch 164] Step 0/98 | Loss: 0.2550 | LR: 2.16e-04
+[Epoch 164] Step 50/98 | Loss: 0.2891 | LR: 2.16e-04
+==> Epoch 164 Finished | Avg Loss: 0.2382 | Validation Acc: 63.93%
+[Epoch 165] Step 0/98 | Loss: 0.2668 | LR: 2.13e-04
+[Epoch 165] Step 50/98 | Loss: 0.2441 | LR: 2.13e-04
+==> Epoch 165 Finished | Avg Loss: 0.2318 | Validation Acc: 63.73%
+[Epoch 166] Step 0/98 | Loss: 0.2532 | LR: 2.11e-04
+[Epoch 166] Step 50/98 | Loss: 0.2370 | LR: 2.11e-04
+==> Epoch 166 Finished | Avg Loss: 0.2312 | Validation Acc: 63.44%
+[Epoch 167] Step 0/98 | Loss: 0.2174 | LR: 2.08e-04
+[Epoch 167] Step 50/98 | Loss: 0.2379 | LR: 2.08e-04
+==> Epoch 167 Finished | Avg Loss: 0.2384 | Validation Acc: 63.55%
+[Epoch 168] Step 0/98 | Loss: 0.2705 | LR: 2.06e-04
+[Epoch 168] Step 50/98 | Loss: 0.2031 | LR: 2.06e-04
+==> Epoch 168 Finished | Avg Loss: 0.2342 | Validation Acc: 63.78%
+[Epoch 169] Step 0/98 | Loss: 0.2399 | LR: 2.03e-04
+[Epoch 169] Step 50/98 | Loss: 0.2462 | LR: 2.03e-04
+==> Epoch 169 Finished | Avg Loss: 0.2320 | Validation Acc: 63.86%
+[Epoch 170] Step 0/98 | Loss: 0.2441 | LR: 2.01e-04
+[Epoch 170] Step 50/98 | Loss: 0.2185 | LR: 2.01e-04
+==> Epoch 170 Finished | Avg Loss: 0.2262 | Validation Acc: 63.53%
+[Epoch 171] Step 0/98 | Loss: 0.2706 | LR: 1.98e-04
+[Epoch 171] Step 50/98 | Loss: 0.2343 | LR: 1.98e-04
+==> Epoch 171 Finished | Avg Loss: 0.2261 | Validation Acc: 63.66%
+[Epoch 172] Step 0/98 | Loss: 0.2451 | LR: 1.95e-04
+[Epoch 172] Step 50/98 | Loss: 0.2941 | LR: 1.95e-04
+==> Epoch 172 Finished | Avg Loss: 0.2271 | Validation Acc: 64.24%
+==> 🏆 New Best Model Saved!
+[Epoch 173] Step 0/98 | Loss: 0.1572 | LR: 1.93e-04
+[Epoch 173] Step 50/98 | Loss: 0.1972 | LR: 1.93e-04
+==> Epoch 173 Finished | Avg Loss: 0.2177 | Validation Acc: 63.88%
+[Epoch 174] Step 0/98 | Loss: 0.2508 | LR: 1.90e-04
+[Epoch 174] Step 50/98 | Loss: 0.2100 | LR: 1.90e-04
+==> Epoch 174 Finished | Avg Loss: 0.2208 | Validation Acc: 63.63%
+[Epoch 175] Step 0/98 | Loss: 0.1895 | LR: 1.88e-04
+[Epoch 175] Step 50/98 | Loss: 0.2278 | LR: 1.88e-04
+==> Epoch 175 Finished | Avg Loss: 0.2260 | Validation Acc: 63.75%
+[Epoch 176] Step 0/98 | Loss: 0.1814 | LR: 1.85e-04
+[Epoch 176] Step 50/98 | Loss: 0.1915 | LR: 1.85e-04
+==> Epoch 176 Finished | Avg Loss: 0.2135 | Validation Acc: 63.18%
+[Epoch 177] Step 0/98 | Loss: 0.2331 | LR: 1.83e-04
+[Epoch 177] Step 50/98 | Loss: 0.1907 | LR: 1.83e-04
+==> Epoch 177 Finished | Avg Loss: 0.2100 | Validation Acc: 63.58%
+[Epoch 178] Step 0/98 | Loss: 0.2510 | LR: 1.80e-04
+[Epoch 178] Step 50/98 | Loss: 0.2028 | LR: 1.80e-04
+==> Epoch 178 Finished | Avg Loss: 0.2154 | Validation Acc: 63.52%
+[Epoch 179] Step 0/98 | Loss: 0.2236 | LR: 1.78e-04
+[Epoch 179] Step 50/98 | Loss: 0.2396 | LR: 1.78e-04
+==> Epoch 179 Finished | Avg Loss: 0.2074 | Validation Acc: 64.24%
+[Epoch 180] Step 0/98 | Loss: 0.1463 | LR: 1.75e-04
+[Epoch 180] Step 50/98 | Loss: 0.1984 | LR: 1.75e-04
+==> Epoch 180 Finished | Avg Loss: 0.2046 | Validation Acc: 63.32%
+[Epoch 181] Step 0/98 | Loss: 0.1940 | LR: 1.73e-04
+[Epoch 181] Step 50/98 | Loss: 0.2453 | LR: 1.73e-04
+==> Epoch 181 Finished | Avg Loss: 0.1978 | Validation Acc: 63.74%
+[Epoch 182] Step 0/98 | Loss: 0.2689 | LR: 1.70e-04
+[Epoch 182] Step 50/98 | Loss: 0.2037 | LR: 1.70e-04
+==> Epoch 182 Finished | Avg Loss: 0.1982 | Validation Acc: 63.64%
+[Epoch 183] Step 0/98 | Loss: 0.1895 | LR: 1.68e-04
+[Epoch 183] Step 50/98 | Loss: 0.1784 | LR: 1.68e-04
+==> Epoch 183 Finished | Avg Loss: 0.1998 | Validation Acc: 63.51%
+[Epoch 184] Step 0/98 | Loss: 0.1931 | LR: 1.65e-04
+[Epoch 184] Step 50/98 | Loss: 0.1889 | LR: 1.65e-04
+==> Epoch 184 Finished | Avg Loss: 0.1951 | Validation Acc: 63.96%
+[Epoch 185] Step 0/98 | Loss: 0.2323 | LR: 1.63e-04
+[Epoch 185] Step 50/98 | Loss: 0.1616 | LR: 1.63e-04
+==> Epoch 185 Finished | Avg Loss: 0.1993 | Validation Acc: 63.90%
+[Epoch 186] Step 0/98 | Loss: 0.1771 | LR: 1.60e-04
+[Epoch 186] Step 50/98 | Loss: 0.2140 | LR: 1.60e-04
+==> Epoch 186 Finished | Avg Loss: 0.1915 | Validation Acc: 64.05%
+[Epoch 187] Step 0/98 | Loss: 0.1807 | LR: 1.58e-04
+[Epoch 187] Step 50/98 | Loss: 0.2379 | LR: 1.58e-04
+==> Epoch 187 Finished | Avg Loss: 0.1894 | Validation Acc: 63.71%
+[Epoch 188] Step 0/98 | Loss: 0.1725 | LR: 1.56e-04
+[Epoch 188] Step 50/98 | Loss: 0.1932 | LR: 1.56e-04
+==> Epoch 188 Finished | Avg Loss: 0.1811 | Validation Acc: 64.06%
+[Epoch 189] Step 0/98 | Loss: 0.1651 | LR: 1.53e-04
+[Epoch 189] Step 50/98 | Loss: 0.1556 | LR: 1.53e-04
+==> Epoch 189 Finished | Avg Loss: 0.1890 | Validation Acc: 64.03%
+[Epoch 190] Step 0/98 | Loss: 0.1682 | LR: 1.51e-04
+[Epoch 190] Step 50/98 | Loss: 0.1954 | LR: 1.51e-04
+==> Epoch 190 Finished | Avg Loss: 0.1876 | Validation Acc: 63.86%
+[Epoch 191] Step 0/98 | Loss: 0.1405 | LR: 1.48e-04
+[Epoch 191] Step 50/98 | Loss: 0.1654 | LR: 1.48e-04
+==> Epoch 191 Finished | Avg Loss: 0.1793 | Validation Acc: 64.22%
+[Epoch 192] Step 0/98 | Loss: 0.1607 | LR: 1.46e-04
+[Epoch 192] Step 50/98 | Loss: 0.1184 | LR: 1.46e-04
+==> Epoch 192 Finished | Avg Loss: 0.1803 | Validation Acc: 63.89%
+[Epoch 193] Step 0/98 | Loss: 0.1770 | LR: 1.44e-04
+[Epoch 193] Step 50/98 | Loss: 0.1647 | LR: 1.44e-04
+==> Epoch 193 Finished | Avg Loss: 0.1762 | Validation Acc: 63.67%
+[Epoch 194] Step 0/98 | Loss: 0.1646 | LR: 1.41e-04
+[Epoch 194] Step 50/98 | Loss: 0.1987 | LR: 1.41e-04
+==> Epoch 194 Finished | Avg Loss: 0.1737 | Validation Acc: 63.75%
+[Epoch 195] Step 0/98 | Loss: 0.1519 | LR: 1.39e-04
+[Epoch 195] Step 50/98 | Loss: 0.1792 | LR: 1.39e-04
+==> Epoch 195 Finished | Avg Loss: 0.1704 | Validation Acc: 63.68%
+[Epoch 196] Step 0/98 | Loss: 0.1390 | LR: 1.37e-04
+[Epoch 196] Step 50/98 | Loss: 0.1916 | LR: 1.37e-04
+==> Epoch 196 Finished | Avg Loss: 0.1747 | Validation Acc: 63.87%
+[Epoch 197] Step 0/98 | Loss: 0.0883 | LR: 1.34e-04
+[Epoch 197] Step 50/98 | Loss: 0.1741 | LR: 1.34e-04
+==> Epoch 197 Finished | Avg Loss: 0.1723 | Validation Acc: 64.12%
+[Epoch 198] Step 0/98 | Loss: 0.1760 | LR: 1.32e-04
+[Epoch 198] Step 50/98 | Loss: 0.1394 | LR: 1.32e-04
+==> Epoch 198 Finished | Avg Loss: 0.1642 | Validation Acc: 63.81%
+[Epoch 199] Step 0/98 | Loss: 0.1642 | LR: 1.30e-04
+[Epoch 199] Step 50/98 | Loss: 0.1666 | LR: 1.30e-04
+==> Epoch 199 Finished | Avg Loss: 0.1632 | Validation Acc: 64.24%
+[Epoch 200] Step 0/98 | Loss: 0.1388 | LR: 1.27e-04
+[Epoch 200] Step 50/98 | Loss: 0.1098 | LR: 1.27e-04
+==> Epoch 200 Finished | Avg Loss: 0.1616 | Validation Acc: 64.11%
+[Epoch 201] Step 0/98 | Loss: 0.1719 | LR: 1.25e-04
+[Epoch 201] Step 50/98 | Loss: 0.1633 | LR: 1.25e-04
+==> Epoch 201 Finished | Avg Loss: 0.1635 | Validation Acc: 64.40%
+==> 🏆 New Best Model Saved!
+[Epoch 202] Step 0/98 | Loss: 0.1799 | LR: 1.23e-04
+[Epoch 202] Step 50/98 | Loss: 0.1542 | LR: 1.23e-04
+==> Epoch 202 Finished | Avg Loss: 0.1658 | Validation Acc: 64.22%
+[Epoch 203] Step 0/98 | Loss: 0.1688 | LR: 1.20e-04
+[Epoch 203] Step 50/98 | Loss: 0.1242 | LR: 1.20e-04
+==> Epoch 203 Finished | Avg Loss: 0.1564 | Validation Acc: 64.06%
+[Epoch 204] Step 0/98 | Loss: 0.1487 | LR: 1.18e-04
+[Epoch 204] Step 50/98 | Loss: 0.1909 | LR: 1.18e-04
+==> Epoch 204 Finished | Avg Loss: 0.1552 | Validation Acc: 63.87%
+[Epoch 205] Step 0/98 | Loss: 0.1379 | LR: 1.16e-04
+[Epoch 205] Step 50/98 | Loss: 0.1273 | LR: 1.16e-04
+==> Epoch 205 Finished | Avg Loss: 0.1564 | Validation Acc: 63.91%
+[Epoch 206] Step 0/98 | Loss: 0.1772 | LR: 1.14e-04
+[Epoch 206] Step 50/98 | Loss: 0.0961 | LR: 1.14e-04
+==> Epoch 206 Finished | Avg Loss: 0.1526 | Validation Acc: 64.17%
+[Epoch 207] Step 0/98 | Loss: 0.1349 | LR: 1.12e-04
+[Epoch 207] Step 50/98 | Loss: 0.0932 | LR: 1.12e-04
+==> Epoch 207 Finished | Avg Loss: 0.1462 | Validation Acc: 64.55%
+==> 🏆 New Best Model Saved!
+[Epoch 208] Step 0/98 | Loss: 0.1390 | LR: 1.09e-04
+[Epoch 208] Step 50/98 | Loss: 0.1170 | LR: 1.09e-04
+==> Epoch 208 Finished | Avg Loss: 0.1484 | Validation Acc: 64.29%
+[Epoch 209] Step 0/98 | Loss: 0.1794 | LR: 1.07e-04
+[Epoch 209] Step 50/98 | Loss: 0.1572 | LR: 1.07e-04
+==> Epoch 209 Finished | Avg Loss: 0.1440 | Validation Acc: 64.45%
+[Epoch 210] Step 0/98 | Loss: 0.1359 | LR: 1.05e-04
+[Epoch 210] Step 50/98 | Loss: 0.1338 | LR: 1.05e-04
+==> Epoch 210 Finished | Avg Loss: 0.1427 | Validation Acc: 64.04%
+[Epoch 211] Step 0/98 | Loss: 0.1626 | LR: 1.03e-04
+[Epoch 211] Step 50/98 | Loss: 0.2284 | LR: 1.03e-04
+==> Epoch 211 Finished | Avg Loss: 0.1429 | Validation Acc: 64.24%
+[Epoch 212] Step 0/98 | Loss: 0.1501 | LR: 1.01e-04
+[Epoch 212] Step 50/98 | Loss: 0.1316 | LR: 1.01e-04
+==> Epoch 212 Finished | Avg Loss: 0.1398 | Validation Acc: 64.39%
+[Epoch 213] Step 0/98 | Loss: 0.1007 | LR: 9.89e-05
+[Epoch 213] Step 50/98 | Loss: 0.1360 | LR: 9.89e-05
+==> Epoch 213 Finished | Avg Loss: 0.1431 | Validation Acc: 64.33%
+[Epoch 214] Step 0/98 | Loss: 0.1298 | LR: 9.68e-05
+[Epoch 214] Step 50/98 | Loss: 0.1359 | LR: 9.68e-05
+==> Epoch 214 Finished | Avg Loss: 0.1339 | Validation Acc: 64.84%
+==> 🏆 New Best Model Saved!
+[Epoch 215] Step 0/98 | Loss: 0.1180 | LR: 9.47e-05
+[Epoch 215] Step 50/98 | Loss: 0.1076 | LR: 9.47e-05
+==> Epoch 215 Finished | Avg Loss: 0.1388 | Validation Acc: 64.43%
+[Epoch 216] Step 0/98 | Loss: 0.1585 | LR: 9.27e-05
+[Epoch 216] Step 50/98 | Loss: 0.1262 | LR: 9.27e-05
+==> Epoch 216 Finished | Avg Loss: 0.1285 | Validation Acc: 64.38%
+[Epoch 217] Step 0/98 | Loss: 0.1492 | LR: 9.06e-05
+[Epoch 217] Step 50/98 | Loss: 0.0998 | LR: 9.06e-05
+==> Epoch 217 Finished | Avg Loss: 0.1341 | Validation Acc: 64.22%
+[Epoch 218] Step 0/98 | Loss: 0.0860 | LR: 8.86e-05
+[Epoch 218] Step 50/98 | Loss: 0.1451 | LR: 8.86e-05
+==> Epoch 218 Finished | Avg Loss: 0.1342 | Validation Acc: 64.39%
+[Epoch 219] Step 0/98 | Loss: 0.1214 | LR: 8.66e-05
+[Epoch 219] Step 50/98 | Loss: 0.1189 | LR: 8.66e-05
+==> Epoch 219 Finished | Avg Loss: 0.1292 | Validation Acc: 64.33%
+[Epoch 220] Step 0/98 | Loss: 0.1289 | LR: 8.47e-05
+[Epoch 220] Step 50/98 | Loss: 0.1328 | LR: 8.47e-05
+==> Epoch 220 Finished | Avg Loss: 0.1302 | Validation Acc: 64.48%
+[Epoch 221] Step 0/98 | Loss: 0.1012 | LR: 8.27e-05
+[Epoch 221] Step 50/98 | Loss: 0.1021 | LR: 8.27e-05
+==> Epoch 221 Finished | Avg Loss: 0.1305 | Validation Acc: 64.69%
+[Epoch 222] Step 0/98 | Loss: 0.1009 | LR: 8.08e-05
+[Epoch 222] Step 50/98 | Loss: 0.1422 | LR: 8.08e-05
+==> Epoch 222 Finished | Avg Loss: 0.1307 | Validation Acc: 64.80%
+[Epoch 223] Step 0/98 | Loss: 0.1121 | LR: 7.89e-05
+[Epoch 223] Step 50/98 | Loss: 0.1252 | LR: 7.89e-05
+==> Epoch 223 Finished | Avg Loss: 0.1244 | Validation Acc: 64.44%
+[Epoch 224] Step 0/98 | Loss: 0.1400 | LR: 7.70e-05
+[Epoch 224] Step 50/98 | Loss: 0.0897 | LR: 7.70e-05
+==> Epoch 224 Finished | Avg Loss: 0.1225 | Validation Acc: 64.70%
+[Epoch 225] Step 0/98 | Loss: 0.1300 | LR: 7.51e-05
+[Epoch 225] Step 50/98 | Loss: 0.1059 | LR: 7.51e-05
+==> Epoch 225 Finished | Avg Loss: 0.1166 | Validation Acc: 64.81%
+[Epoch 226] Step 0/98 | Loss: 0.1432 | LR: 7.32e-05
+[Epoch 226] Step 50/98 | Loss: 0.0823 | LR: 7.32e-05
+==> Epoch 226 Finished | Avg Loss: 0.1193 | Validation Acc: 64.83%
+[Epoch 227] Step 0/98 | Loss: 0.1133 | LR: 7.14e-05
+[Epoch 227] Step 50/98 | Loss: 0.1109 | LR: 7.14e-05
+==> Epoch 227 Finished | Avg Loss: 0.1232 | Validation Acc: 64.84%
+[Epoch 228] Step 0/98 | Loss: 0.1438 | LR: 6.96e-05
+[Epoch 228] Step 50/98 | Loss: 0.1128 | LR: 6.96e-05
+==> Epoch 228 Finished | Avg Loss: 0.1191 | Validation Acc: 64.87%
+==> 🏆 New Best Model Saved!
+[Epoch 229] Step 0/98 | Loss: 0.1335 | LR: 6.78e-05
+[Epoch 229] Step 50/98 | Loss: 0.1606 | LR: 6.78e-05
+==> Epoch 229 Finished | Avg Loss: 0.1187 | Validation Acc: 64.96%
+==> 🏆 New Best Model Saved!
+[Epoch 230] Step 0/98 | Loss: 0.0741 | LR: 6.60e-05
+[Epoch 230] Step 50/98 | Loss: 0.0950 | LR: 6.60e-05
+==> Epoch 230 Finished | Avg Loss: 0.1149 | Validation Acc: 65.06%
+==> 🏆 New Best Model Saved!
+[Epoch 231] Step 0/98 | Loss: 0.0772 | LR: 6.42e-05
+[Epoch 231] Step 50/98 | Loss: 0.0747 | LR: 6.42e-05
+==> Epoch 231 Finished | Avg Loss: 0.1164 | Validation Acc: 64.85%
+[Epoch 232] Step 0/98 | Loss: 0.1115 | LR: 6.25e-05
+[Epoch 232] Step 50/98 | Loss: 0.1320 | LR: 6.25e-05
+==> Epoch 232 Finished | Avg Loss: 0.1146 | Validation Acc: 64.69%
+[Epoch 233] Step 0/98 | Loss: 0.1039 | LR: 6.08e-05
+[Epoch 233] Step 50/98 | Loss: 0.1169 | LR: 6.08e-05
+==> Epoch 233 Finished | Avg Loss: 0.1150 | Validation Acc: 64.64%
+[Epoch 234] Step 0/98 | Loss: 0.0807 | LR: 5.91e-05
+[Epoch 234] Step 50/98 | Loss: 0.1369 | LR: 5.91e-05
+==> Epoch 234 Finished | Avg Loss: 0.1122 | Validation Acc: 64.80%
+[Epoch 235] Step 0/98 | Loss: 0.1575 | LR: 5.74e-05
+[Epoch 235] Step 50/98 | Loss: 0.1053 | LR: 5.74e-05
+==> Epoch 235 Finished | Avg Loss: 0.1115 | Validation Acc: 65.10%
+==> 🏆 New Best Model Saved!
+[Epoch 236] Step 0/98 | Loss: 0.0894 | LR: 5.57e-05
+[Epoch 236] Step 50/98 | Loss: 0.1648 | LR: 5.57e-05
+==> Epoch 236 Finished | Avg Loss: 0.1152 | Validation Acc: 64.72%
+[Epoch 237] Step 0/98 | Loss: 0.0869 | LR: 5.41e-05
+[Epoch 237] Step 50/98 | Loss: 0.1097 | LR: 5.41e-05
+==> Epoch 237 Finished | Avg Loss: 0.1102 | Validation Acc: 65.08%
+[Epoch 238] Step 0/98 | Loss: 0.1308 | LR: 5.25e-05
+[Epoch 238] Step 50/98 | Loss: 0.1217 | LR: 5.25e-05
+==> Epoch 238 Finished | Avg Loss: 0.1088 | Validation Acc: 64.86%
+[Epoch 239] Step 0/98 | Loss: 0.1082 | LR: 5.09e-05
+[Epoch 239] Step 50/98 | Loss: 0.1162 | LR: 5.09e-05
+==> Epoch 239 Finished | Avg Loss: 0.1086 | Validation Acc: 64.67%
+[Epoch 240] Step 0/98 | Loss: 0.1271 | LR: 4.93e-05
+[Epoch 240] Step 50/98 | Loss: 0.1154 | LR: 4.93e-05
+==> Epoch 240 Finished | Avg Loss: 0.1091 | Validation Acc: 64.79%
+[Epoch 241] Step 0/98 | Loss: 0.0624 | LR: 4.77e-05
+[Epoch 241] Step 50/98 | Loss: 0.1148 | LR: 4.77e-05
+==> Epoch 241 Finished | Avg Loss: 0.1040 | Validation Acc: 64.95%
+[Epoch 242] Step 0/98 | Loss: 0.0890 | LR: 4.62e-05
+[Epoch 242] Step 50/98 | Loss: 0.0921 | LR: 4.62e-05
+==> Epoch 242 Finished | Avg Loss: 0.1094 | Validation Acc: 64.93%
+[Epoch 243] Step 0/98 | Loss: 0.0985 | LR: 4.47e-05
+[Epoch 243] Step 50/98 | Loss: 0.0932 | LR: 4.47e-05
+==> Epoch 243 Finished | Avg Loss: 0.1016 | Validation Acc: 65.17%
+==> 🏆 New Best Model Saved!
+[Epoch 244] Step 0/98 | Loss: 0.0738 | LR: 4.32e-05
+[Epoch 244] Step 50/98 | Loss: 0.1042 | LR: 4.32e-05
+==> Epoch 244 Finished | Avg Loss: 0.1012 | Validation Acc: 64.89%
+[Epoch 245] Step 0/98 | Loss: 0.0768 | LR: 4.18e-05
+[Epoch 245] Step 50/98 | Loss: 0.0933 | LR: 4.18e-05
+==> Epoch 245 Finished | Avg Loss: 0.1048 | Validation Acc: 64.84%
+[Epoch 246] Step 0/98 | Loss: 0.1059 | LR: 4.03e-05
+[Epoch 246] Step 50/98 | Loss: 0.0754 | LR: 4.03e-05
+==> Epoch 246 Finished | Avg Loss: 0.0993 | Validation Acc: 64.95%
+[Epoch 247] Step 0/98 | Loss: 0.1019 | LR: 3.89e-05
+[Epoch 247] Step 50/98 | Loss: 0.0947 | LR: 3.89e-05
+==> Epoch 247 Finished | Avg Loss: 0.0978 | Validation Acc: 65.15%
+[Epoch 248] Step 0/98 | Loss: 0.0793 | LR: 3.75e-05
+[Epoch 248] Step 50/98 | Loss: 0.0636 | LR: 3.75e-05
+==> Epoch 248 Finished | Avg Loss: 0.0996 | Validation Acc: 65.01%
+[Epoch 249] Step 0/98 | Loss: 0.0826 | LR: 3.62e-05
+[Epoch 249] Step 50/98 | Loss: 0.1087 | LR: 3.62e-05
+==> Epoch 249 Finished | Avg Loss: 0.0966 | Validation Acc: 65.18%
+==> 🏆 New Best Model Saved!
+[Epoch 250] Step 0/98 | Loss: 0.1013 | LR: 3.48e-05
+[Epoch 250] Step 50/98 | Loss: 0.0756 | LR: 3.48e-05
+==> Epoch 250 Finished | Avg Loss: 0.0977 | Validation Acc: 65.40%
+==> 🏆 New Best Model Saved!
+[Epoch 251] Step 0/98 | Loss: 0.1372 | LR: 3.35e-05
+[Epoch 251] Step 50/98 | Loss: 0.1039 | LR: 3.35e-05
+==> Epoch 251 Finished | Avg Loss: 0.0974 | Validation Acc: 65.26%
+[Epoch 252] Step 0/98 | Loss: 0.1277 | LR: 3.22e-05
+[Epoch 252] Step 50/98 | Loss: 0.1321 | LR: 3.22e-05
+==> Epoch 252 Finished | Avg Loss: 0.0976 | Validation Acc: 65.44%
+==> 🏆 New Best Model Saved!
+[Epoch 253] Step 0/98 | Loss: 0.1367 | LR: 3.09e-05
+[Epoch 253] Step 50/98 | Loss: 0.1124 | LR: 3.09e-05
+==> Epoch 253 Finished | Avg Loss: 0.0987 | Validation Acc: 65.49%
+==> 🏆 New Best Model Saved!
+[Epoch 254] Step 0/98 | Loss: 0.1170 | LR: 2.97e-05
+[Epoch 254] Step 50/98 | Loss: 0.0800 | LR: 2.97e-05
+==> Epoch 254 Finished | Avg Loss: 0.0969 | Validation Acc: 65.49%
+[Epoch 255] Step 0/98 | Loss: 0.0672 | LR: 2.84e-05
+[Epoch 255] Step 50/98 | Loss: 0.1025 | LR: 2.84e-05
+==> Epoch 255 Finished | Avg Loss: 0.0939 | Validation Acc: 65.18%
+[Epoch 256] Step 0/98 | Loss: 0.1061 | LR: 2.72e-05
+[Epoch 256] Step 50/98 | Loss: 0.1241 | LR: 2.72e-05
+==> Epoch 256 Finished | Avg Loss: 0.0937 | Validation Acc: 65.41%
+[Epoch 257] Step 0/98 | Loss: 0.0705 | LR: 2.61e-05
+[Epoch 257] Step 50/98 | Loss: 0.0954 | LR: 2.61e-05
+==> Epoch 257 Finished | Avg Loss: 0.0918 | Validation Acc: 65.15%
+[Epoch 258] Step 0/98 | Loss: 0.1326 | LR: 2.49e-05
+[Epoch 258] Step 50/98 | Loss: 0.0648 | LR: 2.49e-05
+==> Epoch 258 Finished | Avg Loss: 0.0965 | Validation Acc: 65.28%
+[Epoch 259] Step 0/98 | Loss: 0.0827 | LR: 2.38e-05
+[Epoch 259] Step 50/98 | Loss: 0.0892 | LR: 2.38e-05
+==> Epoch 259 Finished | Avg Loss: 0.0936 | Validation Acc: 65.26%
+[Epoch 260] Step 0/98 | Loss: 0.1208 | LR: 2.27e-05
+[Epoch 260] Step 50/98 | Loss: 0.0948 | LR: 2.27e-05
+==> Epoch 260 Finished | Avg Loss: 0.0917 | Validation Acc: 65.50%
+==> 🏆 New Best Model Saved!
+[Epoch 261] Step 0/98 | Loss: 0.0701 | LR: 2.16e-05
+[Epoch 261] Step 50/98 | Loss: 0.1046 | LR: 2.16e-05
+==> Epoch 261 Finished | Avg Loss: 0.0918 | Validation Acc: 65.39%
+[Epoch 262] Step 0/98 | Loss: 0.1160 | LR: 2.06e-05
+[Epoch 262] Step 50/98 | Loss: 0.0933 | LR: 2.06e-05
+==> Epoch 262 Finished | Avg Loss: 0.0915 | Validation Acc: 65.35%
+[Epoch 263] Step 0/98 | Loss: 0.1055 | LR: 1.95e-05
+[Epoch 263] Step 50/98 | Loss: 0.0908 | LR: 1.95e-05
+==> Epoch 263 Finished | Avg Loss: 0.0891 | Validation Acc: 65.56%
+==> 🏆 New Best Model Saved!
+[Epoch 264] Step 0/98 | Loss: 0.0987 | LR: 1.85e-05
+[Epoch 264] Step 50/98 | Loss: 0.0630 | LR: 1.85e-05
+==> Epoch 264 Finished | Avg Loss: 0.0928 | Validation Acc: 65.38%
+[Epoch 265] Step 0/98 | Loss: 0.0637 | LR: 1.76e-05
+[Epoch 265] Step 50/98 | Loss: 0.0916 | LR: 1.76e-05
+==> Epoch 265 Finished | Avg Loss: 0.0918 | Validation Acc: 65.36%
+[Epoch 266] Step 0/98 | Loss: 0.1091 | LR: 1.66e-05
+[Epoch 266] Step 50/98 | Loss: 0.0954 | LR: 1.66e-05
+==> Epoch 266 Finished | Avg Loss: 0.0909 | Validation Acc: 65.49%
+[Epoch 267] Step 0/98 | Loss: 0.0909 | LR: 1.57e-05
+[Epoch 267] Step 50/98 | Loss: 0.1107 | LR: 1.57e-05
+==> Epoch 267 Finished | Avg Loss: 0.0842 | Validation Acc: 65.45%
+[Epoch 268] Step 0/98 | Loss: 0.0907 | LR: 1.48e-05
+[Epoch 268] Step 50/98 | Loss: 0.0632 | LR: 1.48e-05
+==> Epoch 268 Finished | Avg Loss: 0.0865 | Validation Acc: 65.66%
+==> 🏆 New Best Model Saved!
+[Epoch 269] Step 0/98 | Loss: 0.1174 | LR: 1.39e-05
+[Epoch 269] Step 50/98 | Loss: 0.1157 | LR: 1.39e-05
+==> Epoch 269 Finished | Avg Loss: 0.0883 | Validation Acc: 65.55%
+[Epoch 270] Step 0/98 | Loss: 0.0921 | LR: 1.31e-05
+[Epoch 270] Step 50/98 | Loss: 0.1019 | LR: 1.31e-05
+==> Epoch 270 Finished | Avg Loss: 0.0896 | Validation Acc: 65.72%
+==> 🏆 New Best Model Saved!
+[Epoch 271] Step 0/98 | Loss: 0.1213 | LR: 1.22e-05
+[Epoch 271] Step 50/98 | Loss: 0.0928 | LR: 1.22e-05
+==> Epoch 271 Finished | Avg Loss: 0.0870 | Validation Acc: 65.64%
+[Epoch 272] Step 0/98 | Loss: 0.0582 | LR: 1.14e-05
+[Epoch 272] Step 50/98 | Loss: 0.1244 | LR: 1.14e-05
+==> Epoch 272 Finished | Avg Loss: 0.0814 | Validation Acc: 65.65%
+[Epoch 273] Step 0/98 | Loss: 0.0856 | LR: 1.07e-05
+[Epoch 273] Step 50/98 | Loss: 0.0749 | LR: 1.07e-05
+==> Epoch 273 Finished | Avg Loss: 0.0891 | Validation Acc: 65.69%
+[Epoch 274] Step 0/98 | Loss: 0.1023 | LR: 9.93e-06
+[Epoch 274] Step 50/98 | Loss: 0.0862 | LR: 9.93e-06
+==> Epoch 274 Finished | Avg Loss: 0.0838 | Validation Acc: 65.72%
+[Epoch 275] Step 0/98 | Loss: 0.0774 | LR: 9.21e-06
+[Epoch 275] Step 50/98 | Loss: 0.1097 | LR: 9.21e-06
+==> Epoch 275 Finished | Avg Loss: 0.0864 | Validation Acc: 65.78%
+==> 🏆 New Best Model Saved!
+[Epoch 276] Step 0/98 | Loss: 0.1041 | LR: 8.52e-06
+[Epoch 276] Step 50/98 | Loss: 0.1264 | LR: 8.52e-06
+==> Epoch 276 Finished | Avg Loss: 0.0866 | Validation Acc: 65.75%
+[Epoch 277] Step 0/98 | Loss: 0.0735 | LR: 7.85e-06
+[Epoch 277] Step 50/98 | Loss: 0.0853 | LR: 7.85e-06
+==> Epoch 277 Finished | Avg Loss: 0.0858 | Validation Acc: 65.68%
+[Epoch 278] Step 0/98 | Loss: 0.1294 | LR: 7.22e-06
+[Epoch 278] Step 50/98 | Loss: 0.1395 | LR: 7.22e-06
+==> Epoch 278 Finished | Avg Loss: 0.0861 | Validation Acc: 65.79%
+==> 🏆 New Best Model Saved!
+[Epoch 279] Step 0/98 | Loss: 0.0714 | LR: 6.61e-06
+[Epoch 279] Step 50/98 | Loss: 0.1296 | LR: 6.61e-06
+==> Epoch 279 Finished | Avg Loss: 0.0855 | Validation Acc: 65.68%
+[Epoch 280] Step 0/98 | Loss: 0.1014 | LR: 6.02e-06
+[Epoch 280] Step 50/98 | Loss: 0.0865 | LR: 6.02e-06
+==> Epoch 280 Finished | Avg Loss: 0.0833 | Validation Acc: 65.79%
+[Epoch 281] Step 0/98 | Loss: 0.0808 | LR: 5.46e-06
+[Epoch 281] Step 50/98 | Loss: 0.0942 | LR: 5.46e-06
+==> Epoch 281 Finished | Avg Loss: 0.0854 | Validation Acc: 65.85%
+==> 🏆 New Best Model Saved!
+[Epoch 282] Step 0/98 | Loss: 0.0657 | LR: 4.93e-06
+[Epoch 282] Step 50/98 | Loss: 0.0971 | LR: 4.93e-06
+==> Epoch 282 Finished | Avg Loss: 0.0861 | Validation Acc: 65.86%
+==> 🏆 New Best Model Saved!
+[Epoch 283] Step 0/98 | Loss: 0.0629 | LR: 4.43e-06
+[Epoch 283] Step 50/98 | Loss: 0.1113 | LR: 4.43e-06
+==> Epoch 283 Finished | Avg Loss: 0.0846 | Validation Acc: 65.70%
+[Epoch 284] Step 0/98 | Loss: 0.0803 | LR: 3.95e-06
+[Epoch 284] Step 50/98 | Loss: 0.0705 | LR: 3.95e-06
+==> Epoch 284 Finished | Avg Loss: 0.0843 | Validation Acc: 65.68%
+[Epoch 285] Step 0/98 | Loss: 0.0673 | LR: 3.50e-06
+[Epoch 285] Step 50/98 | Loss: 0.0807 | LR: 3.50e-06
+==> Epoch 285 Finished | Avg Loss: 0.0823 | Validation Acc: 65.86%
+[Epoch 286] Step 0/98 | Loss: 0.0817 | LR: 3.08e-06
+[Epoch 286] Step 50/98 | Loss: 0.0946 | LR: 3.08e-06
+==> Epoch 286 Finished | Avg Loss: 0.0799 | Validation Acc: 65.74%
+[Epoch 287] Step 0/98 | Loss: 0.0412 | LR: 2.68e-06
+[Epoch 287] Step 50/98 | Loss: 0.1504 | LR: 2.68e-06
+==> Epoch 287 Finished | Avg Loss: 0.0821 | Validation Acc: 65.73%
+[Epoch 288] Step 0/98 | Loss: 0.0917 | LR: 2.31e-06
+[Epoch 288] Step 50/98 | Loss: 0.0665 | LR: 2.31e-06
+==> Epoch 288 Finished | Avg Loss: 0.0824 | Validation Acc: 65.74%
+[Epoch 289] Step 0/98 | Loss: 0.0501 | LR: 1.97e-06
+[Epoch 289] Step 50/98 | Loss: 0.0890 | LR: 1.97e-06
+==> Epoch 289 Finished | Avg Loss: 0.0811 | Validation Acc: 65.76%
+[Epoch 290] Step 0/98 | Loss: 0.1045 | LR: 1.66e-06
+[Epoch 290] Step 50/98 | Loss: 0.1026 | LR: 1.66e-06
+==> Epoch 290 Finished | Avg Loss: 0.0842 | Validation Acc: 65.81%
+[Epoch 291] Step 0/98 | Loss: 0.1030 | LR: 1.37e-06
+[Epoch 291] Step 50/98 | Loss: 0.0459 | LR: 1.37e-06
+==> Epoch 291 Finished | Avg Loss: 0.0821 | Validation Acc: 65.85%
+[Epoch 292] Step 0/98 | Loss: 0.0789 | LR: 1.11e-06
+[Epoch 292] Step 50/98 | Loss: 0.0751 | LR: 1.11e-06
+==> Epoch 292 Finished | Avg Loss: 0.0801 | Validation Acc: 65.88%
+==> 🏆 New Best Model Saved!
+
+[Epoch 293] Step 0/98 | Loss: 0.1122 | LR: 8.77e-07
+[Epoch 293] Step 50/98 | Loss: 0.0959 | LR: 8.77e-07
+==> Epoch 293 Finished | Avg Loss: 0.0817 | Validation Acc: 65.86%
+[Epoch 294] Step 0/98 | Loss: 0.0946 | LR: 6.71e-07
+[Epoch 294] Step 50/98 | Loss: 0.0765 | LR: 6.71e-07
+==> Epoch 294 Finished | Avg Loss: 0.0861 | Validation Acc: 65.84%
+[Epoch 295] Step 0/98 | Loss: 0.0515 | LR: 4.93e-07
+[Epoch 295] Step 50/98 | Loss: 0.0745 | LR: 4.93e-07
+==> Epoch 295 Finished | Avg Loss: 0.0802 | Validation Acc: 65.82%
+[Epoch 296] Step 0/98 | Loss: 0.1245 | LR: 3.43e-07
+[Epoch 296] Step 50/98 | Loss: 0.1227 | LR: 3.43e-07
+==> Epoch 296 Finished | Avg Loss: 0.0842 | Validation Acc: 65.85%
+[Epoch 297] Step 0/98 | Loss: 0.0853 | LR: 2.19e-07
+[Epoch 297] Step 50/98 | Loss: 0.0710 | LR: 2.19e-07
+==> Epoch 297 Finished | Avg Loss: 0.0822 | Validation Acc: 65.84%
+[Epoch 298] Step 0/98 | Loss: 0.0676 | LR: 1.23e-07
+[Epoch 298] Step 50/98 | Loss: 0.0765 | LR: 1.23e-07
+==> Epoch 298 Finished | Avg Loss: 0.0805 | Validation Acc: 65.81%
+[Epoch 299] Step 0/98 | Loss: 0.0664 | LR: 5.48e-08
+[Epoch 299] Step 50/98 | Loss: 0.1063 | LR: 5.48e-08
+==> Epoch 299 Finished | Avg Loss: 0.0851 | Validation Acc: 65.81%
+[Epoch 300] Step 0/98 | Loss: 0.0954 | LR: 1.37e-08
+[Epoch 300] Step 50/98 | Loss: 0.0607 | LR: 1.37e-08
+==> Epoch 300 Finished | Avg Loss: 0.0847 | Validation Acc: 65.81%
