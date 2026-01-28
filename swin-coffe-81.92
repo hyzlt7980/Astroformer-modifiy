@@ -1,0 +1,343 @@
+base) root@ubuntu22:~# CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=4 --master_port=29912 train_swin_coffee_84.py
+W0127 23:53:47.043000 5594 site-packages/torch/distributed/run.py:793] 
+W0127 23:53:47.043000 5594 site-packages/torch/distributed/run.py:793] *****************************************
+W0127 23:53:47.043000 5594 site-packages/torch/distributed/run.py:793] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0127 23:53:47.043000 5594 site-packages/torch/distributed/run.py:793] *****************************************
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verifiedFiles already downloaded and verified
+
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+[rank0]:[W127 23:53:53.811731982 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank2]:[W127 23:53:53.811738082 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank1]:[W127 23:53:53.811749390 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank3]:[W127 23:53:53.816071114 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+Ep 001 | Loss: 4.4473 | LR: 0.00010 | Acc: 12.64% | Best: 12.64% | Time: 0.2m
+Ep 002 | Loss: 4.2246 | LR: 0.00015 | Acc: 17.04% | Best: 17.04% | Time: 0.5m
+Ep 003 | Loss: 4.1383 | LR: 0.00020 | Acc: 19.68% | Best: 19.68% | Time: 0.7m
+Ep 004 | Loss: 3.9979 | LR: 0.00025 | Acc: 23.52% | Best: 23.52% | Time: 0.9m
+Ep 005 | Loss: 3.8540 | LR: 0.00030 | Acc: 28.76% | Best: 28.76% | Time: 1.2m
+Ep 006 | Loss: 3.8112 | LR: 0.00035 | Acc: 32.64% | Best: 32.64% | Time: 1.4m
+Ep 007 | Loss: 3.6017 | LR: 0.00040 | Acc: 35.68% | Best: 35.68% | Time: 1.6m
+Ep 008 | Loss: 3.5588 | LR: 0.00045 | Acc: 38.88% | Best: 38.88% | Time: 1.9m
+Ep 009 | Loss: 3.4848 | LR: 0.00050 | Acc: 41.88% | Best: 41.88% | Time: 2.1m
+Ep 010 | Loss: 3.5254 | LR: 0.00055 | Acc: 42.96% | Best: 42.96% | Time: 2.3m
+Ep 011 | Loss: 3.3471 | LR: 0.00060 | Acc: 44.56% | Best: 44.56% | Time: 2.6m
+Ep 012 | Loss: 3.4086 | LR: 0.00065 | Acc: 46.36% | Best: 46.36% | Time: 2.8m
+Ep 013 | Loss: 3.3310 | LR: 0.00070 | Acc: 46.76% | Best: 46.76% | Time: 3.0m
+Ep 014 | Loss: 3.3689 | LR: 0.00075 | Acc: 47.52% | Best: 47.52% | Time: 3.3m
+Ep 015 | Loss: 3.3082 | LR: 0.00080 | Acc: 49.20% | Best: 49.20% | Time: 3.5m
+Ep 016 | Loss: 3.2149 | LR: 0.00085 | Acc: 50.32% | Best: 50.32% | Time: 3.7m
+Ep 017 | Loss: 3.1905 | LR: 0.00090 | Acc: 50.20% | Best: 50.32% | Time: 3.9m
+Ep 018 | Loss: 3.2080 | LR: 0.00095 | Acc: 49.60% | Best: 50.32% | Time: 4.2m
+Ep 019 | Loss: 3.1619 | LR: 0.00100 | Acc: 48.96% | Best: 50.32% | Time: 4.4m
+Ep 020 | Loss: 3.2176 | LR: 0.00100 | Acc: 51.92% | Best: 51.92% | Time: 4.6m
+Ep 021 | Loss: 3.1690 | LR: 0.00100 | Acc: 51.48% | Best: 51.92% | Time: 4.9m
+Ep 022 | Loss: 3.1628 | LR: 0.00100 | Acc: 53.68% | Best: 53.68% | Time: 5.1m
+Ep 023 | Loss: 3.0997 | LR: 0.00100 | Acc: 54.36% | Best: 54.36% | Time: 5.3m
+Ep 024 | Loss: 2.9980 | LR: 0.00100 | Acc: 57.56% | Best: 57.56% | Time: 5.6m
+Ep 025 | Loss: 3.0708 | LR: 0.00100 | Acc: 55.84% | Best: 57.56% | Time: 5.8m
+Ep 026 | Loss: 3.0057 | LR: 0.00100 | Acc: 58.60% | Best: 58.60% | Time: 6.0m
+Ep 027 | Loss: 2.9668 | LR: 0.00100 | Acc: 59.08% | Best: 59.08% | Time: 6.2m
+Ep 028 | Loss: 2.9158 | LR: 0.00100 | Acc: 59.76% | Best: 59.76% | Time: 6.5m
+Ep 029 | Loss: 3.0053 | LR: 0.00100 | Acc: 60.48% | Best: 60.48% | Time: 6.7m
+Ep 030 | Loss: 2.9528 | LR: 0.00100 | Acc: 61.08% | Best: 61.08% | Time: 6.9m
+Ep 031 | Loss: 2.9321 | LR: 0.00100 | Acc: 59.32% | Best: 61.08% | Time: 7.2m
+Ep 032 | Loss: 2.9285 | LR: 0.00100 | Acc: 61.48% | Best: 61.48% | Time: 7.4m
+Ep 033 | Loss: 2.8044 | LR: 0.00099 | Acc: 63.28% | Best: 63.28% | Time: 7.7m
+Ep 034 | Loss: 2.8841 | LR: 0.00099 | Acc: 61.52% | Best: 63.28% | Time: 7.9m
+Ep 035 | Loss: 2.7801 | LR: 0.00099 | Acc: 65.40% | Best: 65.40% | Time: 8.1m
+Ep 036 | Loss: 2.6800 | LR: 0.00099 | Acc: 64.64% | Best: 65.40% | Time: 8.4m
+Ep 037 | Loss: 2.6630 | LR: 0.00099 | Acc: 63.96% | Best: 65.40% | Time: 8.6m
+Ep 038 | Loss: 2.6608 | LR: 0.00099 | Acc: 64.56% | Best: 65.40% | Time: 8.8m
+Ep 039 | Loss: 2.6405 | LR: 0.00099 | Acc: 65.24% | Best: 65.40% | Time: 9.1m
+Ep 040 | Loss: 2.6595 | LR: 0.00099 | Acc: 64.88% | Best: 65.40% | Time: 9.3m
+Ep 041 | Loss: 2.6707 | LR: 0.00099 | Acc: 64.32% | Best: 65.40% | Time: 9.5m
+Ep 042 | Loss: 2.6578 | LR: 0.00098 | Acc: 64.92% | Best: 65.40% | Time: 9.8m
+Ep 043 | Loss: 2.6106 | LR: 0.00098 | Acc: 66.56% | Best: 66.56% | Time: 10.0m
+Ep 044 | Loss: 2.7677 | LR: 0.00098 | Acc: 67.00% | Best: 67.00% | Time: 10.3m
+Ep 045 | Loss: 2.6188 | LR: 0.00098 | Acc: 65.72% | Best: 67.00% | Time: 10.5m
+Ep 046 | Loss: 2.4924 | LR: 0.00098 | Acc: 66.72% | Best: 67.00% | Time: 10.7m
+Ep 047 | Loss: 2.5202 | LR: 0.00098 | Acc: 68.08% | Best: 68.08% | Time: 11.0m
+Ep 048 | Loss: 2.5343 | LR: 0.00098 | Acc: 67.56% | Best: 68.08% | Time: 11.2m
+Ep 049 | Loss: 2.5196 | LR: 0.00097 | Acc: 68.76% | Best: 68.76% | Time: 11.4m
+Ep 050 | Loss: 2.4369 | LR: 0.00097 | Acc: 67.48% | Best: 68.76% | Time: 11.7m
+Ep 051 | Loss: 2.4705 | LR: 0.00097 | Acc: 67.92% | Best: 68.76% | Time: 11.9m
+Ep 052 | Loss: 2.5793 | LR: 0.00097 | Acc: 68.76% | Best: 68.76% | Time: 12.1m
+Ep 053 | Loss: 2.6610 | LR: 0.00097 | Acc: 69.60% | Best: 69.60% | Time: 12.4m
+Ep 054 | Loss: 2.3547 | LR: 0.00096 | Acc: 68.12% | Best: 69.60% | Time: 12.6m
+Ep 055 | Loss: 2.4471 | LR: 0.00096 | Acc: 69.68% | Best: 69.68% | Time: 12.9m
+Ep 056 | Loss: 2.3810 | LR: 0.00096 | Acc: 68.04% | Best: 69.68% | Time: 13.1m
+Ep 057 | Loss: 2.4874 | LR: 0.00096 | Acc: 69.20% | Best: 69.68% | Time: 13.3m
+Ep 058 | Loss: 2.4821 | LR: 0.00096 | Acc: 69.92% | Best: 69.92% | Time: 13.6m
+Ep 059 | Loss: 2.4322 | LR: 0.00095 | Acc: 70.36% | Best: 70.36% | Time: 13.8m
+Ep 060 | Loss: 2.4105 | LR: 0.00095 | Acc: 69.80% | Best: 70.36% | Time: 14.1m
+Ep 061 | Loss: 2.3807 | LR: 0.00095 | Acc: 69.52% | Best: 70.36% | Time: 14.3m
+Ep 062 | Loss: 2.4915 | LR: 0.00095 | Acc: 71.32% | Best: 71.32% | Time: 14.5m
+Ep 063 | Loss: 2.3543 | LR: 0.00094 | Acc: 71.32% | Best: 71.32% | Time: 14.8m
+Ep 064 | Loss: 2.2640 | LR: 0.00094 | Acc: 71.40% | Best: 71.40% | Time: 15.0m
+Ep 065 | Loss: 2.3708 | LR: 0.00094 | Acc: 71.56% | Best: 71.56% | Time: 15.3m
+Ep 066 | Loss: 2.3962 | LR: 0.00093 | Acc: 70.12% | Best: 71.56% | Time: 15.5m
+Ep 067 | Loss: 2.3936 | LR: 0.00093 | Acc: 70.56% | Best: 71.56% | Time: 15.7m
+Ep 068 | Loss: 2.4723 | LR: 0.00093 | Acc: 70.52% | Best: 71.56% | Time: 16.0m
+Ep 069 | Loss: 2.2525 | LR: 0.00093 | Acc: 70.92% | Best: 71.56% | Time: 16.2m
+Ep 070 | Loss: 2.2356 | LR: 0.00092 | Acc: 72.68% | Best: 72.68% | Time: 16.4m
+Ep 071 | Loss: 2.4146 | LR: 0.00092 | Acc: 71.68% | Best: 72.68% | Time: 16.7m
+Ep 072 | Loss: 2.3217 | LR: 0.00092 | Acc: 71.64% | Best: 72.68% | Time: 16.9m
+Ep 073 | Loss: 2.0480 | LR: 0.00091 | Acc: 71.96% | Best: 72.68% | Time: 17.1m
+Ep 074 | Loss: 2.1839 | LR: 0.00091 | Acc: 72.48% | Best: 72.68% | Time: 17.4m
+Ep 075 | Loss: 2.3441 | LR: 0.00091 | Acc: 71.52% | Best: 72.68% | Time: 17.6m
+Ep 076 | Loss: 2.0946 | LR: 0.00090 | Acc: 72.80% | Best: 72.80% | Time: 17.9m
+Ep 077 | Loss: 2.2630 | LR: 0.00090 | Acc: 72.28% | Best: 72.80% | Time: 18.1m
+Ep 078 | Loss: 2.3100 | LR: 0.00090 | Acc: 73.76% | Best: 73.76% | Time: 18.3m
+Ep 079 | Loss: 2.2794 | LR: 0.00089 | Acc: 72.20% | Best: 73.76% | Time: 18.6m
+Ep 080 | Loss: 2.1361 | LR: 0.00089 | Acc: 71.96% | Best: 73.76% | Time: 18.8m
+Ep 081 | Loss: 2.2083 | LR: 0.00089 | Acc: 72.80% | Best: 73.76% | Time: 19.0m
+Ep 082 | Loss: 2.0415 | LR: 0.00088 | Acc: 73.16% | Best: 73.76% | Time: 19.3m
+Ep 083 | Loss: 2.2795 | LR: 0.00088 | Acc: 72.68% | Best: 73.76% | Time: 19.5m
+Ep 084 | Loss: 2.1693 | LR: 0.00088 | Acc: 73.04% | Best: 73.76% | Time: 19.7m
+Ep 085 | Loss: 2.2413 | LR: 0.00087 | Acc: 72.96% | Best: 73.76% | Time: 20.0m
+Ep 086 | Loss: 2.2313 | LR: 0.00087 | Acc: 73.68% | Best: 73.76% | Time: 20.2m
+Ep 087 | Loss: 2.2555 | LR: 0.00087 | Acc: 74.12% | Best: 74.12% | Time: 20.5m
+Ep 088 | Loss: 2.2372 | LR: 0.00086 | Acc: 73.24% | Best: 74.12% | Time: 20.7m
+Ep 089 | Loss: 2.1303 | LR: 0.00086 | Acc: 73.92% | Best: 74.12% | Time: 20.9m
+Ep 090 | Loss: 2.1653 | LR: 0.00085 | Acc: 73.24% | Best: 74.12% | Time: 21.2m
+Ep 091 | Loss: 2.1393 | LR: 0.00085 | Acc: 74.12% | Best: 74.12% | Time: 21.4m
+Ep 092 | Loss: 2.1670 | LR: 0.00085 | Acc: 74.96% | Best: 74.96% | Time: 21.6m
+Ep 093 | Loss: 2.0931 | LR: 0.00084 | Acc: 74.44% | Best: 74.96% | Time: 21.9m
+Ep 094 | Loss: 2.1476 | LR: 0.00084 | Acc: 73.76% | Best: 74.96% | Time: 22.1m
+Ep 095 | Loss: 2.2989 | LR: 0.00083 | Acc: 73.76% | Best: 74.96% | Time: 22.4m
+Ep 096 | Loss: 2.0402 | LR: 0.00083 | Acc: 74.24% | Best: 74.96% | Time: 22.6m
+Ep 097 | Loss: 2.0992 | LR: 0.00082 | Acc: 74.40% | Best: 74.96% | Time: 22.8m
+Ep 098 | Loss: 2.1082 | LR: 0.00082 | Acc: 73.92% | Best: 74.96% | Time: 23.1m
+Ep 099 | Loss: 2.2377 | LR: 0.00082 | Acc: 74.32% | Best: 74.96% | Time: 23.3m
+Ep 100 | Loss: 2.1224 | LR: 0.00081 | Acc: 73.56% | Best: 74.96% | Time: 23.5m
+Ep 101 | Loss: 2.0675 | LR: 0.00081 | Acc: 74.00% | Best: 74.96% | Time: 23.8m
+Ep 102 | Loss: 2.1726 | LR: 0.00080 | Acc: 74.84% | Best: 74.96% | Time: 24.0m
+Ep 103 | Loss: 2.1632 | LR: 0.00080 | Acc: 75.16% | Best: 75.16% | Time: 24.2m
+Ep 104 | Loss: 2.0133 | LR: 0.00079 | Acc: 73.72% | Best: 75.16% | Time: 24.5m
+Ep 105 | Loss: 2.1147 | LR: 0.00079 | Acc: 74.60% | Best: 75.16% | Time: 24.7m
+Ep 106 | Loss: 2.0794 | LR: 0.00078 | Acc: 74.48% | Best: 75.16% | Time: 25.0m
+Ep 107 | Loss: 1.9966 | LR: 0.00078 | Acc: 74.60% | Best: 75.16% | Time: 25.2m
+Ep 108 | Loss: 2.1957 | LR: 0.00078 | Acc: 74.76% | Best: 75.16% | Time: 25.4m
+Ep 109 | Loss: 2.0436 | LR: 0.00077 | Acc: 74.60% | Best: 75.16% | Time: 25.7m
+Ep 110 | Loss: 2.0890 | LR: 0.00077 | Acc: 75.12% | Best: 75.16% | Time: 25.9m
+Ep 111 | Loss: 2.1088 | LR: 0.00076 | Acc: 76.32% | Best: 76.32% | Time: 26.1m
+Ep 112 | Loss: 2.0633 | LR: 0.00076 | Acc: 75.24% | Best: 76.32% | Time: 26.4m
+Ep 113 | Loss: 2.0537 | LR: 0.00075 | Acc: 75.48% | Best: 76.32% | Time: 26.6m
+Ep 114 | Loss: 2.0287 | LR: 0.00075 | Acc: 75.84% | Best: 76.32% | Time: 26.8m
+Ep 115 | Loss: 2.1067 | LR: 0.00074 | Acc: 74.68% | Best: 76.32% | Time: 27.1m
+Ep 116 | Loss: 1.9636 | LR: 0.00074 | Acc: 74.16% | Best: 76.32% | Time: 27.3m
+Ep 117 | Loss: 2.0103 | LR: 0.00073 | Acc: 75.92% | Best: 76.32% | Time: 27.5m
+Ep 118 | Loss: 2.1161 | LR: 0.00073 | Acc: 75.88% | Best: 76.32% | Time: 27.8m
+Ep 119 | Loss: 1.9706 | LR: 0.00072 | Acc: 75.20% | Best: 76.32% | Time: 28.0m
+Ep 120 | Loss: 1.9397 | LR: 0.00072 | Acc: 75.00% | Best: 76.32% | Time: 28.3m
+Ep 121 | Loss: 2.1104 | LR: 0.00071 | Acc: 75.08% | Best: 76.32% | Time: 28.5m
+Ep 122 | Loss: 2.0369 | LR: 0.00071 | Acc: 75.92% | Best: 76.32% | Time: 28.7m
+Ep 123 | Loss: 1.9451 | LR: 0.00070 | Acc: 75.48% | Best: 76.32% | Time: 29.0m
+Ep 124 | Loss: 2.1488 | LR: 0.00070 | Acc: 76.24% | Best: 76.32% | Time: 29.2m
+Ep 125 | Loss: 1.9252 | LR: 0.00069 | Acc: 75.80% | Best: 76.32% | Time: 29.4m
+Ep 126 | Loss: 2.0782 | LR: 0.00069 | Acc: 75.80% | Best: 76.32% | Time: 29.7m
+Ep 127 | Loss: 1.9356 | LR: 0.00068 | Acc: 76.04% | Best: 76.32% | Time: 29.9m
+Ep 128 | Loss: 2.0587 | LR: 0.00068 | Acc: 76.08% | Best: 76.32% | Time: 30.1m
+Ep 129 | Loss: 1.9984 | LR: 0.00067 | Acc: 76.96% | Best: 76.96% | Time: 30.4m
+Ep 130 | Loss: 1.9199 | LR: 0.00067 | Acc: 76.84% | Best: 76.96% | Time: 30.6m
+Ep 131 | Loss: 1.9883 | LR: 0.00066 | Acc: 76.20% | Best: 76.96% | Time: 30.8m
+Ep 132 | Loss: 1.9636 | LR: 0.00065 | Acc: 76.72% | Best: 76.96% | Time: 31.1m
+Ep 133 | Loss: 2.1139 | LR: 0.00065 | Acc: 75.56% | Best: 76.96% | Time: 31.3m
+Ep 134 | Loss: 1.9161 | LR: 0.00064 | Acc: 75.52% | Best: 76.96% | Time: 31.6m
+Ep 135 | Loss: 2.0110 | LR: 0.00064 | Acc: 76.52% | Best: 76.96% | Time: 31.8m
+Ep 136 | Loss: 2.0452 | LR: 0.00063 | Acc: 75.24% | Best: 76.96% | Time: 32.0m
+Ep 137 | Loss: 1.9869 | LR: 0.00063 | Acc: 76.80% | Best: 76.96% | Time: 32.3m
+Ep 138 | Loss: 1.9209 | LR: 0.00062 | Acc: 76.80% | Best: 76.96% | Time: 32.5m
+Ep 139 | Loss: 1.9712 | LR: 0.00062 | Acc: 76.64% | Best: 76.96% | Time: 32.7m
+Ep 140 | Loss: 1.8445 | LR: 0.00061 | Acc: 76.36% | Best: 76.96% | Time: 33.0m
+Ep 141 | Loss: 1.9214 | LR: 0.00061 | Acc: 76.76% | Best: 76.96% | Time: 33.2m
+Ep 142 | Loss: 1.9938 | LR: 0.00060 | Acc: 77.04% | Best: 77.04% | Time: 33.5m
+Ep 143 | Loss: 1.9921 | LR: 0.00059 | Acc: 76.44% | Best: 77.04% | Time: 33.7m
+Ep 144 | Loss: 1.9594 | LR: 0.00059 | Acc: 76.68% | Best: 77.04% | Time: 33.9m
+Ep 145 | Loss: 1.9693 | LR: 0.00058 | Acc: 76.20% | Best: 77.04% | Time: 34.2m
+Ep 146 | Loss: 1.8905 | LR: 0.00058 | Acc: 77.08% | Best: 77.08% | Time: 34.4m
+Ep 147 | Loss: 1.8028 | LR: 0.00057 | Acc: 76.80% | Best: 77.08% | Time: 34.6m
+Ep 148 | Loss: 1.8455 | LR: 0.00057 | Acc: 76.84% | Best: 77.08% | Time: 34.9m
+Ep 149 | Loss: 1.9731 | LR: 0.00056 | Acc: 76.52% | Best: 77.08% | Time: 35.1m
+Ep 150 | Loss: 1.8800 | LR: 0.00056 | Acc: 77.00% | Best: 77.08% | Time: 35.3m
+Ep 151 | Loss: 2.0477 | LR: 0.00055 | Acc: 77.84% | Best: 77.84% | Time: 35.6m
+Ep 152 | Loss: 1.9231 | LR: 0.00054 | Acc: 77.64% | Best: 77.84% | Time: 35.8m
+Ep 153 | Loss: 2.0511 | LR: 0.00054 | Acc: 76.88% | Best: 77.84% | Time: 36.0m
+Ep 154 | Loss: 1.8730 | LR: 0.00053 | Acc: 76.48% | Best: 77.84% | Time: 36.3m
+Ep 155 | Loss: 1.8615 | LR: 0.00053 | Acc: 77.60% | Best: 77.84% | Time: 36.5m
+Ep 156 | Loss: 1.8335 | LR: 0.00052 | Acc: 77.44% | Best: 77.84% | Time: 36.8m
+Ep 157 | Loss: 1.8235 | LR: 0.00052 | Acc: 77.88% | Best: 77.88% | Time: 37.0m
+Ep 158 | Loss: 1.8850 | LR: 0.00051 | Acc: 77.88% | Best: 77.88% | Time: 37.2m
+Ep 159 | Loss: 1.9894 | LR: 0.00051 | Acc: 78.00% | Best: 78.00% | Time: 37.5m
+Ep 160 | Loss: 1.8420 | LR: 0.00050 | Acc: 77.56% | Best: 78.00% | Time: 37.7m
+Ep 161 | Loss: 1.8632 | LR: 0.00049 | Acc: 77.88% | Best: 78.00% | Time: 37.9m
+Ep 162 | Loss: 1.7946 | LR: 0.00049 | Acc: 77.56% | Best: 78.00% | Time: 38.2m
+Ep 163 | Loss: 2.0024 | LR: 0.00048 | Acc: 77.88% | Best: 78.00% | Time: 38.4m
+Ep 164 | Loss: 1.8074 | LR: 0.00048 | Acc: 77.64% | Best: 78.00% | Time: 38.7m
+Ep 165 | Loss: 1.9413 | LR: 0.00047 | Acc: 77.56% | Best: 78.00% | Time: 38.9m
+Ep 166 | Loss: 1.8686 | LR: 0.00047 | Acc: 77.56% | Best: 78.00% | Time: 39.1m
+Ep 167 | Loss: 1.8305 | LR: 0.00046 | Acc: 78.16% | Best: 78.16% | Time: 39.4m
+Ep 168 | Loss: 1.8201 | LR: 0.00046 | Acc: 78.12% | Best: 78.16% | Time: 39.6m
+Ep 169 | Loss: 1.8005 | LR: 0.00045 | Acc: 78.24% | Best: 78.24% | Time: 39.8m
+Ep 170 | Loss: 1.8777 | LR: 0.00044 | Acc: 77.72% | Best: 78.24% | Time: 40.1m
+Ep 171 | Loss: 1.8224 | LR: 0.00044 | Acc: 77.88% | Best: 78.24% | Time: 40.3m
+Ep 172 | Loss: 1.7318 | LR: 0.00043 | Acc: 78.84% | Best: 78.84% | Time: 40.6m
+Ep 173 | Loss: 1.8646 | LR: 0.00043 | Acc: 77.92% | Best: 78.84% | Time: 40.8m
+Ep 174 | Loss: 1.9610 | LR: 0.00042 | Acc: 78.80% | Best: 78.84% | Time: 41.0m
+Ep 175 | Loss: 1.8125 | LR: 0.00042 | Acc: 79.32% | Best: 79.32% | Time: 41.3m
+Ep 176 | Loss: 1.9058 | LR: 0.00041 | Acc: 77.88% | Best: 79.32% | Time: 41.5m
+Ep 177 | Loss: 1.8965 | LR: 0.00041 | Acc: 78.36% | Best: 79.32% | Time: 41.8m
+Ep 178 | Loss: 1.9567 | LR: 0.00040 | Acc: 78.48% | Best: 79.32% | Time: 42.0m
+Ep 179 | Loss: 1.7123 | LR: 0.00039 | Acc: 78.28% | Best: 79.32% | Time: 42.2m
+Ep 180 | Loss: 1.8256 | LR: 0.00039 | Acc: 78.96% | Best: 79.32% | Time: 42.5m
+Ep 181 | Loss: 1.7436 | LR: 0.00038 | Acc: 77.84% | Best: 79.32% | Time: 42.7m
+Ep 182 | Loss: 1.6899 | LR: 0.00038 | Acc: 78.48% | Best: 79.32% | Time: 43.0m
+Ep 183 | Loss: 1.8764 | LR: 0.00037 | Acc: 78.64% | Best: 79.32% | Time: 43.2m
+Ep 184 | Loss: 1.7645 | LR: 0.00037 | Acc: 79.00% | Best: 79.32% | Time: 43.4m
+Ep 185 | Loss: 1.9520 | LR: 0.00036 | Acc: 78.72% | Best: 79.32% | Time: 43.7m
+Ep 186 | Loss: 1.8218 | LR: 0.00036 | Acc: 78.08% | Best: 79.32% | Time: 43.9m
+Ep 187 | Loss: 1.7473 | LR: 0.00035 | Acc: 79.24% | Best: 79.32% | Time: 44.2m
+Ep 188 | Loss: 1.9126 | LR: 0.00035 | Acc: 79.60% | Best: 79.60% | Time: 44.4m
+Ep 189 | Loss: 1.8011 | LR: 0.00034 | Acc: 79.32% | Best: 79.60% | Time: 44.6m
+Ep 190 | Loss: 1.8085 | LR: 0.00033 | Acc: 78.76% | Best: 79.60% | Time: 44.9m
+Ep 191 | Loss: 1.7421 | LR: 0.00033 | Acc: 79.12% | Best: 79.60% | Time: 45.1m
+Ep 192 | Loss: 1.7318 | LR: 0.00032 | Acc: 79.40% | Best: 79.60% | Time: 45.4m
+Ep 193 | Loss: 1.9276 | LR: 0.00032 | Acc: 78.32% | Best: 79.60% | Time: 45.6m
+Ep 194 | Loss: 1.8850 | LR: 0.00031 | Acc: 79.52% | Best: 79.60% | Time: 45.8m
+Ep 195 | Loss: 1.7778 | LR: 0.00031 | Acc: 79.28% | Best: 79.60% | Time: 46.1m
+Ep 196 | Loss: 1.5904 | LR: 0.00030 | Acc: 79.48% | Best: 79.60% | Time: 46.3m
+Ep 197 | Loss: 1.7477 | LR: 0.00030 | Acc: 78.84% | Best: 79.60% | Time: 46.6m
+Ep 198 | Loss: 1.6886 | LR: 0.00029 | Acc: 79.32% | Best: 79.60% | Time: 46.8m
+Ep 199 | Loss: 1.8660 | LR: 0.00029 | Acc: 78.84% | Best: 79.60% | Time: 47.0m
+Ep 200 | Loss: 1.7497 | LR: 0.00028 | Acc: 79.72% | Best: 79.72% | Time: 47.3m
+Ep 201 | Loss: 1.8247 | LR: 0.00028 | Acc: 78.52% | Best: 79.72% | Time: 47.5m
+Ep 202 | Loss: 1.8078 | LR: 0.00027 | Acc: 78.56% | Best: 79.72% | Time: 47.8m
+Ep 203 | Loss: 1.7465 | LR: 0.00027 | Acc: 79.40% | Best: 79.72% | Time: 48.0m
+Ep 204 | Loss: 1.7561 | LR: 0.00026 | Acc: 79.40% | Best: 79.72% | Time: 48.3m
+Ep 205 | Loss: 1.7677 | LR: 0.00026 | Acc: 79.64% | Best: 79.72% | Time: 48.5m
+Ep 206 | Loss: 1.7310 | LR: 0.00025 | Acc: 80.00% | Best: 80.00% | Time: 48.7m
+Ep 207 | Loss: 1.7241 | LR: 0.00025 | Acc: 80.32% | Best: 80.32% | Time: 49.0m
+Ep 208 | Loss: 1.7556 | LR: 0.00024 | Acc: 78.80% | Best: 80.32% | Time: 49.2m
+Ep 209 | Loss: 1.6727 | LR: 0.00024 | Acc: 80.00% | Best: 80.32% | Time: 49.5m
+Ep 210 | Loss: 1.6147 | LR: 0.00023 | Acc: 79.80% | Best: 80.32% | Time: 49.7m
+Ep 211 | Loss: 1.7966 | LR: 0.00023 | Acc: 80.36% | Best: 80.36% | Time: 50.0m
+Ep 212 | Loss: 1.7554 | LR: 0.00022 | Acc: 80.04% | Best: 80.36% | Time: 50.2m
+Ep 213 | Loss: 1.6263 | LR: 0.00022 | Acc: 80.56% | Best: 80.56% | Time: 50.4m
+Ep 214 | Loss: 1.7768 | LR: 0.00022 | Acc: 79.36% | Best: 80.56% | Time: 50.7m
+Ep 215 | Loss: 1.8405 | LR: 0.00021 | Acc: 80.20% | Best: 80.56% | Time: 50.9m
+Ep 216 | Loss: 1.8229 | LR: 0.00021 | Acc: 79.96% | Best: 80.56% | Time: 51.2m
+Ep 217 | Loss: 1.6910 | LR: 0.00020 | Acc: 79.96% | Best: 80.56% | Time: 51.4m
+Ep 218 | Loss: 1.7247 | LR: 0.00020 | Acc: 80.00% | Best: 80.56% | Time: 51.7m
+Ep 219 | Loss: 1.7867 | LR: 0.00019 | Acc: 79.68% | Best: 80.56% | Time: 51.9m
+Ep 220 | Loss: 1.8067 | LR: 0.00019 | Acc: 79.96% | Best: 80.56% | Time: 52.1m
+k3]:[W128 00:57:30.160267170 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+Ep 220 | Loss: 1.7475 | LR: 0.00019 | Acc: 79.80% | Best: 80.56% | Time: 0.3m
+Ep 221 | Loss: 1.8081 | LR: 0.00018 | Acc: 79.52% | Best: 80.56% | Time: 0.6m
+Ep 222 | Loss: 1.7189 | LR: 0.00018 | Acc: 80.72% | Best: 80.72% | Time: 0.8m
+Ep 223 | Loss: 1.7987 | LR: 0.00018 | Acc: 80.24% | Best: 80.72% | Time: 1.1m
+Ep 224 | Loss: 1.7383 | LR: 0.00017 | Acc: 79.96% | Best: 80.72% | Time: 1.3m
+Ep 225 | Loss: 1.8709 | LR: 0.00017 | Acc: 79.80% | Best: 80.72% | Time: 1.5m
+Ep 226 | Loss: 1.6758 | LR: 0.00016 | Acc: 80.32% | Best: 80.72% | Time: 1.8m
+Ep 227 | Loss: 1.7102 | LR: 0.00016 | Acc: 80.68% | Best: 80.72% | Time: 2.0m
+Ep 228 | Loss: 1.6277 | LR: 0.00015 | Acc: 80.48% | Best: 80.72% | Time: 2.3m
+Ep 229 | Loss: 1.7749 | LR: 0.00015 | Acc: 80.28% | Best: 80.72% | Time: 2.5m
+Ep 230 | Loss: 1.6793 | LR: 0.00015 | Acc: 80.00% | Best: 80.72% | Time: 2.8m
+Ep 231 | Loss: 1.6818 | LR: 0.00014 | Acc: 80.76% | Best: 80.76% | Time: 3.0m
+Ep 232 | Loss: 1.6805 | LR: 0.00014 | Acc: 80.44% | Best: 80.76% | Time: 3.3m
+Ep 233 | Loss: 1.8222 | LR: 0.00013 | Acc: 80.08% | Best: 80.76% | Time: 3.5m
+Ep 234 | Loss: 1.6431 | LR: 0.00013 | Acc: 80.72% | Best: 80.76% | Time: 3.8m
+Ep 235 | Loss: 1.5769 | LR: 0.00013 | Acc: 81.40% | Best: 81.40% | Time: 4.0m
+Ep 236 | Loss: 1.6336 | LR: 0.00012 | Acc: 81.16% | Best: 81.40% | Time: 4.3m
+Ep 237 | Loss: 1.7476 | LR: 0.00012 | Acc: 80.92% | Best: 81.40% | Time: 4.5m
+Ep 238 | Loss: 1.5943 | LR: 0.00012 | Acc: 80.48% | Best: 81.40% | Time: 4.8m
+Ep 239 | Loss: 1.6632 | LR: 0.00011 | Acc: 81.20% | Best: 81.40% | Time: 5.0m
+Ep 240 | Loss: 1.7414 | LR: 0.00011 | Acc: 81.48% | Best: 81.48% | Time: 5.3m
+Ep 241 | Loss: 1.6782 | LR: 0.00011 | Acc: 81.00% | Best: 81.48% | Time: 5.5m
+Ep 242 | Loss: 1.6013 | LR: 0.00010 | Acc: 81.36% | Best: 81.48% | Time: 5.7m
+Ep 243 | Loss: 1.6957 | LR: 0.00010 | Acc: 81.44% | Best: 81.48% | Time: 6.0m
+Ep 244 | Loss: 1.7370 | LR: 0.00010 | Acc: 81.36% | Best: 81.48% | Time: 6.2m
+Ep 245 | Loss: 1.6898 | LR: 0.00009 | Acc: 81.12% | Best: 81.48% | Time: 6.5m
+Ep 246 | Loss: 1.7596 | LR: 0.00009 | Acc: 81.52% | Best: 81.52% | Time: 6.7m
+Ep 247 | Loss: 1.6755 | LR: 0.00009 | Acc: 81.48% | Best: 81.52% | Time: 7.0m
+Ep 248 | Loss: 1.6495 | LR: 0.00008 | Acc: 81.64% | Best: 81.64% | Time: 7.2m
+Ep 249 | Loss: 1.6333 | LR: 0.00008 | Acc: 80.40% | Best: 81.64% | Time: 7.5m
+Ep 250 | Loss: 1.6928 | LR: 0.00008 | Acc: 80.76% | Best: 81.64% | Time: 7.7m
+Ep 251 | Loss: 1.7056 | LR: 0.00007 | Acc: 80.56% | Best: 81.64% | Time: 8.0m
+Ep 252 | Loss: 1.6586 | LR: 0.00007 | Acc: 81.04% | Best: 81.64% | Time: 8.2m
+Ep 253 | Loss: 1.7092 | LR: 0.00007 | Acc: 81.24% | Best: 81.64% | Time: 8.5m
+Ep 254 | Loss: 1.6785 | LR: 0.00007 | Acc: 81.36% | Best: 81.64% | Time: 8.7m
+Ep 255 | Loss: 1.6026 | LR: 0.00006 | Acc: 81.40% | Best: 81.64% | Time: 9.0m
+Ep 256 | Loss: 1.5998 | LR: 0.00006 | Acc: 81.00% | Best: 81.64% | Time: 9.2m
+Ep 257 | Loss: 1.6131 | LR: 0.00006 | Acc: 81.36% | Best: 81.64% | Time: 9.5m
+Ep 258 | Loss: 1.6622 | LR: 0.00005 | Acc: 80.24% | Best: 81.64% | Time: 9.7m
+Ep 259 | Loss: 1.6681 | LR: 0.00005 | Acc: 81.00% | Best: 81.64% | Time: 9.9m
+Ep 260 | Loss: 1.6719 | LR: 0.00005 | Acc: 81.08% | Best: 81.64% | Time: 10.2m
+Ep 261 | Loss: 1.6425 | LR: 0.00005 | Acc: 81.44% | Best: 81.64% | Time: 10.4m
+Ep 262 | Loss: 1.7117 | LR: 0.00004 | Acc: 81.36% | Best: 81.64% | Time: 10.7m
+Ep 263 | Loss: 1.7160 | LR: 0.00004 | Acc: 81.12% | Best: 81.64% | Time: 10.9m
+Ep 264 | Loss: 1.5657 | LR: 0.00004 | Acc: 80.64% | Best: 81.64% | Time: 11.2m
+Ep 265 | Loss: 1.6396 | LR: 0.00004 | Acc: 81.12% | Best: 81.64% | Time: 11.4m
+Ep 266 | Loss: 1.5766 | LR: 0.00004 | Acc: 81.32% | Best: 81.64% | Time: 11.7m
+Ep 267 | Loss: 1.6581 | LR: 0.00003 | Acc: 81.24% | Best: 81.64% | Time: 11.9m
+Ep 268 | Loss: 1.5791 | LR: 0.00003 | Acc: 81.08% | Best: 81.64% | Time: 12.2m
+Ep 269 | Loss: 1.6289 | LR: 0.00003 | Acc: 81.68% | Best: 81.68% | Time: 12.4m
+Ep 270 | Loss: 1.6465 | LR: 0.00003 | Acc: 81.16% | Best: 81.68% | Time: 12.7m
+Ep 271 | Loss: 1.6348 | LR: 0.00003 | Acc: 80.96% | Best: 81.68% | Time: 12.9m
+Ep 272 | Loss: 1.6878 | LR: 0.00002 | Acc: 81.24% | Best: 81.68% | Time: 13.2m
+Ep 273 | Loss: 1.6128 | LR: 0.00002 | Acc: 81.32% | Best: 81.68% | Time: 13.4m
+Ep 274 | Loss: 1.5980 | LR: 0.00002 | Acc: 81.60% | Best: 81.68% | Time: 13.7m
+Ep 275 | Loss: 1.6432 | LR: 0.00002 | Acc: 81.24% | Best: 81.68% | Time: 13.9m
+Ep 276 | Loss: 1.7061 | LR: 0.00002 | Acc: 81.12% | Best: 81.68% | Time: 14.1m
+Ep 277 | Loss: 1.6710 | LR: 0.00002 | Acc: 81.24% | Best: 81.68% | Time: 14.4m
+Ep 278 | Loss: 1.6383 | LR: 0.00002 | Acc: 81.36% | Best: 81.68% | Time: 14.6m
+Ep 279 | Loss: 1.6801 | LR: 0.00001 | Acc: 81.16% | Best: 81.68% | Time: 14.9m
+Ep 280 | Loss: 1.6139 | LR: 0.00001 | Acc: 81.48% | Best: 81.68% | Time: 15.1m
+Ep 281 | Loss: 1.6537 | LR: 0.00001 | Acc: 80.84% | Best: 81.68% | Time: 15.4m
+Ep 282 | Loss: 1.4973 | LR: 0.00001 | Acc: 81.84% | Best: 81.84% | Time: 15.6m
+Ep 283 | Loss: 1.6537 | LR: 0.00001 | Acc: 81.56% | Best: 81.84% | Time: 15.9m
+Ep 284 | Loss: 1.6670 | LR: 0.00001 | Acc: 81.24% | Best: 81.84% | Time: 16.1m
+Ep 285 | Loss: 1.6790 | LR: 0.00001 | Acc: 81.44% | Best: 81.84% | Time: 16.4m
+Ep 286 | Loss: 1.7263 | LR: 0.00001 | Acc: 81.08% | Best: 81.84% | Time: 16.6m
+Ep 287 | Loss: 1.5658 | LR: 0.00001 | Acc: 81.12% | Best: 81.84% | Time: 16.9m
+Ep 288 | Loss: 1.7073 | LR: 0.00000 | Acc: 81.28% | Best: 81.84% | Time: 17.1m
+Ep 289 | Loss: 1.5724 | LR: 0.00000 | Acc: 81.24% | Best: 81.84% | Time: 17.4m
+Ep 290 | Loss: 1.6657 | LR: 0.00000 | Acc: 81.28% | Best: 81.84% | Time: 17.6m
+Ep 291 | Loss: 1.6534 | LR: 0.00000 | Acc: 81.40% | Best: 81.84% | Time: 17.9m
+Ep 292 | Loss: 1.5618 | LR: 0.00000 | Acc: 81.72% | Best: 81.84% | Time: 18.1m
+Ep 293 | Loss: 1.5891 | LR: 0.00000 | Acc: 81.52% | Best: 81.84% | Time: 18.3m
+Ep 294 | Loss: 1.6108 | LR: 0.00000 | Acc: 81.72% | Best: 81.84% | Time: 18.6m
+Ep 295 | Loss: 1.6702 | LR: 0.00000 | Acc: 81.00% | Best: 81.84% | Time: 18.8m
+Ep 296 | Loss: 1.6609 | LR: 0.00000 | Acc: 81.44% | Best: 81.84% | Time: 19.1m
+Ep 297 | Loss: 1.6553 | LR: 0.00000 | Acc: 81.48% | Best: 81.84% | Time: 19.3m
+Ep 298 | Loss: 1.5983 | LR: 0.00000 | Acc: 81.52% | Best: 81.84% | Time: 19.6m
+Ep 299 | Loss: 1.6264 | LR: 0.00000 | Acc: 81.48% | Best: 81.84% | Time: 19.8m
+Ep 300 | Loss: 1.5977 | LR: 0.00000 | Acc: 81.56% | Best: 81.84% | Time: 20.1m
+
+
+
+
+
+
+
+rank1]:[W128 01:32:19.762582721 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank2]:[W128 01:32:19.804159142 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank3]:[W128 01:32:19.806329804 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+[rank0]:[W128 01:32:19.839278891 reducer.cpp:1400] Warning: find_unused_parameters=True was specified in DDP constructor, but did not find any unused parameters in the forward pass. This flag results in an extra traversal of the autograd graph every iteration,  which can adversely affect performance. If your model indeed never has any unused parameters in the forward pass, consider turning this flag off. Note that this warning may be a false positive if your model has flow control causing later iterations to have unused parameters. (function operator())
+SAM-Mixup Ep 01/20 | Loss: 0.9746 | LR: 0.0000497 | Acc: 81.76% | Best: 81.76% | Time: 0.7m
+SAM-Mixup Ep 02/20 | Loss: 1.0308 | LR: 0.0000488 | Acc: 81.24% | Best: 81.76% | Time: 1.5m
+SAM-Mixup Ep 03/20 | Loss: 0.9590 | LR: 0.0000473 | Acc: 81.64% | Best: 81.76% | Time: 2.2m
+SAM-Mixup Ep 04/20 | Loss: 1.0497 | LR: 0.0000453 | Acc: 81.12% | Best: 81.76% | Time: 2.9m
+SAM-Mixup Ep 05/20 | Loss: 0.8495 | LR: 0.0000428 | Acc: 81.52% | Best: 81.76% | Time: 3.6m
+SAM-Mixup Ep 06/20 | Loss: 1.0750 | LR: 0.0000399 | Acc: 81.36% | Best: 81.76% | Time: 4.3m
+SAM-Mixup Ep 07/20 | Loss: 0.9906 | LR: 0.0000366 | Acc: 81.76% | Best: 81.76% | Time: 5.1m
+SAM-Mixup Ep 08/20 | Loss: 1.0709 | LR: 0.0000331 | Acc: 81.40% | Best: 81.76% | Time: 5.8m
+SAM-Mixup Ep 09/20 | Loss: 1.0636 | LR: 0.0000293 | Acc: 81.36% | Best: 81.76% | Time: 6.5m
+SAM-Mixup Ep 10/20 | Loss: 1.0022 | LR: 0.0000255 | Acc: 81.92% | Best: 81.92% | Time: 7.2m
+SAM-Mixup Ep 11/20 | Loss: 0.9971 | LR: 0.0000217 | Acc: 81.20% | Best: 81.92% | Time: 7.9m
+SAM-Mixup Ep 12/20 | Loss: 1.1215 | LR: 0.0000179 | Acc: 81.28% | Best: 81.92% | Time: 8.6m
+
