@@ -1,0 +1,275 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.data import DataLoader, DistributedSampler
+from torchvision import datasets, transforms
+import timm
+from timm.data import create_transform
+from timm.data.mixup import Mixup
+from timm.loss import SoftTargetCrossEntropy
+from timm.scheduler import create_scheduler
+import argparse
+import time
+import os
+import logging
+import sys
+
+# ==========================================
+# 0. 日志工具 setup_logger
+# ==========================================
+def setup_logger(save_dir, rank):
+    """
+    配置 Logger：同时输出到文件和控制台
+    仅在 rank=0 时返回 logger 对象，其他 rank 返回 None (不输出)
+    """
+    if rank != 0:
+        return None
+    
+    logger = logging.getLogger("swin_cifar100")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False # 防止重复打印
+
+    # 格式
+    formatter = logging.Formatter(
+        '[%(asctime)s] %(message)s', 
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+
+    # 1. 文件输出 (File Handler)
+    log_file = os.path.join(save_dir, 'training_log.txt')
+    file_handler = logging.FileHandler(log_file, mode='a') # 'a' for append
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+    # 2. 控制台输出 (Stream Handler)
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+
+    return logger
+
+# ==========================================
+# 1. DDP 环境设置
+# ==========================================
+def setup_distributed():
+    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
+        rank = int(os.environ["RANK"])
+        world_size = int(os.environ["WORLD_SIZE"])
+        local_rank = int(os.environ["LOCAL_RANK"])
+        
+        torch.cuda.set_device(local_rank)
+        dist.init_process_group(backend='nccl', init_method='env://', world_size=world_size, rank=rank)
+        dist.barrier()
+        return rank, local_rank, world_size
+    else:
+        print("Not using distributed mode")
+        return 0, 0, 1
+
+def cleanup():
+    if dist.is_initialized():
+        dist.destroy_process_group()
+
+# ==========================================
+# 2. 配置类
+# ==========================================
+class Config:
+    # 架构
+    model_name = 'swin_tiny_patch4_window7_224'
+    img_size = 64            # 上采样至 64
+    window_size = 4          # 适配 64 的窗口大小
+    patch_size = 4
+    num_classes = 100
+    
+    # 训练
+    epochs = 300
+    batch_size_per_gpu = 256  # Total Batch = 256 * 6 = 1536
+    num_workers = 8
+    
+    # 优化器
+    base_lr = 5e-4            # 基础 LR
+    min_lr = 5e-6
+    weight_decay = 0.05
+    warmup_epochs = 20
+    
+    # 增强
+    mixup = 0.8
+    cutmix = 1.0
+    mixup_prob = 1.0
+    label_smoothing = 0.1
+    drop_path = 0.2
+    
+    save_dir = './checkpoints_swin64_ddp'
+
+cfg = Config()
+
+def main():
+    # --- Step 1: Init DDP ---
+    global_rank, local_rank, world_size = setup_distributed()
+    device = torch.device("cuda", local_rank)
+
+    # --- Step 2: Init Logger (Only Rank 0) ---
+    if global_rank == 0:
+        os.makedirs(cfg.save_dir, exist_ok=True)
+    
+    # 确保文件夹创建后再初始化 logger
+    if dist.is_initialized():
+        dist.barrier()
+        
+    logger = setup_logger(cfg.save_dir, global_rank)
+
+    if global_rank == 0:
+        logger.info(f"🚀 Start DDP Training on {world_size} GPUs")
+        logger.info(f"Model: {cfg.model_name} | Img: {cfg.img_size} | Window: {cfg.window_size}")
+        logger.info(f"Save Directory: {cfg.save_dir}")
+
+    # --- Step 3: Compute LR ---
+    total_batch_size = cfg.batch_size_per_gpu * world_size
+    actual_lr = cfg.base_lr * (total_batch_size / 512.0)
+    
+    if global_rank == 0:
+        logger.info(f"Total Batch Size: {total_batch_size}")
+        logger.info(f"Scaled Learning Rate: {actual_lr:.6f}")
+
+    # --- Step 4: Data Pipeline ---
+    train_transform = create_transform(
+        input_size=cfg.img_size,
+        is_training=True,
+        color_jitter=0.4,
+        auto_augment='rand-m9-mstd0.5-inc1',
+        interpolation='bicubic',
+        re_prob=0.25, re_mode='pixel', re_count=1,
+        mean=(0.5071, 0.4867, 0.4408), std=(0.2675, 0.2565, 0.2761)
+    )
+
+    val_transform = transforms.Compose([
+        transforms.Resize((cfg.img_size, cfg.img_size), interpolation=transforms.InterpolationMode.BICUBIC),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))
+    ])
+
+    # 建议提前下载好数据，防止多进程下载冲突
+    train_dataset = datasets.CIFAR100(root='./data', train=True, download=False, transform=train_transform)
+    val_dataset = datasets.CIFAR100(root='./data', train=False, download=False, transform=val_transform)
+
+    train_sampler = DistributedSampler(train_dataset, num_replicas=world_size, rank=global_rank, shuffle=True)
+    val_sampler = DistributedSampler(val_dataset, num_replicas=world_size, rank=global_rank, shuffle=False)
+
+    train_loader = DataLoader(
+        train_dataset, batch_size=cfg.batch_size_per_gpu, 
+        shuffle=False, sampler=train_sampler,
+        num_workers=cfg.num_workers, pin_memory=True, drop_last=True
+    )
+    val_loader = DataLoader(
+        val_dataset, batch_size=cfg.batch_size_per_gpu, 
+        sampler=val_sampler,
+        num_workers=cfg.num_workers, pin_memory=True
+    )
+
+    mixup_fn = Mixup(
+        mixup_alpha=cfg.mixup, cutmix_alpha=cfg.cutmix, 
+        prob=cfg.mixup_prob, switch_prob=0.5, mode='batch',
+        label_smoothing=cfg.label_smoothing, num_classes=cfg.num_classes
+    )
+
+    # --- Step 5: Model & DDP ---
+    model = timm.create_model(
+        cfg.model_name,
+        pretrained=False,
+        num_classes=cfg.num_classes,
+        drop_path_rate=cfg.drop_path,
+        img_size=cfg.img_size,
+        window_size=cfg.window_size
+    )
+    model.to(device)
+    model = DDP(model, device_ids=[local_rank], output_device=local_rank)
+
+    # --- Step 6: Optim & Loss ---
+    criterion_train = SoftTargetCrossEntropy()
+    optimizer = optim.AdamW(model.parameters(), lr=actual_lr, weight_decay=cfg.weight_decay)
+
+    scheduler_args = argparse.Namespace(
+        sched='cosine', epochs=cfg.epochs, min_lr=cfg.min_lr, 
+        warmup_epochs=cfg.warmup_epochs, warmup_lr=cfg.min_lr,
+        cooldown_epochs=10, decay_rate=0.1
+    )
+    scheduler, _ = create_scheduler(scheduler_args, optimizer)
+
+    # --- Step 7: Training Loop ---
+    best_acc = 0.0
+    start_time_global = time.time()
+
+    for epoch in range(cfg.epochs):
+        train_sampler.set_epoch(epoch)
+        model.train()
+        optimizer.zero_grad()
+        local_loss = 0.0
+        
+        # Training
+        for inputs, targets in train_loader:
+            inputs, targets = inputs.to(device, non_blocking=True), targets.to(device, non_blocking=True)
+            
+            if mixup_fn is not None:
+                inputs, targets = mixup_fn(inputs, targets)
+            
+            outputs = model(inputs)
+            loss = criterion_train(outputs, targets)
+            
+            loss.backward()
+            nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
+            optimizer.step()
+            optimizer.zero_grad()
+            
+            local_loss += loss.item()
+        
+        scheduler.step(epoch + 1)
+
+        # Validation
+        model.eval()
+        correct_tensor = torch.tensor(0.0).to(device)
+        total_tensor = torch.tensor(0.0).to(device)
+        
+        with torch.no_grad():
+            for inputs, targets in val_loader:
+                inputs, targets = inputs.to(device, non_blocking=True), targets.to(device, non_blocking=True)
+                outputs = model(inputs)
+                _, predicted = outputs.max(1)
+                total_tensor += targets.size(0)
+                correct_tensor += predicted.eq(targets).sum().item()
+        
+        # DDP Reduce Stats
+        dist.all_reduce(correct_tensor, op=dist.ReduceOp.SUM)
+        dist.all_reduce(total_tensor, op=dist.ReduceOp.SUM)
+        
+        acc = 100. * correct_tensor.item() / total_tensor.item()
+        
+        # --- Logging (Rank 0 Only) ---
+        if global_rank == 0:
+            avg_loss = local_loss / len(train_loader) # 只记录 Rank 0 的 loss 作为参考
+            current_lr = optimizer.param_groups[0]['lr']
+            
+            save_msg = ""
+            if acc > best_acc:
+                best_acc = acc
+                torch.save(model.module.state_dict(), os.path.join(cfg.save_dir, 'best_model.pth'))
+                save_msg = "⭐ [Saved Best]"
+            
+            logger.info(
+                f"Epoch [{epoch+1:03d}/{cfg.epochs}] "
+                f"Loss: {avg_loss:.4f} | "
+                f"Acc: {acc:.2f}% (Best: {best_acc:.2f}%) | "
+                f"LR: {current_lr:.6f}{save_msg}"
+            )
+
+    # Finish
+    if global_rank == 0:
+        total_time = time.time() - start_time_global
+        logger.info(f"✅ Training Finished in {total_time/3600:.2f} hours.")
+        logger.info(f"Final Best Accuracy: {best_acc:.2f}%")
+        logger.info(f"Model saved to {cfg.save_dir}")
+
+    cleanup()
+
+if __name__ == '__main__':
+    main()
