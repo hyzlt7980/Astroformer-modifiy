@@ -1,5 +1,5 @@
 # Swin-transformer-coffee: 16.04 improvement on swin-transformer on cifar-100,  
-# swin-咖啡, 基于特征去噪的高效视觉Transformer
+# swin-coffee, 基于特征去噪的高效视觉Transformer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org)
@@ -16,7 +16,7 @@
 | Swin-Tiny (Baseline) | [2, 2, 6, 2] | ~28.3M | 从零训练 | 65.88% |
 | **Swin-Coffee (Ours)** | **[2, 2, 6, 1]** | **~26.8M** | **从零训练** | **76.64%/81.92%/82.24%** 🚀 |
 
-> **核心价值：** 在参数量减少约 **1.5M** 的情况下，Swin-Coffee 实现了 **16.04/16.32%** 的精度提升。这证明了该架构在处理小图特征提取时具有极高的效率。
+> **核心价值：** 在参数量减少约 **1.5M** 的情况下，Swin-Coffee 实现了 **10.76%/16.04%/16.32%** 的精度提升。这证明了该架构在处理小图特征提取时具有极高的效率。
 
 ## 💡 架构创新
 Swin-Coffee 通过在标准层次化 Transformer 中嵌入注意力修正和特征扰动机制，构建了更为鲁棒的特征表示。
