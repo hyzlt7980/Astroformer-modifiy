@@ -1,78 +1,81 @@
-# ☕ Swin-Coffee: SOTA-Level Efficiency with Feature Denoising
+# ☕ Swin-Coffee: 面向 CIFAR-100 的 SOTA 级高效特征去噪 Transformer
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-orange.svg)](https://pytorch.org)
 [![Dataset: CIFAR-100](https://img.shields.io/badge/Dataset-CIFAR--100-blue.svg)]()
 [![Efficiency: SOTA](https://img.shields.io/badge/Efficiency-30s%2Fepoch-green)]()
 
-**Swin-transformer-coffee** (Swin-Coffee) is a highly optimized Vision Transformer architecture tailored for small-scale datasets like **CIFAR-100**. Addressing the challenge that Transformers struggle to converge from scratch on small data, we introduce **Convolutional Inductive Bias** and **Self-Supervised Feature Denoising**.
+**Swin-transformer-coffee** (Swin-Coffee) 是一款专为小规模数据集（如 CIFAR-100）量身定制的高效视觉 Transformer 架构。针对 Transformer 在小数据上难以从零收敛的痛点，我们引入了 **卷积归纳偏置（Convolutional Inductive Bias）** 和 **自监督特征去噪（Self-Supervised Denoising）** 机制。
 
-Achieving **82.36% Top-1 Accuracy** on CIFAR-100 **from scratch** (no pre-training), Swin-Coffee outperforms traditional CNN baselines while maintaining SOTA-level training efficiency (**30s/epoch** on 4x V100).
-
----
-
-## 🏆 Core Competitiveness: "David vs. Goliath"
-
-Swin-Coffee redefines the **Accuracy-Efficiency Trade-off**. By upsampling inputs to **64x64** and using a stride-2 Stem, we process features at a high-quality 32x32 resolution with extremely low computational cost.
-
-### 1. Benchmark: Swin-Coffee vs. SOTA CNNs (CIFAR-100)
-> **Setting:** All models trained **from scratch** (No ImageNet Pre-training).
-
-| Model | Params | Training Speed (4xV100) | Top-1 Acc | Analysis |
-| :--- | :---: | :---: | :---: | :--- |
-| **ResNet-50** | 25.6M | ~45s / epoch | ~79.0% | Lacks receptive field for small objects. |
-| **WideResNet-28-10** | 36.5M | ~60s / epoch | 81.50% | **Heavier.** 10x more FLOPs than ours. |
-| **PyramidNet-272** | 26.0M | ~150s / epoch | **83.40%** | **Too Slow.** 272 layers make it impractical for edge deployment. |
-| **Swin-Coffee (Ours)** | **26.8M** | **30s / epoch** 🚀 | **82.36%** | **The Efficiency King.** Beats WRN accuracy with 2x speed. |
-
-### 2. Internal Improvement: +16.48% Gain
-Compared to the standard Swin-Tiny baseline, our architectural innovations yield massive gains without external data.
-
-| Model | Resolution | Epochs | Method | Top-1 Acc |
-| :--- | :---: | :---: | :--- | :---: |
-| Swin-Tiny (Baseline) | 224x224 | 300 | Standard | 65.88% |
-| **Swin-Coffee** | **64x64** | **300-400** | **Scratch + Denoise** | **82.36%** (+16.48%) |
+在 **无预训练（From Scratch）**、**仅 300-400 Epoch** 的标准训练周期下，Swin-Coffee 以惊人的训练速度（4卡 V100 仅需 30s/epoch）达到了 **82.36%** 的 Top-1 准确率，重新定义了轻量级模型在 CIFAR-100 上的效率基准。
 
 ---
 
-## 💡 Key Architectural Innovations
+## 🏆 核心竞争力：揭开“高分”的真相
 
-Swin-Coffee is not just a stack of layers; it's a "Denoising & Robustness" pipeline.
+在 CIFAR-100 榜单上，许多准确率超过 82% 的模型往往依赖极其昂贵的计算资源或外部数据。**Swin-Coffee 的出现，证明了在不依赖“外挂”的情况下，依然可以实现 SOTA 级的性能。**
 
-![Architecture Diagram](swin-coffee.jpg)
+### 1. 巅峰对决：Swin-Coffee vs. 主流竞品
 
-### 🚀 1. Strategic Resolution Processing (The "Sweet Spot")
-* **Input**: Upsampled to **64x64** to preserve small object details.
-* **Stem**: Uses a `Conv3x3 (stride=2)` to immediately reduce features to **32x32**.
-* **Benefit**: We gain the information density of high-res inputs but keep the computational cost (FLOPs) extremely low—**approx. 1/10th of WideResNet-28-10**.
+> **⚠️ 关键事实：** 目前市面上大多数准确率高于本模型的论文（如 ViT, ResNet-Strikes-Back 等），通常使用了 **ImageNet 预训练** 或将图像强行上采样至 **224x224**（计算量增加 12 倍）。
+>
+> **Swin-Coffee 坚持：** ✅ **无预训练 (From Scratch)** ✅ **低分辨率高效推理 (64x64)**
 
-### 🧠 2. Swin-CBAM Fusion (Stage 1-3)
-* **Problem**: Pure Transformers lack "inductive bias" (don't understand local edges well).
-* **Solution**: We integrate **CBAM (Convolutional Block Attention Module)** after Swin blocks.
-    * **Spatial Attention**: Uses convolution to enforce local connectivity.
-    * **Channel Attention**: Dynamically recalibrates feature importance.
+| 模型 (Model) | 预训练 / 分辨率 | 参数量 | 训练耗时 (4xV100) | 准确率 (Top-1) | 评价 |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **ResNet-50 (Timm)** | ❌ ImageNet / 224x224 | 25.6M | - | **85%+** | **依靠外部数据**。若无预训练仅约 79%。 |
+| **SparseSwin** | ❌ ImageNet / 224x224 | 28M | - | **85.35%** | **依赖预训练**。且 224 分辨率导致推理极慢。 |
+| **WideResNet-28-10** | ✅ 无 / 32x32 | 36.5M | ~60s / epoch | 81.50% | **虚胖**。参数量更大，计算量是我们的 10 倍。 |
+| **PyramidNet-272** | ✅ 无 / 32x32 | 26.0M | ~150s / epoch | **83.40%** | **极慢**。272 层深度导致推理延迟极高，无法落地。 |
+| **Swin-Coffee (Ours)** | ✅ **无 / 64x64** | **26.8M** | **30s / epoch** 🚀 | **82.36%** | **效率之王**。兼顾精度、速度与训练成本。 |
 
-### 🌊 3. Enhanced Disrupt Block (FFT-based)
-* **Mechanism**: Applied at the end of early stages. It performs **Frequency Domain Masking** using FFT.
-* **Effect**: Randomly masks high/low-frequency components, forcing the model to learn robust structural features rather than memorizing textures (prevents overfitting).
+### 2. 自身突破：+16.48% 的惊人飞跃
+相比于原始 Swin-Tiny，Swin-Coffee 通过架构创新，在更小的输入分辨率下实现了性能的质变。
 
-### 🧹 4. Self-Supervised Denoising (Stage 4)
-* **Mechanism**: **Late-Phase Denoising**.
-    * After Epoch 30, we inject Gaussian noise into the high-level features.
-    * The model must predict the correct class **AND** reconstruct the clean features (MSE Loss).
-* **Effect**: Acts as a strong regularizer, ensuring the final embedding is noise-invariant and highly discriminative.
+| 模型 | 输入分辨率 | 训练策略 | 准确率 (Top-1) |
+| :--- | :---: | :---: | :---: |
+| Swin-Tiny (Baseline) | 224x224 (大图) | Scratch | 65.88% |
+| **Swin-Coffee (Ours)** | **64x64 (小图)** | **Scratch + Denoise** | **82.36%** (+16.48%) |
 
 ---
 
-## 🛠️ Project Structure
+## 💡 架构创新细节
 
-Current release corresponds to the **82.36%** SOTA checkpoint.
+我们并未简单堆叠模块，而是构建了一套**“抗干扰、强归纳”**的特征提取流，专门解决 Transformer 在小图上易过拟合的问题。
+
+![架构图](swin-coffee.jpg)
+
+### 🚀 1. 黄金分辨率策略 (The Sweet Spot)
+* **策略**：输入上采样至 **64x64**，但 Stem 层采用 `Conv3x3 (stride=2)` 直接降维至 **32x32**。
+* **优势**：我们获得了 64x64 的图像细节信息，但实际计算量（FLOPs）却维持在 32x32 的水平。这使得我们的**计算量仅为 WideResNet-28-10 的约 1/10**。
+
+### 🧠 2. Swin-CBAM 融合 (Stage 1-3)
+* **痛点**：纯 Transformer 缺乏“归纳偏置”，难以捕捉局部边缘。
+* **解法**：在 Swin Block 后串联 **CBAM**。
+    * **空间注意力**：利用卷积核强制提取局部特征。
+    * **通道注意力**：自适应校准特征通道权重。
+
+### 🌊 3. 频域扰动增强 (FFT-based Disrupt)
+* **机制**：在浅层阶段末尾引入 **FFT 频域遮蔽**。
+* **效果**：随机丢弃图像的高频/低频分量，迫使模型不依赖死记硬背纹理，而是学习图像的结构化语义，显著防止过拟合。
+
+### 🧹 4. 自监督去噪正则化 (Stage 4)
+* **机制**：**后期去噪 (Late-Phase Denoising)**。
+    * 在训练中后期（Epoch 30+），向高层特征注入高斯噪声。
+    * **多任务学习**：模型不仅要分类，还要还原出“干净特征”（MSE Loss）。
+* **效果**：这迫使模型提取出对噪声不敏感的、最本质的特征表示。
+
+---
+
+## 🛠️ 项目结构
+
+当前开源版本对应 **82.36%** SOTA 权重的代码与配置。
 
 ```text
 Swin-Coffee/
-├── swin_coffee.py        # Core Model (SwinCBAM, Disrupt, Denoise Blocks)
-├── swin-coffee.jpg       # Architecture Diagram
-├── logs/                 # Training Logs
-│   ├── training_log_swin_coffee  # Log for 81.92% -> 82.36% run
-│   └── training_log_swin_tiny    # Baseline log
-└── weights/              # Pre-trained weights (Coming Soon)
+├── swin_coffee.py        # 模型核心定义 (SwinCBAM, Disrupt, Denoise Blocks)
+├── swin-coffee.jpg       # 架构图
+├── logs/                 # 训练日志
+│   ├── training_log_swin_coffee  # 81.92% -> 82.36% 的训练记录
+│   └── training_log_swin_tiny    # Baseline 对比记录
+└── weights/              # 最佳模型权重 (即将上传
