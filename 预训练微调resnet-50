@@ -1,0 +1,176 @@
+W0203 01:14:27.870000 2930 site-packages/torch/distributed/run.py:793] *****************************************
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Epoch [1/25] - Loss: 2.7737 - Test Acc: 38.89%
+Epoch [2/25] - Loss: 1.7613 - Test Acc: 48.82%
+Epoch [3/25] - Loss: 1.4279 - Test Acc: 57.38%
+Epoch [4/25] - Loss: 1.2098 - Test Acc: 61.78%
+Epoch [5/25] - Loss: 1.0640 - Test Acc: 62.62%
+Epoch [6/25] - Loss: 0.9417 - Test Acc: 63.85%
+Epoch [7/25] - Loss: 0.8454 - Test Acc: 67.76%
+Epoch [8/25] - Loss: 0.7764 - Test Acc: 69.22%
+Epoch [9/25] - Loss: 0.6931 - Test Acc: 70.14%
+Epoch [10/25] - Loss: 0.6296 - Test Acc: 70.48%
+Epoch [11/25] - Loss: 0.5699 - Test Acc: 69.24%
+Epoch [12/25] - Loss: 0.5136 - Test Acc: 70.81%
+Epoch [13/25] - Loss: 0.4812 - Test Acc: 71.53%
+Epoch [14/25] - Loss: 0.4476 - Test Acc: 72.05%
+Epoch [15/25] - Loss: 0.4107 - Test Acc: 71.16%
+Epoch [16/25] - Loss: 0.2217 - Test Acc: 78.14%
+Epoch [17/25] - Loss: 0.1579 - Test Acc: 78.44%
+Epoch [18/25] - Loss: 0.1307 - Test Acc: 78.64%
+Epoch [19/25] - Loss: 0.1164 - Test Acc: 78.61%
+Epoch [20/25] - Loss: 0.1004 - Test Acc: 78.74%
+Epoch [21/25] - Loss: 0.0864 - Test Acc: 78.74%
+Epoch [22/25] - Loss: 0.0786 - Test Acc: 78.80%
+Epoch [23/25] - Loss: 0.0700 - Test Acc: 78.71%
+Epoch [24/25] - Loss: 0.0657 - Test Acc: 78.85%
+Epoch [25/25] - Loss: 0.0590 - Test Acc: 78.53%
+
+
+import os
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torchvision
+import torchvision.transforms as transforms
+from torchvision import models
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.data.distributed import DistributedSampler
+
+def ddp_setup():
+    """初始化分布式环境"""
+    dist.init_process_group(backend="nccl")
+    torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
+
+def cleanup():
+    """销毁进程组"""
+    dist.destroy_process_group()
+
+def get_model():
+    """构建针对 CIFAR-100 (32x32) 优化的 ResNet-50"""
+    model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
+    
+    # 方案一修改：适配小图，防止信息过早丢失
+    # 1. 修改第一层卷积为 3x3，步长为 1
+    model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+    # 2. 将第一层后的 MaxPool 替换为恒等映射（Identity）
+    model.maxpool = nn.Identity() 
+    # 3. 修改分类层输出为 100 类
+    model.fc = nn.Linear(model.fc.in_features, 100)
+    return model
+
+def main():
+    ddp_setup()
+    
+    local_rank = int(os.environ["LOCAL_RANK"])
+    global_rank = int(os.environ["RANK"])
+    device = torch.device(f"cuda:{local_rank}")
+
+    # --- 1. 数据准备 ---
+    transform_train = transforms.Compose([
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomCrop(32, padding=4),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))
+    ])
+    
+    transform_test = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))
+    ])
+
+    # 下载并加载数据集
+    trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform_train)
+    testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform_test)
+
+    # 分布式采样器
+    train_sampler = DistributedSampler(trainset)
+    trainloader = torch.utils.data.DataLoader(
+        trainset, 
+        batch_size=128, 
+        shuffle=False, 
+        sampler=train_sampler, 
+        num_workers=4, 
+        pin_memory=True
+    )
+    
+    # 测试集在主进程运行即可
+    testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=4)
+
+    # --- 2. 模型、损失函数、优化器 ---
+    model = get_model().to(device)
+    model = DDP(model, device_ids=[local_rank])
+
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=15, gamma=0.1)
+
+    # --- 3. 加载断点 (Checkpoint) ---
+    start_epoch = 0
+    checkpoint_path = "checkpoint.pth"
+    if os.path.exists(checkpoint_path):
+        # 必须映射到当前的设备上
+        map_location = {'cuda:%d' % 0: 'cuda:%d' % local_rank}
+        checkpoint = torch.load(checkpoint_path, map_location=map_location)
+        model.module.load_state_dict(checkpoint['model_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        start_epoch = checkpoint['epoch']
+        if global_rank == 0:
+            print(f"-> 发现断点，从 Epoch {start_epoch + 1} 继续训练...")
+
+    # --- 4. 训练循环 ---
+    EPOCHS = 25
+    for epoch in range(start_epoch, EPOCHS):
+        train_sampler.set_epoch(epoch) # 保证每个 epoch 的 shuffle 不同
+        model.train()
+        running_loss = 0.0
+        
+        for inputs, labels in trainloader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+            running_loss += loss.item()
+
+        scheduler.step()
+
+        # --- 5. 验证与保存 (仅在主进程执行) ---
+        if global_rank == 0:
+            model.eval()
+            correct = 0
+            total = 0
+            with torch.no_grad():
+                for inputs, labels in testloader:
+                    inputs, labels = inputs.to(device), labels.to(device)
+                    outputs = model(inputs)
+                    _, predicted = outputs.max(1)
+                    total += labels.size(0)
+                    correct += predicted.eq(labels).sum().item()
+            
+            acc = 100. * correct / total
+            avg_loss = running_loss / len(trainloader)
+            print(f"Epoch [{epoch+1}/{EPOCHS}] - Loss: {avg_loss:.4f} - Test Acc: {acc:.2f}%")
+
+            # 保存 Checkpoint（此处已修正为 .state_dict()）
+            torch.save({
+                'epoch': epoch + 1,
+                'model_state_dict': model.module.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+            }, checkpoint_path)
+            
+            # 保存最终模型权重文件
+            if (epoch + 1) == EPOCHS:
+                torch.save(model.module.state_dict(), "resnet50_cifar100_final.pth")
+                print("-> 训练完成，最终权重已保存。")
+
+    cleanup()
+
+if __name__ == "__main__":
+    main()
