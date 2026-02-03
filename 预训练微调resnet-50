@@ -1,35 +1,3 @@
-W0203 01:14:27.870000 2930 site-packages/torch/distributed/run.py:793] *****************************************
-Files already downloaded and verified
-Files already downloaded and verified
-Files already downloaded and verified
-Files already downloaded and verified
-Epoch [1/25] - Loss: 2.7737 - Test Acc: 38.89%
-Epoch [2/25] - Loss: 1.7613 - Test Acc: 48.82%
-Epoch [3/25] - Loss: 1.4279 - Test Acc: 57.38%
-Epoch [4/25] - Loss: 1.2098 - Test Acc: 61.78%
-Epoch [5/25] - Loss: 1.0640 - Test Acc: 62.62%
-Epoch [6/25] - Loss: 0.9417 - Test Acc: 63.85%
-Epoch [7/25] - Loss: 0.8454 - Test Acc: 67.76%
-Epoch [8/25] - Loss: 0.7764 - Test Acc: 69.22%
-Epoch [9/25] - Loss: 0.6931 - Test Acc: 70.14%
-Epoch [10/25] - Loss: 0.6296 - Test Acc: 70.48%
-Epoch [11/25] - Loss: 0.5699 - Test Acc: 69.24%
-Epoch [12/25] - Loss: 0.5136 - Test Acc: 70.81%
-Epoch [13/25] - Loss: 0.4812 - Test Acc: 71.53%
-Epoch [14/25] - Loss: 0.4476 - Test Acc: 72.05%
-Epoch [15/25] - Loss: 0.4107 - Test Acc: 71.16%
-Epoch [16/25] - Loss: 0.2217 - Test Acc: 78.14%
-Epoch [17/25] - Loss: 0.1579 - Test Acc: 78.44%
-Epoch [18/25] - Loss: 0.1307 - Test Acc: 78.64%
-Epoch [19/25] - Loss: 0.1164 - Test Acc: 78.61%
-Epoch [20/25] - Loss: 0.1004 - Test Acc: 78.74%
-Epoch [21/25] - Loss: 0.0864 - Test Acc: 78.74%
-Epoch [22/25] - Loss: 0.0786 - Test Acc: 78.80%
-Epoch [23/25] - Loss: 0.0700 - Test Acc: 78.71%
-Epoch [24/25] - Loss: 0.0657 - Test Acc: 78.85%
-Epoch [25/25] - Loss: 0.0590 - Test Acc: 78.53%
-
-
 import os
 import torch
 import torch.nn as nn
@@ -40,98 +8,100 @@ from torchvision import models
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
+from torch.optim.lr_scheduler import CosineAnnealingLR
 
 def ddp_setup():
-    """初始化分布式环境"""
-    dist.init_process_group(backend="nccl")
-    torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
+    if "RANK" in os.environ:
+        dist.init_process_group(backend="nccl")
+        torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
+    else:
+        os.environ["RANK"] = "0"
+        os.environ["LOCAL_RANK"] = "0"
+        os.environ["WORLD_SIZE"] = "1"
+        dist.init_process_group(backend="nccl")
+        torch.cuda.set_device(0)
 
 def cleanup():
-    """销毁进程组"""
-    dist.destroy_process_group()
+    if dist.is_initialized():
+        dist.destroy_process_group()
 
-def get_model():
-    """构建针对 CIFAR-100 (32x32) 优化的 ResNet-50"""
+def get_pretrained_model():
     model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
-    
-    # 方案一修改：适配小图，防止信息过早丢失
-    # 1. 修改第一层卷积为 3x3，步长为 1
     model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
-    # 2. 将第一层后的 MaxPool 替换为恒等映射（Identity）
     model.maxpool = nn.Identity() 
-    # 3. 修改分类层输出为 100 类
     model.fc = nn.Linear(model.fc.in_features, 100)
     return model
 
 def main():
     ddp_setup()
-    
     local_rank = int(os.environ["LOCAL_RANK"])
     global_rank = int(os.environ["RANK"])
     device = torch.device(f"cuda:{local_rank}")
 
-    # --- 1. 数据准备 ---
+    # 数据增强保持 SOTA 配置
     transform_train = transforms.Compose([
         transforms.RandomHorizontalFlip(),
         transforms.RandomCrop(32, padding=4),
+        transforms.AutoAugment(transforms.AutoAugmentPolicy.CIFAR10),
         transforms.ToTensor(),
-        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))
+        transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
+        transforms.RandomErasing(p=0.25, scale=(0.02, 0.2), ratio=(0.3, 3.3), value=0)
     ])
     
     transform_test = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))
+        transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)) 
     ])
 
-    # 下载并加载数据集
-    trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform_train)
-    testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform_test)
+    trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=False, transform=transform_train)
+    testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=False, transform=transform_test)
 
-    # 分布式采样器
     train_sampler = DistributedSampler(trainset)
-    trainloader = torch.utils.data.DataLoader(
-        trainset, 
-        batch_size=128, 
-        shuffle=False, 
-        sampler=train_sampler, 
-        num_workers=4, 
-        pin_memory=True
-    )
-    
-    # 测试集在主进程运行即可
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=128, sampler=train_sampler, num_workers=4, pin_memory=True)
     testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=4)
 
-    # --- 2. 模型、损失函数、优化器 ---
-    model = get_model().to(device)
+    model = get_pretrained_model().to(device)
+    model = nn.SyncBatchNorm.convert_sync_batchnorm(model)
     model = DDP(model, device_ids=[local_rank])
 
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=15, gamma=0.1)
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+    optimizer = optim.AdamW(model.parameters(), lr=0.001, weight_decay=1e-4)
 
-    # --- 3. 加载断点 (Checkpoint) ---
+    # 🌟 修改点：总轮数设为 100，确保退火曲线完整
+    TOTAL_EPOCHS = 100
+    scheduler = CosineAnnealingLR(optimizer, T_max=TOTAL_EPOCHS, eta_min=1e-6)
+
+    # --- 关键：断点接力逻辑 ---
+    checkpoint_path = "checkpoint_improved.pth"
     start_epoch = 0
-    checkpoint_path = "checkpoint.pth"
+    best_acc = 0.0
+    
     if os.path.exists(checkpoint_path):
-        # 必须映射到当前的设备上
         map_location = {'cuda:%d' % 0: 'cuda:%d' % local_rank}
-        checkpoint = torch.load(checkpoint_path, map_location=map_location)
-        model.module.load_state_dict(checkpoint['model_state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        start_epoch = checkpoint['epoch']
+        ckpt = torch.load(checkpoint_path, map_location=map_location)
+        
+        # 加载模型权重
+        model.module.load_state_dict(ckpt['model_state_dict'])
+        # 加载优化器状态（保留动量等信息）
+        optimizer.load_state_dict(ckpt['optimizer_state_dict'])
+        # 🌟 加载调度器状态，它会自动计算当前的 T_cur，让学习率接在 50 轮的地方继续降
+        scheduler.load_state_dict(ckpt['scheduler_state_dict'])
+        
+        start_epoch = ckpt['epoch']
+        best_acc = ckpt.get('best_acc', 0.0)
         if global_rank == 0:
-            print(f"-> 发现断点，从 Epoch {start_epoch + 1} 继续训练...")
+            print(f"-> 检测到断点！从第 {start_epoch + 1} 轮继续冲刺。当前最佳: {best_acc:.2f}%")
+    else:
+        if global_rank == 0:
+            print("-> 未发现断点，将从第 1 轮开始训练。")
 
-    # --- 4. 训练循环 ---
-    EPOCHS = 25
-    for epoch in range(start_epoch, EPOCHS):
-        train_sampler.set_epoch(epoch) # 保证每个 epoch 的 shuffle 不同
+    for epoch in range(start_epoch, TOTAL_EPOCHS):
+        train_sampler.set_epoch(epoch)
         model.train()
         running_loss = 0.0
         
         for inputs, labels in trainloader:
             inputs, labels = inputs.to(device), labels.to(device)
-            
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = criterion(outputs, labels)
@@ -141,11 +111,10 @@ def main():
 
         scheduler.step()
 
-        # --- 5. 验证与保存 (仅在主进程执行) ---
         if global_rank == 0:
+            current_lr = optimizer.param_groups[0]['lr']
             model.eval()
-            correct = 0
-            total = 0
+            correct, total = 0, 0
             with torch.no_grad():
                 for inputs, labels in testloader:
                     inputs, labels = inputs.to(device), labels.to(device)
@@ -156,21 +125,130 @@ def main():
             
             acc = 100. * correct / total
             avg_loss = running_loss / len(trainloader)
-            print(f"Epoch [{epoch+1}/{EPOCHS}] - Loss: {avg_loss:.4f} - Test Acc: {acc:.2f}%")
+            
+            if acc > best_acc:
+                best_acc = acc
+                torch.save(model.module.state_dict(), "resnet50_sota_best.pth")
+            
+            print(f"Epoch [{epoch+1}/{TOTAL_EPOCHS}] | LR: {current_lr:.6f} | Loss: {avg_loss:.4f} | Test Acc: {acc:.2f}% | Best: {best_acc:.2f}%")
 
-            # 保存 Checkpoint（此处已修正为 .state_dict()）
+            # 每次循环更新 Checkpoint
             torch.save({
                 'epoch': epoch + 1,
+                'best_acc': best_acc,
                 'model_state_dict': model.module.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
+                'scheduler_state_dict': scheduler.state_dict(),
             }, checkpoint_path)
-            
-            # 保存最终模型权重文件
-            if (epoch + 1) == EPOCHS:
-                torch.save(model.module.state_dict(), "resnet50_cifar100_final.pth")
-                print("-> 训练完成，最终权重已保存。")
 
     cleanup()
 
 if __name__ == "__main__":
     main()
+(base) root@ubuntu22:~# torchrun --nproc_per_node=2 --master_port=29501 test2.py
+[2026-02-03 20:02:16,968] torch.distributed.run: [WARNING]
+[2026-02-03 20:02:16,968] torch.distributed.run: [WARNING] *****************************************
+[2026-02-03 20:02:16,968] torch.distributed.run: [WARNING] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed.
+[2026-02-03 20:02:16,968] torch.distributed.run: [WARNING] *****************************************
+-> 未发现断点，将从第 1 轮开始训练。
+Epoch [1/100] | LR: 0.001000 | Loss: 3.6568 | Test Acc: 32.59% | Best: 32.59%
+Epoch [2/100] | LR: 0.000999 | Loss: 2.8188 | Test Acc: 45.93% | Best: 45.93%
+Epoch [3/100] | LR: 0.000998 | Loss: 2.4964 | Test Acc: 55.58% | Best: 55.58%
+Epoch [4/100] | LR: 0.000996 | Loss: 2.3273 | Test Acc: 58.76% | Best: 58.76%
+Epoch [5/100] | LR: 0.000994 | Loss: 2.1833 | Test Acc: 62.23% | Best: 62.23%
+Epoch [6/100] | LR: 0.000991 | Loss: 2.0918 | Test Acc: 64.66% | Best: 64.66%
+Epoch [7/100] | LR: 0.000988 | Loss: 1.9916 | Test Acc: 65.53% | Best: 65.53%
+Epoch [8/100] | LR: 0.000984 | Loss: 1.9285 | Test Acc: 67.18% | Best: 67.18%
+Epoch [9/100] | LR: 0.000980 | Loss: 1.8798 | Test Acc: 68.22% | Best: 68.22%
+Epoch [10/100] | LR: 0.000976 | Loss: 1.8152 | Test Acc: 69.85% | Best: 69.85%
+Epoch [11/100] | LR: 0.000970 | Loss: 1.7755 | Test Acc: 70.18% | Best: 70.18%
+Epoch [12/100] | LR: 0.000965 | Loss: 1.7168 | Test Acc: 71.74% | Best: 71.74%
+Epoch [13/100] | LR: 0.000959 | Loss: 1.6838 | Test Acc: 72.14% | Best: 72.14%
+Epoch [14/100] | LR: 0.000952 | Loss: 1.6621 | Test Acc: 73.15% | Best: 73.15%
+Epoch [15/100] | LR: 0.000946 | Loss: 1.6206 | Test Acc: 73.84% | Best: 73.84%
+Epoch [16/100] | LR: 0.000938 | Loss: 1.5816 | Test Acc: 74.21% | Best: 74.21%
+Epoch [17/100] | LR: 0.000930 | Loss: 1.5631 | Test Acc: 74.45% | Best: 74.45%
+Epoch [18/100] | LR: 0.000922 | Loss: 1.5526 | Test Acc: 74.18% | Best: 74.45%
+Epoch [19/100] | LR: 0.000914 | Loss: 1.5358 | Test Acc: 75.03% | Best: 75.03%
+Epoch [20/100] | LR: 0.000905 | Loss: 1.4847 | Test Acc: 74.80% | Best: 75.03%
+Epoch [21/100] | LR: 0.000895 | Loss: 1.4538 | Test Acc: 74.15% | Best: 75.03%
+Epoch [22/100] | LR: 0.000885 | Loss: 1.4432 | Test Acc: 76.29% | Best: 76.29%
+Epoch [23/100] | LR: 0.000875 | Loss: 1.4304 | Test Acc: 75.40% | Best: 76.29%
+Epoch [24/100] | LR: 0.000865 | Loss: 1.3976 | Test Acc: 76.19% | Best: 76.29%
+Epoch [25/100] | LR: 0.000854 | Loss: 1.3719 | Test Acc: 76.71% | Best: 76.71%
+Epoch [26/100] | LR: 0.000842 | Loss: 1.3702 | Test Acc: 76.35% | Best: 76.71%
+Epoch [27/100] | LR: 0.000831 | Loss: 1.3437 | Test Acc: 76.26% | Best: 76.71%
+Epoch [28/100] | LR: 0.000819 | Loss: 1.3355 | Test Acc: 76.95% | Best: 76.95%
+Epoch [29/100] | LR: 0.000807 | Loss: 1.3150 | Test Acc: 77.19% | Best: 77.19%
+Epoch [30/100] | LR: 0.000794 | Loss: 1.2984 | Test Acc: 77.09% | Best: 77.19%
+Epoch [31/100] | LR: 0.000781 | Loss: 1.2839 | Test Acc: 77.45% | Best: 77.45%
+Epoch [32/100] | LR: 0.000768 | Loss: 1.2657 | Test Acc: 77.89% | Best: 77.89%
+Epoch [33/100] | LR: 0.000755 | Loss: 1.2590 | Test Acc: 78.06% | Best: 78.06%
+Epoch [34/100] | LR: 0.000741 | Loss: 1.2491 | Test Acc: 76.54% | Best: 78.06%
+Epoch [35/100] | LR: 0.000727 | Loss: 1.2270 | Test Acc: 78.13% | Best: 78.13%
+Epoch [36/100] | LR: 0.000713 | Loss: 1.2290 | Test Acc: 78.45% | Best: 78.45%
+Epoch [37/100] | LR: 0.000699 | Loss: 1.2087 | Test Acc: 78.54% | Best: 78.54%
+Epoch [38/100] | LR: 0.000684 | Loss: 1.1988 | Test Acc: 78.29% | Best: 78.54%
+Epoch [39/100] | LR: 0.000670 | Loss: 1.1885 | Test Acc: 78.57% | Best: 78.57%
+Epoch [40/100] | LR: 0.000655 | Loss: 1.1853 | Test Acc: 78.85% | Best: 78.85%
+Epoch [41/100] | LR: 0.000640 | Loss: 1.1540 | Test Acc: 78.91% | Best: 78.91%
+Epoch [42/100] | LR: 0.000625 | Loss: 1.1539 | Test Acc: 78.82% | Best: 78.91%
+Epoch [43/100] | LR: 0.000609 | Loss: 1.1346 | Test Acc: 79.48% | Best: 79.48%
+Epoch [44/100] | LR: 0.000594 | Loss: 1.1365 | Test Acc: 79.28% | Best: 79.48%
+Epoch [45/100] | LR: 0.000579 | Loss: 1.1292 | Test Acc: 79.95% | Best: 79.95%
+Epoch [46/100] | LR: 0.000563 | Loss: 1.1144 | Test Acc: 79.12% | Best: 79.95%
+Epoch [47/100] | LR: 0.000548 | Loss: 1.1010 | Test Acc: 79.43% | Best: 79.95%
+Epoch [48/100] | LR: 0.000532 | Loss: 1.1136 | Test Acc: 79.37% | Best: 79.95%
+Epoch [49/100] | LR: 0.000516 | Loss: 1.0981 | Test Acc: 80.16% | Best: 80.16%
+Epoch [50/100] | LR: 0.000501 | Loss: 1.0892 | Test Acc: 80.11% | Best: 80.16%
+Epoch [51/100] | LR: 0.000485 | Loss: 1.0720 | Test Acc: 79.65% | Best: 80.16%
+Epoch [52/100] | LR: 0.000469 | Loss: 1.0800 | Test Acc: 80.02% | Best: 80.16%
+Epoch [53/100] | LR: 0.000453 | Loss: 1.0752 | Test Acc: 80.24% | Best: 80.24%
+Epoch [54/100] | LR: 0.000438 | Loss: 1.0626 | Test Acc: 80.03% | Best: 80.24%
+Epoch [55/100] | LR: 0.000422 | Loss: 1.0655 | Test Acc: 79.87% | Best: 80.24%
+Epoch [56/100] | LR: 0.000407 | Loss: 1.0492 | Test Acc: 80.14% | Best: 80.24%
+Epoch [57/100] | LR: 0.000392 | Loss: 1.0411 | Test Acc: 80.64% | Best: 80.64%
+Epoch [58/100] | LR: 0.000376 | Loss: 1.0397 | Test Acc: 80.60% | Best: 80.64%
+Epoch [59/100] | LR: 0.000361 | Loss: 1.0319 | Test Acc: 80.77% | Best: 80.77%
+Epoch [60/100] | LR: 0.000346 | Loss: 1.0369 | Test Acc: 80.90% | Best: 80.90%
+Epoch [61/100] | LR: 0.000331 | Loss: 1.0147 | Test Acc: 80.59% | Best: 80.90%
+Epoch [62/100] | LR: 0.000317 | Loss: 1.0184 | Test Acc: 80.57% | Best: 80.90%
+Epoch [63/100] | LR: 0.000302 | Loss: 1.0120 | Test Acc: 80.44% | Best: 80.90%
+Epoch [64/100] | LR: 0.000288 | Loss: 1.0077 | Test Acc: 80.67% | Best: 80.90%
+Epoch [65/100] | LR: 0.000274 | Loss: 1.0060 | Test Acc: 81.19% | Best: 81.19%
+Epoch [66/100] | LR: 0.000260 | Loss: 0.9964 | Test Acc: 80.94% | Best: 81.19%
+Epoch [67/100] | LR: 0.000246 | Loss: 0.9959 | Test Acc: 81.33% | Best: 81.33%
+Epoch [68/100] | LR: 0.000233 | Loss: 0.9857 | Test Acc: 81.12% | Best: 81.33%
+Epoch [69/100] | LR: 0.000220 | Loss: 1.0225 | Test Acc: 81.11% | Best: 81.33%
+Epoch [70/100] | LR: 0.000207 | Loss: 1.0036 | Test Acc: 81.23% | Best: 81.33%
+Epoch [71/100] | LR: 0.000194 | Loss: 0.9810 | Test Acc: 81.25% | Best: 81.33%
+Epoch [72/100] | LR: 0.000182 | Loss: 0.9752 | Test Acc: 81.23% | Best: 81.33%
+Epoch [73/100] | LR: 0.000170 | Loss: 0.9674 | Test Acc: 81.64% | Best: 81.64%
+Epoch [74/100] | LR: 0.000159 | Loss: 0.9657 | Test Acc: 81.75% | Best: 81.75%
+Epoch [75/100] | LR: 0.000147 | Loss: 0.9667 | Test Acc: 81.89% | Best: 81.89%
+Epoch [76/100] | LR: 0.000136 | Loss: 0.9598 | Test Acc: 81.72% | Best: 81.89%
+Epoch [77/100] | LR: 0.000126 | Loss: 0.9620 | Test Acc: 81.60% | Best: 81.89%
+Epoch [78/100] | LR: 0.000116 | Loss: 0.9558 | Test Acc: 81.71% | Best: 81.89%
+Epoch [79/100] | LR: 0.000106 | Loss: 0.9561 | Test Acc: 81.51% | Best: 81.89%
+Epoch [80/100] | LR: 0.000096 | Loss: 0.9600 | Test Acc: 81.73% | Best: 81.89%
+Epoch [81/100] | LR: 0.000087 | Loss: 0.9545 | Test Acc: 81.82% | Best: 81.89%
+Epoch [82/100] | LR: 0.000079 | Loss: 0.9437 | Test Acc: 82.29% | Best: 82.29%
+Epoch [83/100] | LR: 0.000071 | Loss: 0.9459 | Test Acc: 82.21% | Best: 82.29%
+Epoch [84/100] | LR: 0.000063 | Loss: 0.9434 | Test Acc: 81.91% | Best: 82.29%
+Epoch [85/100] | LR: 0.000055 | Loss: 0.9431 | Test Acc: 82.08% | Best: 82.29%
+Epoch [86/100] | LR: 0.000049 | Loss: 0.9436 | Test Acc: 82.16% | Best: 82.29%
+Epoch [87/100] | LR: 0.000042 | Loss: 0.9503 | Test Acc: 82.09% | Best: 82.29%
+Epoch [88/100] | LR: 0.000036 | Loss: 0.9416 | Test Acc: 82.31% | Best: 82.31%
+Epoch [89/100] | LR: 0.000031 | Loss: 0.9322 | Test Acc: 82.28% | Best: 82.31%
+Epoch [90/100] | LR: 0.000025 | Loss: 0.9346 | Test Acc: 82.21% | Best: 82.31%
+Epoch [91/100] | LR: 0.000021 | Loss: 0.9378 | Test Acc: 82.20% | Best: 82.31%
+Epoch [92/100] | LR: 0.000017 | Loss: 0.9324 | Test Acc: 82.31% | Best: 82.31%
+Epoch [93/100] | LR: 0.000013 | Loss: 0.9359 | Test Acc: 82.31% | Best: 82.31%
+Epoch [94/100] | LR: 0.000010 | Loss: 0.9308 | Test Acc: 82.18% | Best: 82.31%
+Epoch [95/100] | LR: 0.000007 | Loss: 0.9347 | Test Acc: 82.34% | Best: 82.34%
+Epoch [96/100] | LR: 0.000005 | Loss: 0.9324 | Test Acc: 82.26% | Best: 82.34%
+Epoch [97/100] | LR: 0.000003 | Loss: 0.9365 | Test Acc: 82.27% | Best: 82.34%
+Epoch [98/100] | LR: 0.000002 | Loss: 0.9268 | Test Acc: 82.37% | Best: 82.37%
+Epoch [99/100] | LR: 0.000001 | Loss: 0.9312 | Test Acc: 82.19% | Best: 82.37%
+Epoch [100/100] | LR: 0.000001 | Loss: 0.9293 | Test Acc: 82.27% | Best: 82.37%
+(base) root@ubuntu22:~#
