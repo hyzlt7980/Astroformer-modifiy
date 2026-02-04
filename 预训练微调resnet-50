@@ -252,3 +252,85 @@ Epoch [98/100] | LR: 0.000002 | Loss: 0.9268 | Test Acc: 82.37% | Best: 82.37%
 Epoch [99/100] | LR: 0.000001 | Loss: 0.9312 | Test Acc: 82.19% | Best: 82.37%
 Epoch [100/100] | LR: 0.000001 | Loss: 0.9293 | Test Acc: 82.27% | Best: 82.37%
 (base) root@ubuntu22:~#
+
+
+
+
+
+
+(base) root@ubuntu22:~/resnet-50_prune# python prune_light.py 
+>>> Loading CIFAR-Adapted ResNet-50 from resnet50_sota_best.pth...
+/root/resnet-50_prune/prune_light.py:31: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(MODEL_PATH, map_location='cpu')
+✅ Weights loaded successfully!
+/home/vipuser/miniconda3/lib/python3.12/site-packages/torch_pruning/pruner/algorithms/base_pruner.py:91: UserWarning: ch_sparsity is deprecated in v1.3.0. Please use pruning_ratio.
+  warnings.warn(
+--- [Before] MACs: 1.3079 G | Params: 23.7053 M
+>>> Pruning 25.0% of channels...
+--- [After Light Pruning] ---
+MACs: 0.7379 G (Reduced: 43.58%)
+Params: 13.3829 M (Reduced: 43.54%)
+
+(base) root@ubuntu22:~/resnet-50_prune# python finetune_light.py
+>>> Preparing Data...
+Files already downloaded and verified
+Files already downloaded and verified
+>>> Loading Models...
+/root/resnet-50_prune/finetune_light.py:58: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  ckpt_teacher = torch.load('resnet50_sota_best.pth', map_location='cpu')
+✅ Teacher weights loaded successfully!
+>>> Loading Student Model...
+/root/resnet-50_prune/finetune_light.py:77: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  student = torch.load('resnet50_pruned_light_25.pth', map_location='cpu')
+✅ Student model loaded successfully!
+
+>>> Starting Fine-tuning for 30 Epochs...
+Ep 01/30 | Time: 22.9s | Loss: 0.3456 | Tr_Acc: 93.39% | Val_Acc: 76.82% (Best: 76.82%)
+Ep 02/30 | Time: 21.4s | Loss: 0.2081 | Tr_Acc: 96.98% | Val_Acc: 77.79% (Best: 77.79%)
+Ep 03/30 | Time: 21.4s | Loss: 0.1818 | Tr_Acc: 97.65% | Val_Acc: 78.52% (Best: 78.52%)
+Ep 04/30 | Time: 21.4s | Loss: 0.1631 | Tr_Acc: 98.13% | Val_Acc: 78.74% (Best: 78.74%)
+Ep 05/30 | Time: 21.4s | Loss: 0.1533 | Tr_Acc: 98.37% | Val_Acc: 79.08% (Best: 79.08%)
+Ep 06/30 | Time: 21.5s | Loss: 0.1447 | Tr_Acc: 98.60% | Val_Acc: 79.21% (Best: 79.21%)
+Ep 07/30 | Time: 21.4s | Loss: 0.1394 | Tr_Acc: 98.65% | Val_Acc: 79.30% (Best: 79.30%)
+Ep 08/30 | Time: 21.4s | Loss: 0.1327 | Tr_Acc: 98.80% | Val_Acc: 79.56% (Best: 79.56%)
+Ep 09/30 | Time: 21.4s | Loss: 0.1271 | Tr_Acc: 98.96% | Val_Acc: 79.60% (Best: 79.60%)
+Ep 10/30 | Time: 21.4s | Loss: 0.1255 | Tr_Acc: 98.99% | Val_Acc: 79.46% (Best: 79.60%)
+Ep 11/30 | Time: 21.4s | Loss: 0.1203 | Tr_Acc: 99.11% | Val_Acc: 79.69% (Best: 79.69%)
+Ep 12/30 | Time: 21.5s | Loss: 0.1181 | Tr_Acc: 99.07% | Val_Acc: 79.87% (Best: 79.87%)
+Ep 13/30 | Time: 21.4s | Loss: 0.1143 | Tr_Acc: 99.29% | Val_Acc: 79.94% (Best: 79.94%)
+Ep 14/30 | Time: 21.4s | Loss: 0.1135 | Tr_Acc: 99.19% | Val_Acc: 79.58% (Best: 79.94%)
+Ep 15/30 | Time: 21.4s | Loss: 0.1116 | Tr_Acc: 99.30% | Val_Acc: 79.92% (Best: 79.94%)
+Ep 16/30 | Time: 21.4s | Loss: 0.1095 | Tr_Acc: 99.35% | Val_Acc: 79.92% (Best: 79.94%)
+Ep 17/30 | Time: 21.4s | Loss: 0.1077 | Tr_Acc: 99.34% | Val_Acc: 79.99% (Best: 79.99%)
+Ep 18/30 | Time: 21.4s | Loss: 0.1067 | Tr_Acc: 99.40% | Val_Acc: 80.10% (Best: 80.10%)
+Ep 19/30 | Time: 21.4s | Loss: 0.1055 | Tr_Acc: 99.41% | Val_Acc: 80.07% (Best: 80.10%)
+Ep 20/30 | Time: 21.5s | Loss: 0.1043 | Tr_Acc: 99.42% | Val_Acc: 80.02% (Best: 80.10%)
+Ep 21/30 | Time: 21.4s | Loss: 0.1026 | Tr_Acc: 99.50% | Val_Acc: 80.21% (Best: 80.21%)
+Ep 22/30 | Time: 21.4s | Loss: 0.1025 | Tr_Acc: 99.50% | Val_Acc: 80.33% (Best: 80.33%)
+Ep 23/30 | Time: 21.5s | Loss: 0.1017 | Tr_Acc: 99.49% | Val_Acc: 80.20% (Best: 80.33%)
+Ep 24/30 | Time: 21.4s | Loss: 0.1014 | Tr_Acc: 99.51% | Val_Acc: 80.38% (Best: 80.38%)
+Ep 25/30 | Time: 21.4s | Loss: 0.1001 | Tr_Acc: 99.54% | Val_Acc: 80.59% (Best: 80.59%)
+Ep 26/30 | Time: 21.4s | Loss: 0.1003 | Tr_Acc: 99.54% | Val_Acc: 80.32% (Best: 80.59%)
+Ep 27/30 | Time: 21.5s | Loss: 0.1000 | Tr_Acc: 99.49% | Val_Acc: 80.26% (Best: 80.59%)
+Ep 28/30 | Time: 21.4s | Loss: 0.0999 | Tr_Acc: 99.52% | Val_Acc: 80.44% (Best: 80.59%)
+Ep 29/30 | Time: 21.5s | Loss: 0.1011 | Tr_Acc: 99.48% | Val_Acc: 80.47% (Best: 80.59%)
+Ep 30/30 | Time: 21.4s | Loss: 0.0996 | Tr_Acc: 99.57% | Val_Acc: 80.39% (Best: 80.59%)
+✅ Finished! Best Model saved to 'resnet50_final_light.pth' with Acc: 80.59%
+
+
+
+(base) root@ubuntu22:~/resnet-50_prune# python export_onnx.py 
+/root/resnet-50_prune/export_onnx.py:13: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model = torch.load('resnet50_final_light.pth', map_location='cpu')
+✅ 导出完成！现在你可以用 TensorRT 或 ONNXRuntime 随便跑了！
+(base) root@ubuntu22:~/resnet-50_prune# ls
+data  export_onnx.py  finetune_light.py  prune_light.py  resnet50_final_light.pth  resnet50_pruned_light_25.pth  resnet50_pruned.onnx  resnet50_sota_best.pth
+(base) root@ubuntu22:~/resnet-50_prune# 
+
+
+
+
+
+
+
+
