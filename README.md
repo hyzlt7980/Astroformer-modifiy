@@ -8,9 +8,9 @@
 **Swin-transformer-coffee** (Swin-Coffee) 是一款专为小规模数据集（如 CIFAR-100）量身定制的高效视觉 Transformer 架构。针对 Transformer 在小数据上难以从零收敛的痛点，我们引入了 **卷积归纳偏置（Convolutional Inductive Bias）** 和 **自监督特征去噪（Self-Supervised Denoising）** 机制。
 
 在 **无预训练（From Scratch）**、**仅 300-400 Epoch** 的标准训练周期下，Swin-Coffee 以惊人的训练速度（4卡 V100 仅需 30s/epoch）达到了 **82.36%** 的 Top-1 准确率，重新定义了轻量级模型在 CIFAR-100 上的效率基准。
+
+
 82.36：
-
-
 4卡v100,先用4卡v100跑满300epoch, 然后降低噪声强度115epoch, 具体github上传的文件:82.36-swin-coffee-最终精度cifar-100+log
 
 ## 🏆 核心竞争力：揭开“高分”的真相
