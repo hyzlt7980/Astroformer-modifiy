@@ -1,3 +1,290 @@
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.utils.data import DataLoader, DistributedSampler
+import torchvision
+import torchvision.transforms as transforms
+import numpy as np
+import os
+import datetime
+from tqdm import tqdm
+
+# ==========================================
+# 0. DDP 初始化 & 日志
+# ==========================================
+def init_distributed_mode():
+    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
+        rank = int(os.environ["RANK"])
+        world_size = int(os.environ["WORLD_SIZE"])
+        gpu = int(os.environ["LOCAL_RANK"])
+    else:
+        print('Not using Distributed Mode. Run with torchrun.')
+        return False, 0, 0
+
+    torch.cuda.set_device(gpu)
+    dist.init_process_group(backend='nccl', init_method='env://', world_size=world_size, rank=rank)
+    dist.barrier()
+    return True, rank, gpu
+
+class TextLogger:
+    def __init__(self, filename="baseline_log.txt", rank=0):
+        self.filename = filename
+        self.rank = rank
+        if rank == 0:
+            with open(self.filename, "a") as f:
+                f.write(f"\n{'='*20} Baseline Session: {datetime.datetime.now()} {'='*20}\n")
+
+    def log(self, msg):
+        if self.rank == 0:
+            print(msg)
+            with open(self.filename, "a") as f:
+                f.write(msg + "\n")
+
+# ==========================================
+# 1. 模型定义 (完全体配置)
+# ==========================================
+# 直接使用 Grow 2 的最终形态
+CFG_FULL = [64, 256, 256, 256, 512, 512, 512, 1024]
+
+class GrowthBlock(nn.Module):
+    def __init__(self, in_ch, out_ch, stride=1, drop_prob=0.0):
+        super().__init__()
+        self.bn1 = nn.BatchNorm2d(in_ch)
+        self.conv1 = nn.Conv2d(in_ch, out_ch, 3, stride=stride, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(out_ch)
+        self.conv2 = nn.Conv2d(out_ch, out_ch, 3, stride=1, padding=1, bias=False)
+        self.dropout = nn.Dropout2d(p=drop_prob) if drop_prob > 0 else nn.Identity()
+        self.shortcut = nn.Sequential()
+        if stride != 1 or in_ch != out_ch:
+            self.shortcut = nn.Sequential(nn.Conv2d(in_ch, out_ch, 1, stride=stride, bias=False))
+
+    def forward(self, x):
+        out = F.relu(self.bn1(x))
+        shortcut = self.shortcut(out) if len(self.shortcut) > 0 else x
+        out = self.conv1(out)
+        out = self.conv2(F.relu(self.bn2(out)))
+        out = self.dropout(out)
+        # 非 In-place 加法，防止报错
+        out = out + shortcut
+        return out
+
+class MonsterResNet(nn.Module):
+    def __init__(self, c_list, num_classes=100, drop_prob=0.0):
+        super().__init__()
+        self.c_list = c_list
+        self.prep = nn.Sequential(
+            nn.Conv2d(3, c_list[0], 3, padding=1, bias=False),
+            nn.BatchNorm2d(c_list[0]),
+            nn.ReLU()
+        )
+        self.b1_1 = GrowthBlock(c_list[0], c_list[1], drop_prob=drop_prob)
+        self.b1_2 = GrowthBlock(c_list[1], c_list[2], drop_prob=drop_prob)
+        self.b2_1 = GrowthBlock(c_list[2], c_list[3], stride=2, drop_prob=drop_prob)
+        self.b2_2 = GrowthBlock(c_list[3], c_list[4], drop_prob=drop_prob)
+        self.b3_1 = GrowthBlock(c_list[4], c_list[5], stride=2, drop_prob=drop_prob)
+        self.b3_2 = GrowthBlock(c_list[5], c_list[6], drop_prob=drop_prob)
+        self.post_conv = nn.Sequential(
+            nn.BatchNorm2d(c_list[6]),
+            nn.Conv2d(c_list[6], c_list[7], 1, bias=False),
+            nn.BatchNorm2d(c_list[7]),
+            nn.ReLU()
+        )
+        self.classifier = nn.Linear(c_list[7], num_classes)
+
+    def forward(self, x):
+        x = self.prep(x)
+        x = self.b1_1(x); x = self.b1_2(x)
+        x = self.b2_1(x); x = self.b2_2(x)
+        x = self.b3_1(x); x = self.b3_2(x)
+        x = self.post_conv(x)
+        x = F.adaptive_avg_pool2d(x, 1).flatten(1)
+        return self.classifier(x)
+
+# ==========================================
+# 2. 辅助函数 (Augmentation & Dataloader)
+# ==========================================
+def cutmix_mixup_data(x, y, alpha=1.0, device=None):
+    if np.random.rand() > 0.5: # Mixup
+        lam = np.random.beta(alpha, alpha)
+        index = torch.randperm(x.size(0)).to(device)
+        mixed_x = lam * x + (1 - lam) * x[index]
+        y_a, y_b = y, y[index]
+        return mixed_x, y_a, y_b, lam, 'mixup'
+    else: # CutMix
+        lam = np.random.beta(alpha, alpha)
+        index = torch.randperm(x.size(0)).to(device)
+        W, H = x.size(2), x.size(3)
+        cut_rat = np.sqrt(1. - lam)
+        cut_w = int(W * cut_rat); cut_h = int(H * cut_rat)
+        cx = np.random.randint(W); cy = np.random.randint(H)
+        bbx1 = np.clip(cx - cut_w // 2, 0, W); bby1 = np.clip(cy - cut_h // 2, 0, H)
+        bbx2 = np.clip(cx + cut_w // 2, 0, W); bby2 = np.clip(cy + cut_h // 2, 0, H)
+        x[:, :, bbx1:bbx2, bby1:bby2] = x[index, :, bbx1:bbx2, bby1:bby2]
+        lam = 1 - ((bbx2 - bbx1) * (bby2 - bby1) / (W * H))
+        y_a, y_b = y, y[index]
+        return x, y_a, y_b, lam, 'cutmix'
+
+def get_dataloader(rank, world_size):
+    stats = ((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))
+    t_train = transforms.Compose([
+        transforms.RandomCrop(32, 4, padding_mode='reflect'),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize(*stats)
+    ])
+    t_test = transforms.Compose([transforms.ToTensor(), transforms.Normalize(*stats)])
+    
+    if rank == 0:
+        torchvision.datasets.CIFAR100(root='./data', train=True, download=True)
+        torchvision.datasets.CIFAR100(root='./data', train=False, download=True)
+    dist.barrier()
+    
+    trainset = torchvision.datasets.CIFAR100(root='./data', train=True, download=False, transform=t_train)
+    testset = torchvision.datasets.CIFAR100(root='./data', train=False, download=False, transform=t_test)
+    
+    train_sampler = DistributedSampler(trainset, num_replicas=world_size, rank=rank)
+    test_sampler = DistributedSampler(testset, num_replicas=world_size, rank=rank, shuffle=False)
+    
+    loader_args = {'num_workers': 4, 'pin_memory': True, 'batch_size': 128}
+    return (DataLoader(trainset, sampler=train_sampler, **loader_args),
+            DataLoader(testset, sampler=test_sampler, **loader_args),
+            train_sampler)
+
+# ==========================================
+# 3. 训练循环
+# ==========================================
+def train_one_epoch(model, optimizer, scheduler, loader, epoch, device, rank, logger):
+    model.train()
+    total_loss, correct, total = 0, 0, 0
+    
+    iterator = tqdm(loader, desc=f"Ep {epoch}", leave=False) if rank == 0 else loader
+    
+    for inputs, targets in iterator:
+        inputs, targets = inputs.to(device), targets.to(device)
+        optimizer.zero_grad()
+        
+        # 全程开启 CutMix/Mixup (否则大模型必过拟合)
+        if np.random.rand() < 0.5: # 50% 概率触发 (对比组稍微温和一点，或者设为0.8与完全体一致)
+            # 为了公平对比，我们设为 0.8，与 Grow 2 阶段一致
+            pass 
+        
+        # 使用强正则化
+        if np.random.rand() < 0.8:
+            inputs, y_a, y_b, lam, mode = cutmix_mixup_data(inputs, targets, device=device)
+            outputs = model(inputs)
+            loss = lam * F.cross_entropy(outputs, y_a) + (1 - lam) * F.cross_entropy(outputs, y_b)
+        else:
+            outputs = model(inputs)
+            # 全程开启 Label Smooth
+            loss = F.cross_entropy(outputs, targets, label_smoothing=0.1)
+            
+        loss.backward()
+        nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
+        optimizer.step()
+        
+        total_loss += loss.item()
+        _, predicted = outputs.max(1)
+        total += targets.size(0)
+        correct += predicted.eq(targets).sum().item()
+        
+        if rank == 0: iterator.set_postfix({'L': f"{loss.item():.4f}"})
+        
+    scheduler.step()
+    
+    metrics = torch.tensor([total_loss, correct, total], device=device)
+    dist.all_reduce(metrics, op=dist.ReduceOp.SUM)
+    avg_loss = metrics[0].item() / (len(loader) * dist.get_world_size())
+    acc = 100. * metrics[1].item() / metrics[2].item()
+    return avg_loss, acc
+
+def validate(model, loader, device):
+    model.eval()
+    metrics = torch.tensor([0.0, 0.0], device=device)
+    with torch.no_grad():
+        for inputs, targets in loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = model(inputs)
+            _, predicted = outputs.max(1)
+            metrics[0] += predicted.eq(targets).sum().item()
+            metrics[1] += targets.size(0)
+    dist.all_reduce(metrics, op=dist.ReduceOp.SUM)
+    return 100. * metrics[0].item() / metrics[1].item()
+
+# ==========================================
+# 4. 主程序
+# ==========================================
+def main():
+    is_ddp, rank, gpu = init_distributed_mode()
+    device = torch.device(f"cuda:{gpu}")
+    logger = TextLogger("baseline_log.txt", rank)
+    
+    trainloader, testloader, train_sampler = get_dataloader(rank, dist.get_world_size())
+    
+    # 直接构建完全体模型
+    # Drop概率设为 0.2 (折中值，Grow2是0.3)
+    model = MonsterResNet(CFG_FULL, num_classes=100, drop_prob=0.2).to(device)
+    
+    if rank == 0:
+        logger.log(f"\n{'='*60}")
+        logger.log(f"🏗️ Baseline Model: Full Size from Scratch")
+        logger.log(f"   Arch: {CFG_FULL}")
+        logger.log(f"   Regularization: CutMix(0.8), Smooth(0.1), Drop(0.2)")
+        logger.log(f"{'='*60}")
+
+    model_synced = nn.SyncBatchNorm.convert_sync_batchnorm(model)
+    ddp_model = DDP(model_synced, device_ids=[gpu])
+    
+    # 优化器
+    optimizer = optim.SGD(ddp_model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
+    # 150 Epoch 的 Cosine 退火
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=150)
+    
+    best_acc = 0.0
+    checkpoint_path = "baseline_ckpt.pth"
+
+    # Resume Logic (为了防止中断)
+    start_epoch = 0
+    if os.path.exists(checkpoint_path):
+        if rank == 0: logger.log("📂 Found baseline checkpoint, resuming...")
+        dist.barrier()
+        ckpt = torch.load(checkpoint_path, map_location='cpu')
+        ddp_model.module.load_state_dict(ckpt['model_state_dict'])
+        optimizer.load_state_dict(ckpt['optimizer_state_dict'])
+        scheduler.load_state_dict(ckpt['scheduler_state_dict'])
+        start_epoch = ckpt['epoch'] + 1
+        best_acc = ckpt['best_acc']
+        if rank == 0: logger.log(f"🔄 Resumed from Epoch {start_epoch}, Best Acc: {best_acc:.2f}%")
+
+    for epoch in range(start_epoch, 150):
+        train_sampler.set_epoch(epoch)
+        
+        t_loss, t_acc = train_one_epoch(ddp_model, optimizer, scheduler, trainloader, epoch, device, rank, logger)
+        v_acc = validate(ddp_model, testloader, device)
+        
+        if rank == 0:
+            is_best = v_acc > best_acc
+            if is_best: best_acc = v_acc
+            
+            lr = optimizer.param_groups[0]['lr']
+            logger.log(f"Ep {epoch:03d} | LR:{lr:.4f} | L:{t_loss:.4f} T:{t_acc:.2f}% V:{v_acc:.2f}% | Best:{best_acc:.2f}%")
+            
+            save_dict = {
+                'epoch': epoch,
+                'model_state_dict': ddp_model.module.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'scheduler_state_dict': scheduler.state_dict(),
+                'best_acc': best_acc
+            }
+            torch.save(save_dict, checkpoint_path)
+        dist.barrier()
+
+    dist.destroy_process_group()
+
+if __name__ == "__main__":
+    main()
 ===========================================================
 🏗️ Baseline Model: Full Size from Scratch
    Arch: [64, 256, 256, 256, 512, 512, 512, 1024]
