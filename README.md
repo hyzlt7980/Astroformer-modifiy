@@ -46,7 +46,7 @@
 我们并未简单堆叠模块，而是构建了一套**“抗干扰、强归纳”**的特征提取流，专门解决 Transformer 在小图上易过拟合的问题。
 
 ![架构图](swin-coffee.jpg)
-![swin的注意力过程](swin-shift-window-attention.pngpng)
+![swin的注意力过程](swin-shift-window-attention.png)
 
 ### 🚀 1. 黄金分辨率策略 (The Sweet Spot)
 * **策略**：输入上采样至 **64x64**，但 Stem 层采用 `Conv3x3 (stride=2)` 直接降维至 **32x32**。
