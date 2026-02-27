@@ -1,3 +1,6 @@
+第一份代码是跑300 epoch，然后虚线下边的第二份代码在300 epoch的基础上再跑115epoch作为精细微调，Log在最下方
+
+
 import math
 import torch
 import torch.nn as nn
